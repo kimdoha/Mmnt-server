@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ main ] 
+ 
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build" 
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: checkout release
+      uses: actions/checkout@v3
+
+    # Runs a single command using the runners shell 
+    - name: Clean temp directory
+      run: |
+        rm -rf *
+        cp -r $GITHUB_WORKSPACE . 
+      
+    - name: archive drcloud 
+      run: tar cvfz ./drcloud.tar.gz *
+       
+    - name: AWS configure credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+        
+    - name: upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./drcloud.tar.gz s3://momentb/archive/
+      
+    - name: deploy with AWS codeDeploy
+      run: aws deploy create-deployment
+        --application-name 	mmnt
+        --deployment-config-name CodeDeployDefault.OneAtATime
+        --deployment-group-name mmnt_group
+        --s3-location bucket=momentb,bundleType=tgz,key=archive/drcloud.tar.gz
