@@ -12,3 +12,10 @@ permissions:
     owner: ec2-user
     group: ec2-user
     mode: 755
+
+
+hooks:
+  ApplicationStart:
+    - location: scripts/application_start.sh
+      timeout: 300
+      runas: ec2-user
