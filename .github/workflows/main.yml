@@ -26,8 +26,8 @@ jobs:
         rm -rf *
         cp -r $GITHUB_WORKSPACE . 
       
-    - name: archive drcloud 
-      run: tar cvfz ./drcloud.tar.gz *
+    - name: archive mmnt 
+      run: tar cvfz ./mmnt.tar.gz *
        
     - name: AWS configure credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -37,11 +37,11 @@ jobs:
         aws-region: ap-northeast-2
         
     - name: upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./drcloud.tar.gz s3://momentb/archive/
+      run: aws s3 cp --region ap-northeast-2 ./mmnt.tar.gz s3://momentb/archive/
       
     - name: deploy with AWS codeDeploy
       run: aws deploy create-deployment
         --application-name 	mmnt
         --deployment-config-name CodeDeployDefault.OneAtATime
         --deployment-group-name mmnt_group
-        --s3-location bucket=momentb,bundleType=tgz,key=archive/drcloud.tar.gz
+        --s3-location bucket=momentb,bundleType=tgz,key=archive/mmnt.tar.gz
