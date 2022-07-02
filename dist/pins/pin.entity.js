@@ -9,20 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersController = void 0;
-const common_1 = require("@nestjs/common");
-let UsersController = class UsersController {
-    createUser() {
-    }
+exports.Pin = void 0;
+const typeorm_1 = require("typeorm");
+let Pin = class Pin {
 };
 __decorate([
-    (0, common_1.Post)('/signup'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "createUser", null);
-UsersController = __decorate([
-    (0, common_1.Controller)('auth')
-], UsersController);
-exports.UsersController = UsersController;
-//# sourceMappingURL=users.controller.js.map
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], Pin.prototype, "pinIdx", void 0);
+__decorate([
+    (0, typeorm_1.Column)("bigint"),
+    __metadata("design:type", Number)
+], Pin.prototype, "userIdx", void 0);
+__decorate([
+    (0, typeorm_1.Column)("decimal"),
+    __metadata("design:type", Number)
+], Pin.prototype, "pin_x", void 0);
+__decorate([
+    (0, typeorm_1.Column)("decimal"),
+    __metadata("design:type", Number)
+], Pin.prototype, "pin_y", void 0);
+Pin = __decorate([
+    (0, typeorm_1.Entity)("pins")
+], Pin);
+exports.Pin = Pin;
+//# sourceMappingURL=pin.entity.js.map

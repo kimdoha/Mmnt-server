@@ -1,0 +1,9 @@
+
+## 유저회원가입
+POST http:// localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+    "phone": "010-9921-3393",
+    "password": "kimdoha"
+}
