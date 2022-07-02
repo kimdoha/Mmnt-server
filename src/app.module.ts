@@ -6,6 +6,9 @@ import { UsersModule } from './users/users.module';
 import { PinsModule } from './pins/pins.module';
 import { MomentsModule } from './moments/moments.module';
 
+import { User } from './users/user.entity';
+import { Pin } from './pins/pin.entity';
+import { Moment } from './moments/moment.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -16,7 +19,7 @@ import { MomentsModule } from './moments/moments.module';
     password: process.env.DB_PASSWORD,
     port: 3306,
     synchronize: process.env.NODE_ENV !== 'prod',
-    entities: [],
+    entities: [User, Pin, Moment],
 
   }),
     UsersModule, 
