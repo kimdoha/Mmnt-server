@@ -14,6 +14,9 @@ const app_service_1 = require("./app.service");
 const users_module_1 = require("./users/users.module");
 const pins_module_1 = require("./pins/pins.module");
 const moments_module_1 = require("./moments/moments.module");
+const user_entity_1 = require("./users/user.entity");
+const pin_entity_1 = require("./pins/pin.entity");
+const moment_entity_1 = require("./moments/moment.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -26,7 +29,7 @@ AppModule = __decorate([
                 password: process.env.DB_PASSWORD,
                 port: 3306,
                 synchronize: process.env.NODE_ENV !== 'prod',
-                entities: [],
+                entities: [user_entity_1.User, pin_entity_1.Pin, moment_entity_1.Moment],
             }),
             users_module_1.UsersModule,
             pins_module_1.PinsModule,
