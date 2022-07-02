@@ -22,14 +22,10 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forRoot({
-                type: 'mysql',
-                host: process.env.MASTER_DB_HOST,
-                database: process.env.NODE_ENV === 'prod' ? process.env.PROD_NAME : process.env.DEV_NAME,
-                username: process.env.DB_USER,
-                password: process.env.DB_PASSWORD,
-                port: 3306,
-                synchronize: process.env.NODE_ENV !== 'prod',
+                type: 'sqlite',
+                database: 'db.sqlite',
                 entities: [user_entity_1.User, pin_entity_1.Pin, moment_entity_1.Moment],
+                synchronize: true,
             }),
             users_module_1.UsersModule,
             pins_module_1.PinsModule,

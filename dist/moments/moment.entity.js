@@ -26,7 +26,7 @@ __decorate([
     __metadata("design:type", String)
 ], Moment.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.Column)("tinytext"),
+    (0, typeorm_1.Column)("text"),
     __metadata("design:type", String)
 ], Moment.prototype, "description", void 0);
 __decorate([
