@@ -13,7 +13,7 @@ export class Moment {
     @Column("varchar")
     title: string
 
-    @Column("tinytext")
+    @Column("text")
     description: string
 
     @Column("text")

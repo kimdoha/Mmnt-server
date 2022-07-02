@@ -12,15 +12,11 @@ import { Moment } from './moments/moment.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
-    type: 'mysql',
-    host: process.env.MASTER_DB_HOST,
-    database: process.env.NODE_ENV === 'prod' ? process.env.PROD_NAME : process.env.DEV_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    port: 3306,
-    synchronize: process.env.NODE_ENV !== 'prod',
+    type: 'sqlite',
+    database: 'db.sqlite',
     entities: [User, Pin, Moment],
-
+    synchronize: true,
+  
   }),
     UsersModule, 
     PinsModule, 
