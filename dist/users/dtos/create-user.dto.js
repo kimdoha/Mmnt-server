@@ -14,11 +14,14 @@ const class_validator_1 = require("class-validator");
 class CreateUserDto {
 }
 __decorate([
-    (0, class_validator_1.IsPhoneNumber)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Length)(8, 15),
+    (0, class_validator_1.NotContains)('-'),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "phone", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 exports.CreateUserDto = CreateUserDto;
