@@ -14,19 +14,12 @@ const app_service_1 = require("./app.service");
 const users_module_1 = require("./users/users.module");
 const pins_module_1 = require("./pins/pins.module");
 const moments_module_1 = require("./moments/moments.module");
-const user_entity_1 = require("./users/user.entity");
-const pin_entity_1 = require("./pins/pin.entity");
-const moment_entity_1 = require("./moments/moment.entity");
+const typeorm_config_1 = require("./configs/typeorm.config");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forRoot({
-                type: 'sqlite',
-                database: 'db.sqlite',
-                entities: [user_entity_1.User, pin_entity_1.Pin, moment_entity_1.Moment],
-                synchronize: true,
-            }),
+        imports: [typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig),
             users_module_1.UsersModule,
             pins_module_1.PinsModule,
             moments_module_1.MomentsModule],

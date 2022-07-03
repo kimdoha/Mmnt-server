@@ -5,19 +5,10 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { PinsModule } from './pins/pins.module';
 import { MomentsModule } from './moments/moments.module';
-
-import { User } from './users/user.entity';
-import { Pin } from './pins/pin.entity';
-import { Moment } from './moments/moment.entity';
+import { typeORMConfig } from './configs/typeorm.config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'sqlite',
-    database: 'db.sqlite',
-    entities: [User, Pin, Moment],
-    synchronize: true,
-  
-  }),
+  imports: [TypeOrmModule.forRoot(typeORMConfig),
     UsersModule, 
     PinsModule, 
     MomentsModule],
