@@ -1,5 +1,11 @@
-import { Cipher } from 'crypto';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { 
+    Entity, 
+    Column, 
+    PrimaryGeneratedColumn, 
+    AfterInsert, 
+    AfterUpdate, 
+    AfterRemove 
+} from 'typeorm';
 
 @Entity("moments")
 export class Moment {
@@ -28,4 +34,18 @@ export class Moment {
     @Column("varchar")
     artist: string
 
+    @AfterInsert()
+    logInsert() {
+        console.log('Inserted User with id', this.momentIdx);
+    }
+
+    @AfterUpdate()
+    logUpdate() {
+        console.log('Updated User with id', this.momentIdx);
+    }
+
+    @AfterRemove()
+    logRemove() {
+        console.log('Removed User with id', this.momentIdx);
+    }
 }
