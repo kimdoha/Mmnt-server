@@ -4,7 +4,11 @@ import {
     PrimaryGeneratedColumn,
     AfterInsert,
     AfterUpdate,
-    AfterRemove
+    AfterRemove,
+    Timestamp,
+    CreateDateColumn,
+    DeleteDateColumn,
+    UpdateDateColumn
 } from 'typeorm';
 
 @Entity("pins")
@@ -22,6 +26,15 @@ export class Pin {
     @Column("decimal")
     pin_y: number
 
+    @CreateDateColumn()
+    createdAt : Timestamp
+
+    @UpdateDateColumn()
+    updatedAt: Timestamp
+
+    @DeleteDateColumn()
+    deletedAt: Timestamp
+    
     @AfterInsert()
     logInsert() {
         console.log('Inserted User with id', this.pinIdx);

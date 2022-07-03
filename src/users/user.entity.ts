@@ -4,32 +4,56 @@ import {
     PrimaryGeneratedColumn,
     AfterInsert,
     AfterUpdate,
-    AfterRemove
+    AfterRemove,
+    Timestamp,
+    CreateDateColumn,
+    UpdateDateColumn,
+    DeleteDateColumn,
+    PrimaryColumn
 } from 'typeorm';
 
 @Entity("users")
 export class User {
 
-    @PrimaryGeneratedColumn()
-    userIdx: number
+    @PrimaryColumn({ type: 'bigint', comment: '유저 인덱스'})
+    userIdx: string
     
-    @Column("varchar")
+    @Column({ type: 'varchar', length: 20, comment: '유저 전화번호' })
     phone: string
 
-    @Column("varchar")
+    @Column({ type: 'varchar', length: 250, comment: '유저 비밀번호' })
     password: string
 
-    @Column("varchar")
+    @Column({ type: 'varchar', length: 45, comment: '유저 닉네임' })
     nickname: string
 
-    @Column("text")
+    @Column({ type: 'text', comment: '유저 프로필 이미지' })
     profileImgUrl: string
 
-    @Column("decimal")
+    @Column({ type: 'decimal', nullable: true, comment: '유저 경도' })
     location_x: number
 
-    @Column("decimal")
+    @Column({ type: 'decimal', nullable: true, comment: '유저 위도' })
     location_y: number
+
+    @Column({ type: 'character', length: 1, default: 0, comment: '소셜 로그인'})
+    snsRoute: string
+
+    @Column({ type: 'character', length: 1, default: 'Y', comment: '알림 여부'})
+    alarm: string
+
+    @Column({ type: 'character', length: 1, default: 'N', comment: '삭제 여부'})
+    isDeleted: string
+
+
+    @CreateDateColumn()
+    createdAt : Timestamp
+
+    @UpdateDateColumn()
+    updatedAt: Timestamp
+
+    @DeleteDateColumn()
+    deletedAt: Timestamp
 
     @AfterInsert()
     logInsert() {
