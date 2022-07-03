@@ -17,13 +17,41 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
+const ioredis_1 = require("ioredis");
+const function_1 = require("../configs/function");
 let UsersService = class UsersService {
     constructor(repo) {
         this.repo = repo;
     }
-    create(phone, password) {
+    async createCode(phone) {
+        const redis = new ioredis_1.default();
+        const code = await (0, function_1.createCertificateCode)();
+        await redis.set(phone, code);
+        await redis.expire(phone, 120);
+        const value = await redis.get(phone);
+        return { phone, value };
+    }
+    async create(phone, password) {
         const user = this.repo.create({ phone, password });
         return this.repo.save(user);
+    }
+    findOne(userIdx) {
+        return this.repo.findOneBy({ userIdx });
+    }
+    async update(userIdx, attrs) {
+        const user = await this.findOne(userIdx);
+        if (!user) {
+            throw new common_1.NotFoundException('user not found');
+        }
+        Object.assign(user, attrs);
+        return this.repo.save(user);
+    }
+    async remove(userIdx) {
+        const user = await this.findOne(userIdx);
+        if (!user) {
+            throw new common_1.NotFoundException('user not found');
+        }
+        return this.repo.remove(user);
     }
 };
 UsersService = __decorate([

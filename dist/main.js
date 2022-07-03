@@ -10,6 +10,7 @@ async function bootstrap() {
     }));
     const port = process.env.NODE_ENV === 'prod' ? 3000 : 3001;
     await app.listen(port);
+    console.info(`${process.env.NODE_ENV} - Server Start At http://localhost:${port}`);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

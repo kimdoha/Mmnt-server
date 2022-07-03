@@ -12,6 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Moment = void 0;
 const typeorm_1 = require("typeorm");
 let Moment = class Moment {
+    logInsert() {
+        console.log('Inserted User with id', this.momentIdx);
+    }
+    logUpdate() {
+        console.log('Updated User with id', this.momentIdx);
+    }
+    logRemove() {
+        console.log('Removed User with id', this.momentIdx);
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
@@ -45,6 +54,36 @@ __decorate([
     (0, typeorm_1.Column)("varchar"),
     __metadata("design:type", String)
 ], Moment.prototype, "artist", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", typeorm_1.Timestamp)
+], Moment.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", typeorm_1.Timestamp)
+], Moment.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.DeleteDateColumn)(),
+    __metadata("design:type", typeorm_1.Timestamp)
+], Moment.prototype, "deletedAt", void 0);
+__decorate([
+    (0, typeorm_1.AfterInsert)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Moment.prototype, "logInsert", null);
+__decorate([
+    (0, typeorm_1.AfterUpdate)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Moment.prototype, "logUpdate", null);
+__decorate([
+    (0, typeorm_1.AfterRemove)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Moment.prototype, "logRemove", null);
 Moment = __decorate([
     (0, typeorm_1.Entity)("moments")
 ], Moment);

@@ -12,6 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pin = void 0;
 const typeorm_1 = require("typeorm");
 let Pin = class Pin {
+    logInsert() {
+        console.log('Inserted User with id', this.pinIdx);
+    }
+    logUpdate() {
+        console.log('Updated User with id', this.pinIdx);
+    }
+    logRemove() {
+        console.log('Removed User with id', this.pinIdx);
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
@@ -29,6 +38,36 @@ __decorate([
     (0, typeorm_1.Column)("decimal"),
     __metadata("design:type", Number)
 ], Pin.prototype, "pin_y", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", typeorm_1.Timestamp)
+], Pin.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", typeorm_1.Timestamp)
+], Pin.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.DeleteDateColumn)(),
+    __metadata("design:type", typeorm_1.Timestamp)
+], Pin.prototype, "deletedAt", void 0);
+__decorate([
+    (0, typeorm_1.AfterInsert)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Pin.prototype, "logInsert", null);
+__decorate([
+    (0, typeorm_1.AfterUpdate)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Pin.prototype, "logUpdate", null);
+__decorate([
+    (0, typeorm_1.AfterRemove)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], Pin.prototype, "logRemove", null);
 Pin = __decorate([
     (0, typeorm_1.Entity)("pins")
 ], Pin);
