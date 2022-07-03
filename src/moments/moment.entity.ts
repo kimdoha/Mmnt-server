@@ -4,7 +4,11 @@ import {
     PrimaryGeneratedColumn, 
     AfterInsert, 
     AfterUpdate, 
-    AfterRemove 
+    AfterRemove,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Timestamp,
+    UpdateDateColumn,
 } from 'typeorm';
 
 @Entity("moments")
@@ -34,6 +38,15 @@ export class Moment {
     @Column("varchar")
     artist: string
 
+    @CreateDateColumn()
+    createdAt : Timestamp
+
+    @UpdateDateColumn()
+    updatedAt: Timestamp
+
+    @DeleteDateColumn()
+    deletedAt: Timestamp
+    
     @AfterInsert()
     logInsert() {
         console.log('Inserted User with id', this.momentIdx);
