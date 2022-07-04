@@ -5,8 +5,13 @@ export declare class UsersService {
     private repo;
     private jwtService;
     constructor(repo: Repository<User>, jwtService: JwtService);
-    createUser(email: string, password: string): Promise<User>;
+    createUser(email: string, password: string): Promise<{
+        userIdx: number;
+        email: string;
+        nickname: string;
+    }>;
     signIn(email: string, password: string): Promise<{
+        userIdx: number;
         accessToken: string;
     }>;
     findOne(userIdx: number): Promise<User>;

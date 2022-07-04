@@ -24,7 +24,11 @@ export class UsersService {
 
             const hashedPassword = await createHashedPassword(password)
             const new_user = await this.repo.create({ email, password: hashedPassword });
-            return await this.repo.save(new_user);
+
+            const { userIdx } = await this.repo.save(new_user);
+            const { nickname } = await this.repo.save(Object.assign(new_user, { nickname: `${userIdx}번째 익명이`} ));
+
+            return { userIdx, email, nickname };
 
         } catch (e) {
             throw new ConflictException(e.message);
@@ -33,13 +37,16 @@ export class UsersService {
 
     async signIn(email: string, password: string){
         const user: User = await this.findOneByEmail(email);
-        if(user && (compare(password, user.password))){
-            const payload = { email };
-            
-            const accessToken = await this.jwtService.sign(payload);
-            
-            return { accessToken };
-        } else throw new UnauthorizedException('');
+        const hashedPassword = await createHashedPassword(password)
+        if(!user || (!compare(hashedPassword, user.password))){
+            throw new UnauthorizedException('로그인 요청을 처리할 수 없습니다.');
+        }
+
+        const payload = { email };
+        const accessToken = await this.jwtService.sign(payload);
+        
+        return { userIdx: user.userIdx, accessToken };
+
     }
 
     

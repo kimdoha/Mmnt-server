@@ -32,7 +32,9 @@ let UsersService = class UsersService {
             }
             const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
             const new_user = await this.repo.create({ email, password: hashedPassword });
-            return await this.repo.save(new_user);
+            const { userIdx } = await this.repo.save(new_user);
+            const { nickname } = await this.repo.save(Object.assign(new_user, { nickname: `${userIdx}번째 익명이` }));
+            return { userIdx, email, nickname };
         }
         catch (e) {
             throw new common_1.ConflictException(e.message);
@@ -40,13 +42,13 @@ let UsersService = class UsersService {
     }
     async signIn(email, password) {
         const user = await this.findOneByEmail(email);
-        if (user && ((0, bcrypt_1.compare)(password, user.password))) {
-            const payload = { email };
-            const accessToken = await this.jwtService.sign(payload);
-            return { accessToken };
+        const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
+        if (!user || (!(0, bcrypt_1.compare)(hashedPassword, user.password))) {
+            throw new common_1.UnauthorizedException('로그인 요청을 처리할 수 없습니다.');
         }
-        else
-            throw new common_1.UnauthorizedException('');
+        const payload = { email };
+        const accessToken = await this.jwtService.sign(payload);
+        return { userIdx: user.userIdx, accessToken };
     }
     async findOne(userIdx) {
         return await this.repo.findOneBy({ userIdx });
