@@ -31,6 +31,8 @@ let UsersService = class UsersService {
         const value = await redis.get(phone);
         return { phone, value };
     }
+    async verifyCode(phone, value) {
+    }
     async create(phone, password) {
         const user = this.repo.create({ phone, password });
         return this.repo.save(user);

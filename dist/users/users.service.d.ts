@@ -7,6 +7,7 @@ export declare class UsersService {
         phone: string;
         value: string;
     }>;
+    verifyCode(phone: string, value: string): Promise<void>;
     create(phone: string, password: string): Promise<User>;
     findOne(userIdx: string): Promise<User>;
     update(userIdx: string, attrs: Partial<User>): Promise<User>;

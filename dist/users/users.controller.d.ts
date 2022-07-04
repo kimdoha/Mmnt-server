@@ -4,7 +4,8 @@ import { SendCodeDto } from './dtos/send-code.dto';
 export declare class UsersController {
     private userService;
     constructor(userService: UsersService);
-    certificateUser(body: CreateUserDto): Promise<SendCodeDto>;
+    certificateUser(body: CreateUserDto, res: any): Promise<any>;
+    validate(body: SendCodeDto): Promise<void>;
     createUser(body: CreateUserDto): void;
     findUser(userIdx: string): Promise<void>;
 }

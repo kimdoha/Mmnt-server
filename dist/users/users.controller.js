@@ -18,12 +18,20 @@ const create_user_dto_1 = require("./dtos/create-user.dto");
 const users_service_1 = require("./users.service");
 const serialize_interceptor_1 = require("../interceptors/serialize.interceptor");
 const send_code_dto_1 = require("./dtos/send-code.dto");
+const http_status_codes_1 = require("http-status-codes");
+const SuccessReponse_1 = require("../helpers/SuccessReponse");
 let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
     }
-    async certificateUser(body) {
-        return await this.userService.createCode(body.phone);
+    async certificateUser(body, res) {
+        const responseData = await this.userService.createCode(body.phone);
+        return res
+            .status(http_status_codes_1.StatusCodes.CREATED)
+            .json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
+    }
+    async validate(body) {
+        return await this.userService.verifyCode(body.phone, body.value);
     }
     createUser(body) {
         this.userService.create(body.phone, body.password);
@@ -33,13 +41,21 @@ let UsersController = class UsersController {
     }
 };
 __decorate([
-    (0, common_1.Post)('/certificate'),
+    (0, common_1.Post)(''),
     (0, serialize_interceptor_1.Serialize)(send_code_dto_1.SendCodeDto),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "certificateUser", null);
+__decorate([
+    (0, common_1.Get)('/certificate'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [send_code_dto_1.SendCodeDto]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "validate", null);
 __decorate([
     (0, common_1.Post)('/sign-up'),
     __param(0, (0, common_1.Body)()),
@@ -59,7 +75,4 @@ UsersController = __decorate([
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 exports.UsersController = UsersController;
-function ApiOkResponse() {
-    throw new Error('Function not implemented.');
-}
 //# sourceMappingURL=users.controller.js.map

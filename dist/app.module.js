@@ -15,6 +15,7 @@ const users_module_1 = require("./users/users.module");
 const pins_module_1 = require("./pins/pins.module");
 const moments_module_1 = require("./moments/moments.module");
 const typeorm_config_1 = require("./configs/typeorm.config");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -22,7 +23,7 @@ AppModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig),
             users_module_1.UsersModule,
             pins_module_1.PinsModule,
-            moments_module_1.MomentsModule],
+            moments_module_1.MomentsModule, auth_module_1.AuthModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
