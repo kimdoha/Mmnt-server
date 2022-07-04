@@ -19,6 +19,10 @@ export class UsersService {
         return { phone, value };
     }
     
+    async verifyCode(phone: string, value: string){
+
+    }
+    
     async create(phone: string, password: string) {
 
         const user = this.repo.create({ phone, password });
