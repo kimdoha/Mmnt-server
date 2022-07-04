@@ -1,7 +1,11 @@
-import { JwtModuleOptions} from '@nestjs/jwt';
+import { JwtModuleAsyncOptions } from '@nestjs/jwt';
 
 
-export const jwtConfig: JwtModuleOptions = {
-    secret: process.env.JWT_SECRET_KEY,
-    signOptions: { expiresIn: 3600 },
+export const jwtConfig: JwtModuleAsyncOptions = {
+    useFactory: async () => ({
+      secret: process.env.JWT_SECRET_KEY,
+      signOptions: {
+        expiresIn: 60 * 60,
+      },
+    })
 };

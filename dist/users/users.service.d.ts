@@ -1,10 +1,15 @@
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import { JwtService } from '@nestjs/jwt';
 export declare class UsersService {
     private repo;
-    constructor(repo: Repository<User>);
+    private jwtService;
+    constructor(repo: Repository<User>, jwtService: JwtService);
     createUser(email: string, password: string): Promise<{
         userIdx: number;
+    }>;
+    signIn(email: string, password: string): Promise<{
+        accessToken: string;
     }>;
     findOne(userIdx: number): Promise<User>;
     findOneByEmail(email: string): Promise<User>;

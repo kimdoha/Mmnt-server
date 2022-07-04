@@ -6,3 +6,13 @@ Content-Type: application/json
     "email": "kimdoha@gmail.com",
     "password": "kimdoha123"
 }
+
+
+### 4. 유저로그인 API
+POST http://localhost:3001/user/sign-in
+Content-Type: application/json
+
+{
+    "email": "kimdoha@gmail.com",
+    "password": "kimdoha123"
+}
