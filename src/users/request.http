@@ -1,8 +1,8 @@
-### 유저회원가입
-POST http://localhost:3001/auth/signup
+### 3. 유저회원가입 API
+POST http://localhost:3001/user/sign-up
 Content-Type: application/json
 
 {
-    "phone": "010-9921-3393",
-    "password": "kimdoha"
+    "email": "kimdoha@gmail.com",
+    "password": "kimdoha123"
 }

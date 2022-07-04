@@ -10,38 +10,34 @@ const redis = new Redis();
 export class UsersService {
     constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-    async createAuthorizedCode(phone: string) {
-        
-        const value = await createAuthorizedCode();
-        await redis.set(phone, value);
-        await redis.expire(phone, 120);
-
-        return { phone, value };
-    }
     
-    async verifyAuthorizedCode(phone: string, value: string){
-        const exist = await redis.exists(phone);
-        if(!exist){
-            throw new NotFoundException('인증 번호가 만료 되었습니다.');
+
+    async createUser(email: string, password: string) {
+        try {
+            // email 중복 여부
+            if(await this.findOneByEmail(email)){
+                const result = await this.findOneByEmail(email);
+                console.log(result);
+            }
+            const user = await this.repo.create({ email, password });
+            //  기존의 user 가 존재한다면
+            const { userIdx } = await this.repo.save(user);
+
+            return { userIdx };
+        } catch (e) {
+            throw new ConflictException(e.message);
         }
-        
-        const code = await redis.get(phone);
-        if(value != code){
-            throw new ConflictException('인증 번호가 올바르지 않습니다.');
-        }
     }
 
-    async create(phone: string, password: string) {
-
-        const user = this.repo.create({ phone, password });
-        return this.repo.save(user);
+    async findOne(userIdx: number){
+        return await this.repo.findOneBy({ userIdx });
     }
 
-    findOne(userIdx: string){
-        return this.repo.findOneBy({ userIdx });
+    async findOneByEmail(email: string){
+        return await this.repo.findOneBy({ email });
     }
 
-    async update(userIdx: string, attrs: Partial<User>){
+    async update(userIdx: number, attrs: Partial<User>){
         const user = await this.findOne(userIdx);
         if(!user){
             throw new NotFoundException('user not found');
@@ -50,7 +46,7 @@ export class UsersService {
         return this.repo.save(user);
     }
 
-    async remove(userIdx: string){
+    async remove(userIdx: number){
         const user = await this.findOne(userIdx);
         if(!user){
             throw new NotFoundException('user not found');

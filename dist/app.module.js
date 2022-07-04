@@ -16,14 +16,19 @@ const pins_module_1 = require("./pins/pins.module");
 const moments_module_1 = require("./moments/moments.module");
 const typeorm_config_1 = require("./configs/typeorm.config");
 const auth_module_1 = require("./auth/auth.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig),
+        imports: [
+            typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig),
+            config_1.ConfigModule.forRoot(),
+            auth_module_1.AuthModule,
             users_module_1.UsersModule,
             pins_module_1.PinsModule,
-            moments_module_1.MomentsModule, auth_module_1.AuthModule],
+            moments_module_1.MomentsModule,
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

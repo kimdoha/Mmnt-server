@@ -14,60 +14,32 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
-const create_user_dto_1 = require("./dtos/create-user.dto");
+const create_user_dto_1 = require("./dtos/create.user.dto");
 const users_service_1 = require("./users.service");
-const serialize_interceptor_1 = require("../interceptors/serialize.interceptor");
 const http_status_codes_1 = require("http-status-codes");
 const SuccessReponse_1 = require("../helpers/SuccessReponse");
-const create_authorized_code_res_dto_1 = require("../auth/dtos/create-authorized-code-res.dto");
-const find_authorized_user_dto_1 = require("../auth/dtos/find-authorized-user.dto");
 let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
     }
-    async certificateUser(body, res) {
-        const responseData = await this.userService.createAuthorizedCode(body.phone);
+    async signup(body, res) {
+        const responseData = await this.userService.createUser(body.email, body.password);
         return res
             .status(http_status_codes_1.StatusCodes.CREATED)
-            .json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
-    }
-    async validate(query, res) {
-        await this.userService.verifyAuthorizedCode(query.phone, query.value);
-        return res
-            .status(http_status_codes_1.StatusCodes.OK)
-            .json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '인증 확인 성공'));
-    }
-    createUser(body) {
-        this.userService.create(body.phone, body.password);
+            .json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '회원 가입 성공', responseData));
     }
     async findUser(userIdx) {
-        const user = await this.userService.findOne(userIdx);
+        const user = await this.userService.findOne(parseInt(userIdx));
     }
 };
 __decorate([
-    (0, common_1.Post)(''),
-    (0, serialize_interceptor_1.Serialize)(create_authorized_code_res_dto_1.CreateAuthorizedCodeResDto),
+    (0, common_1.Post)('sign-up'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Promise)
-], UsersController.prototype, "certificateUser", null);
-__decorate([
-    (0, common_1.Get)('/verification'),
-    __param(0, (0, common_1.Query)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [find_authorized_user_dto_1.FindAuthorizedUserDto, Object]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "validate", null);
-__decorate([
-    (0, common_1.Post)('/sign-up'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "createUser", null);
+], UsersController.prototype, "signup", null);
 __decorate([
     (0, common_1.Get)('/:userIdx'),
     __param(0, (0, common_1.Param)('userIdx')),
@@ -76,7 +48,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findUser", null);
 UsersController = __decorate([
-    (0, common_1.Controller)('auth'),
+    (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 exports.UsersController = UsersController;

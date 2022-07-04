@@ -4,9 +4,10 @@ import { SuccessReponse } from 'src/helpers/SuccessReponse';
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 
-import { CreateUserDto } from 'src/users/dtos/create-user.dto';
+import { CreateAuthorizedCodeDto } from 'src/auth/dtos/create.authorized-code.dto';
 import { CreateAuthorizedCodeResponseDto } from '../common/response/auth/create.authorized-code.response.dto';
 import { FindAuthorizedUserDto } from './dtos/find.authorized-user.dto';
+import { CreateUserDto } from '../users/dtos/create.user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,7 +15,7 @@ export class AuthController {
 
     @Post('')
     @Serialize(CreateAuthorizedCodeResponseDto)
-    async certificateUser(@Body() body: CreateUserDto, @Res() res) {
+    async certificateUser(@Body() body: CreateAuthorizedCodeDto, @Res() res) {
         const responseData = await this.authService.createAuthorizedCode(body.phone);
         return res
         .status(StatusCodes.CREATED)
@@ -28,4 +29,6 @@ export class AuthController {
         .status(StatusCodes.OK)
         .json(new SuccessReponse(StatusCodes.OK, '인증 확인 성공'));
     }
+
+    
 }

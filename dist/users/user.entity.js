@@ -23,23 +23,23 @@ let User = class User {
     }
 };
 __decorate([
-    (0, typeorm_1.PrimaryColumn)({ type: 'bigint', comment: '유저 인덱스' }),
-    __metadata("design:type", String)
+    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", unsigned: true, comment: "유저 인덱스" }),
+    __metadata("design:type", Number)
 ], User.prototype, "userIdx", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 20, comment: '유저 전화번호' }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 20, comment: '유저 이메일' }),
     __metadata("design:type", String)
-], User.prototype, "phone", void 0);
+], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 250, comment: '유저 비밀번호' }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 45, comment: '유저 닉네임' }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 45, nullable: true, comment: '유저 닉네임' }),
     __metadata("design:type", String)
 ], User.prototype, "nickname", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text', comment: '유저 프로필 이미지' }),
+    (0, typeorm_1.Column)({ type: 'text', nullable: true, comment: '유저 프로필 이미지' }),
     __metadata("design:type", String)
 ], User.prototype, "profileImgUrl", void 0);
 __decorate([
