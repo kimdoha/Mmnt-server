@@ -27,12 +27,12 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "userIdx", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 20, comment: '유저 이메일' }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, comment: '유저 이메일' }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 250, comment: '유저 비밀번호' }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], User.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 45, nullable: true, comment: '유저 닉네임' }),

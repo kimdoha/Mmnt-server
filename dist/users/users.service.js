@@ -19,8 +19,7 @@ const typeorm_2 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt_1 = require("bcrypt");
-const ioredis_1 = require("ioredis");
-const redis = new ioredis_1.default();
+const create_hashed_password_1 = require("../configs/functions/create.hashed-password");
 let UsersService = class UsersService {
     constructor(repo, jwtService) {
         this.repo = repo;
@@ -29,12 +28,11 @@ let UsersService = class UsersService {
     async createUser(email, password) {
         try {
             if (await this.findOneByEmail(email)) {
-                const result = await this.findOneByEmail(email);
-                console.log(result);
+                throw new common_1.ConflictException('중복된 이메일입니다.');
             }
-            const user = await this.repo.create({ email, password });
-            const { userIdx } = await this.repo.save(user);
-            return { userIdx };
+            const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
+            const new_user = await this.repo.create({ email, password: hashedPassword });
+            return await this.repo.save(new_user);
         }
         catch (e) {
             throw new common_1.ConflictException(e.message);

@@ -4,9 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-
-import Redis from 'ioredis';
-const redis = new Redis();
+import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
 
 @Injectable()
 export class UsersService {
@@ -19,16 +17,15 @@ export class UsersService {
 
     async createUser(email: string, password: string) {
         try {
-            // email 중복 여부
-            if(await this.findOneByEmail(email)){
-                const result = await this.findOneByEmail(email);
-                console.log(result);
-            }
-            const user = await this.repo.create({ email, password });
-            //  기존의 user 가 존재한다면
-            const { userIdx } = await this.repo.save(user);
 
-            return { userIdx };
+            if(await this.findOneByEmail(email)){
+                throw new ConflictException('중복된 이메일입니다.');
+            }
+
+            const hashedPassword = await createHashedPassword(password)
+            const new_user = await this.repo.create({ email, password: hashedPassword });
+            return await this.repo.save(new_user);
+
         } catch (e) {
             throw new ConflictException(e.message);
         }
@@ -37,9 +34,10 @@ export class UsersService {
     async signIn(email: string, password: string){
         const user: User = await this.findOneByEmail(email);
         if(user && (compare(password, user.password))){
-            const payload = {email};
+            const payload = { email };
+            
             const accessToken = await this.jwtService.sign(payload);
-        
+            
             return { accessToken };
         } else throw new UnauthorizedException('');
     }

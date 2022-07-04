@@ -19,11 +19,11 @@ export class User {
     @PrimaryGeneratedColumn({ type: "integer", unsigned: true, comment: "유저 인덱스" })
     userIdx: number
     
-    @Column({ type: 'varchar', length: 20, comment: '유저 이메일' })
+    @Column({ type: 'varchar', length: 50, comment: '유저 이메일' })
     email: string
 
     @Column({ type: 'varchar', length: 250, comment: '유저 비밀번호' })
-    password: string
+    password: any
 
     @Column({ type: 'varchar', length: 45, nullable: true, comment: '유저 닉네임' })
     nickname: string

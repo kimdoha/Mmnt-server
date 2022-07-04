@@ -2,7 +2,7 @@ import { Timestamp } from 'typeorm';
 export declare class User {
     userIdx: number;
     email: string;
-    password: string;
+    password: any;
     nickname: string;
     profileImgUrl: string;
     location_x: number;

@@ -5,7 +5,6 @@ import { UsersService } from './users.service';
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { StatusCodes } from 'http-status-codes';
 import { SuccessReponse } from 'src/helpers/SuccessReponse';
-import { SignInUserDto } from './dtos/signin.user.dto';
 
 
 @Controller('user')
@@ -23,7 +22,7 @@ export class UsersController {
     }
 
     @Post('sign-in')
-    async signin(@Body(ValidationPipe) body: SignInUserDto, @Res() res){
+    async signin(@Body(ValidationPipe) body: CreateUserDto, @Res() res){
         const responseData = await this.userService.signIn(body.email, body.password);
 
         return res
