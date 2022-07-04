@@ -7,12 +7,18 @@ import { PinsModule } from './pins/pins.module';
 import { MomentsModule } from './moments/moments.module';
 import { typeORMConfig } from './configs/typeorm.config';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeORMConfig),
+  imports: [
+    TypeOrmModule.forRoot(typeORMConfig),
+    ConfigModule.forRoot(),
+    AuthModule,
     UsersModule, 
     PinsModule, 
-    MomentsModule, AuthModule],
+    MomentsModule, 
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

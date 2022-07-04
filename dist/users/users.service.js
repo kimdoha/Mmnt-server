@@ -17,35 +17,31 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
-const function_1 = require("../configs/function");
 const ioredis_1 = require("ioredis");
 const redis = new ioredis_1.default();
 let UsersService = class UsersService {
     constructor(repo) {
         this.repo = repo;
     }
-    async createAuthorizedCode(phone) {
-        const value = await (0, function_1.createAuthorizedCode)();
-        await redis.set(phone, value);
-        await redis.expire(phone, 120);
-        return { phone, value };
-    }
-    async verifyAuthorizedCode(phone, value) {
-        const exist = await redis.exists(phone);
-        if (!exist) {
-            throw new common_1.NotFoundException('인증 번호가 만료 되었습니다.');
+    async createUser(email, password) {
+        try {
+            if (await this.findOneByEmail(email)) {
+                const result = await this.findOneByEmail(email);
+                console.log(result);
+            }
+            const user = await this.repo.create({ email, password });
+            const { userIdx } = await this.repo.save(user);
+            return { userIdx };
         }
-        const code = await redis.get(phone);
-        if (value != code) {
-            throw new common_1.ConflictException('인증 번호가 올바르지 않습니다.');
+        catch (e) {
+            throw new common_1.ConflictException(e.message);
         }
     }
-    async create(phone, password) {
-        const user = this.repo.create({ phone, password });
-        return this.repo.save(user);
+    async findOne(userIdx) {
+        return await this.repo.findOneBy({ userIdx });
     }
-    findOne(userIdx) {
-        return this.repo.findOneBy({ userIdx });
+    async findOneByEmail(email) {
+        return await this.repo.findOneBy({ email });
     }
     async update(userIdx, attrs) {
         const user = await this.findOne(userIdx);

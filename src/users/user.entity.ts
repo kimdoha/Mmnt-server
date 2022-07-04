@@ -15,19 +15,20 @@ import {
 @Entity("users")
 export class User {
 
-    @PrimaryColumn({ type: 'bigint', comment: '유저 인덱스'})
-    userIdx: string
+    // @PrimaryColumn({ type: 'bigint', comment: '유저 인덱스'})
+    @PrimaryGeneratedColumn({ type: "integer", unsigned: true, comment: "유저 인덱스" })
+    userIdx: number
     
-    @Column({ type: 'varchar', length: 20, comment: '유저 전화번호' })
-    phone: string
+    @Column({ type: 'varchar', length: 20, comment: '유저 이메일' })
+    email: string
 
     @Column({ type: 'varchar', length: 250, comment: '유저 비밀번호' })
     password: string
 
-    @Column({ type: 'varchar', length: 45, comment: '유저 닉네임' })
+    @Column({ type: 'varchar', length: 45, nullable: true, comment: '유저 닉네임' })
     nickname: string
 
-    @Column({ type: 'text', comment: '유저 프로필 이미지' })
+    @Column({ type: 'text', nullable: true, comment: '유저 프로필 이미지' })
     profileImgUrl: string
 
     @Column({ type: 'decimal', nullable: true, comment: '유저 경도' })

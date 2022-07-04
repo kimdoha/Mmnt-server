@@ -1,44 +1,29 @@
 import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-user.dto';
+import { CreateUserDto } from './dtos/create.user.dto';
 import { UsersService } from './users.service';
 
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { StatusCodes } from 'http-status-codes';
 import { SuccessReponse } from 'src/helpers/SuccessReponse';
 
-import { CreateAuthorizedCodeResDto } from '../common/response/auth/create.authorized-code.response.dto';
-import { FindAuthorizedUserDto } from '../auth/dtos/find.authorized-user.dto';
 
-
-@Controller('auth')
+@Controller('user')
 export class UsersController {
     constructor(private userService: UsersService) {}
 
-    @Post('')
-    @Serialize(CreateAuthorizedCodeResDto)
-    async certificateUser(@Body() body: CreateUserDto, @Res() res) {
-        const responseData = await this.userService.createAuthorizedCode(body.phone);
+    // @Serialize(CreateAuthorizedCodeResponseDto)
+    @Post('sign-up')
+    async signup(@Body() body: CreateUserDto, @Res() res){
+        const responseData = await this.userService.createUser(body.email, body.password);
+
         return res
         .status(StatusCodes.CREATED)
-        .json(new SuccessReponse(StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
-    }
-
-    @Get('/verification')
-    async validate(@Query() query: FindAuthorizedUserDto, @Res() res){
-        await this.userService.verifyAuthorizedCode(query.phone, query.value);
-        return res
-        .status(StatusCodes.OK)
-        .json(new SuccessReponse(StatusCodes.OK, '인증 확인 성공'));
-    }
-
-    @Post('/sign-up')
-    createUser(@Body() body: CreateUserDto) {
-        this.userService.create(body.phone, body.password);
+        .json(new SuccessReponse(StatusCodes.CREATED, '회원 가입 성공', responseData));
     }
 
     @Get('/:userIdx')
     async findUser(@Param('userIdx') userIdx: string){
-        const user = await this.userService.findOne(userIdx);
+        const user = await this.userService.findOne(parseInt(userIdx));
     }
 
 }

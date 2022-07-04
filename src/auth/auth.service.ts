@@ -1,10 +1,21 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { createAuthorizedCode } from 'src/configs/function';
+
+import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
+import { compare } from 'bcrypt';
+
 import Redis from 'ioredis';
+import { User } from 'src/users/user.entity';
 const redis = new Redis();
 
 @Injectable()
 export class AuthService {
+    constructor(
+        private userService: UsersService,
+        private jwtService: JwtService
+    ) {}
+
     async createAuthorizedCode(phone: string) {
         
         const value = await createAuthorizedCode();
@@ -26,4 +37,17 @@ export class AuthService {
         }
     }
 
+    async validateUser(email: string, password: string) {
+        const user = await this.userService.findOneByEmail(email);
+        if(!user || (user && !compare(password, user.password))){
+            throw new UnauthorizedException('요청을 처리할 수 없습니다.')
+        }
+
+        return await this.userService.findOne(user.userIdx);
+    }
+
+    async login(user: User){
+        const payload = { email: user.email, sub: user.userIdx };
+        return { access_token: this.jwtService.signAsync(payload) };
+    }
 }

@@ -1,18 +1,16 @@
 import { 
+    IsEmail,
     IsOptional, 
     IsString, 
     Length,
-    NotContains
 } from 'class-validator'
 
 export class CreateUserDto {
     
     @IsString()
-    @Length(8, 15)
-    @NotContains('-')
-    phone: string;
+    @IsEmail()
+    email: string;
 
     @IsString()
-    @IsOptional()
     password: string;
 }
