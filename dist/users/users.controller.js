@@ -17,21 +17,25 @@ const common_1 = require("@nestjs/common");
 const create_user_dto_1 = require("./dtos/create-user.dto");
 const users_service_1 = require("./users.service");
 const serialize_interceptor_1 = require("../interceptors/serialize.interceptor");
-const send_code_dto_1 = require("./dtos/send-code.dto");
 const http_status_codes_1 = require("http-status-codes");
 const SuccessReponse_1 = require("../helpers/SuccessReponse");
+const create_authorized_code_res_dto_1 = require("../auth/dtos/create-authorized-code-res.dto");
+const find_authorized_user_dto_1 = require("../auth/dtos/find-authorized-user.dto");
 let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
     }
     async certificateUser(body, res) {
-        const responseData = await this.userService.createCode(body.phone);
+        const responseData = await this.userService.createAuthorizedCode(body.phone);
         return res
             .status(http_status_codes_1.StatusCodes.CREATED)
             .json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
     }
-    async validate(body) {
-        return await this.userService.verifyCode(body.phone, body.value);
+    async validate(query, res) {
+        await this.userService.verifyAuthorizedCode(query.phone, query.value);
+        return res
+            .status(http_status_codes_1.StatusCodes.OK)
+            .json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '인증 확인 성공'));
     }
     createUser(body) {
         this.userService.create(body.phone, body.password);
@@ -42,7 +46,7 @@ let UsersController = class UsersController {
 };
 __decorate([
     (0, common_1.Post)(''),
-    (0, serialize_interceptor_1.Serialize)(send_code_dto_1.SendCodeDto),
+    (0, serialize_interceptor_1.Serialize)(create_authorized_code_res_dto_1.CreateAuthorizedCodeResDto),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -50,10 +54,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "certificateUser", null);
 __decorate([
-    (0, common_1.Get)('/certificate'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)('/verification'),
+    __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [send_code_dto_1.SendCodeDto]),
+    __metadata("design:paramtypes", [find_authorized_user_dto_1.FindAuthorizedUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "validate", null);
 __decorate([
