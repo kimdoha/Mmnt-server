@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { createAuthorizedCode } from 'src/configs/function';
+import { createAuthorizedCode } from 'src/configs/functions/create.authorized-code';
 
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';

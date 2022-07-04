@@ -5,9 +5,7 @@ export declare class UsersService {
     private repo;
     private jwtService;
     constructor(repo: Repository<User>, jwtService: JwtService);
-    createUser(email: string, password: string): Promise<{
-        userIdx: number;
-    }>;
+    createUser(email: string, password: string): Promise<User>;
     signIn(email: string, password: string): Promise<{
         accessToken: string;
     }>;
