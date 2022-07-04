@@ -2,12 +2,12 @@ import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { StatusCodes } from 'http-status-codes';
 import { SuccessReponse } from 'src/helpers/SuccessReponse';
 
-import { CreateAuthorizedCodeResDto } from '../auth/dtos/create-authorized-code-res.dto';
-import { FindAuthorizedUserDto } from '../auth/dtos/find-authorized-user.dto';
+import { CreateAuthorizedCodeResDto } from '../common/response/auth/create.authorized-code.response.dto';
+import { FindAuthorizedUserDto } from '../auth/dtos/find.authorized-user.dto';
 
 
 @Controller('auth')

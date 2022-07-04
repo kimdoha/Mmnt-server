@@ -1,6 +1,6 @@
 import { Expose } from "class-transformer";
 
-export class CreateAuthorizedCodeResDto {
+export class CreateAuthorizedCodeResponseDto {
 
     @Expose()
     phone: string;
