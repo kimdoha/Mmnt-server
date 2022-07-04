@@ -17,11 +17,14 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
+const jwt_1 = require("@nestjs/jwt");
+const bcrypt_1 = require("bcrypt");
 const ioredis_1 = require("ioredis");
 const redis = new ioredis_1.default();
 let UsersService = class UsersService {
-    constructor(repo) {
+    constructor(repo, jwtService) {
         this.repo = repo;
+        this.jwtService = jwtService;
     }
     async createUser(email, password) {
         try {
@@ -36,6 +39,16 @@ let UsersService = class UsersService {
         catch (e) {
             throw new common_1.ConflictException(e.message);
         }
+    }
+    async signIn(email, password) {
+        const user = await this.findOneByEmail(email);
+        if (user && ((0, bcrypt_1.compare)(password, user.password))) {
+            const payload = { email };
+            const accessToken = await this.jwtService.sign(payload);
+            return { accessToken };
+        }
+        else
+            throw new common_1.UnauthorizedException('');
     }
     async findOne(userIdx) {
         return await this.repo.findOneBy({ userIdx });
@@ -62,7 +75,8 @@ let UsersService = class UsersService {
 UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_1.Repository])
+    __metadata("design:paramtypes", [typeorm_1.Repository,
+        jwt_1.JwtService])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

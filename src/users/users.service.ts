@@ -1,14 +1,19 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { createAuthorizedCode } from 'src/configs/function';
+import { JwtService } from '@nestjs/jwt';
+import { compare } from 'bcrypt';
+
 import Redis from 'ioredis';
 const redis = new Redis();
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectRepository(User) private repo: Repository<User>) {}
+    constructor(
+        @InjectRepository(User) private repo: Repository<User>,
+        private jwtService: JwtService,
+    ) {}
 
     
 
@@ -29,6 +34,17 @@ export class UsersService {
         }
     }
 
+    async signIn(email: string, password: string){
+        const user: User = await this.findOneByEmail(email);
+        if(user && (compare(password, user.password))){
+            const payload = {email};
+            const accessToken = await this.jwtService.sign(payload);
+        
+            return { accessToken };
+        } else throw new UnauthorizedException('');
+    }
+
+    
     async findOne(userIdx: number){
         return await this.repo.findOneBy({ userIdx });
     }

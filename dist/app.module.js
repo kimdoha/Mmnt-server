@@ -23,7 +23,9 @@ AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeORMConfig),
-            config_1.ConfigModule.forRoot(),
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+            }),
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
             pins_module_1.PinsModule,

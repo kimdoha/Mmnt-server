@@ -13,7 +13,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     UsersModule, 
     PinsModule, 
