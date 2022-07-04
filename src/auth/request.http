@@ -1,0 +1,11 @@
+### 1. 인증 번호 발송 API
+POST http://localhost:3001/auth
+Content-Type: application/json
+
+{
+    "phone": "01099213393"
+}
+
+### 2. 인증 확인 API
+GET http://localhost:3001/auth/verification?phone=01099213393&value=O2a6A7
+

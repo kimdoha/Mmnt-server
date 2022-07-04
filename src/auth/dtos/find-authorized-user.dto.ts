@@ -1,18 +1,17 @@
 import { 
-    IsOptional, 
     IsString, 
     Length,
     NotContains
-} from 'class-validator'
+} from 'class-validator';
 
-export class CreateUserDto {
-    
+export class FindAuthorizedUserDto {
+
     @IsString()
     @Length(8, 15)
     @NotContains('-')
     phone: string;
 
     @IsString()
-    @IsOptional()
-    password: string;
+    @Length(6)
+    value: string;
 }

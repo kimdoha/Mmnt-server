@@ -4,7 +4,7 @@ export class SuccessReponse<T> {
     private message: string;
     private result: T;
 
-    constructor(code: number, message: string, result: T) {
+    constructor(code: number, message: string, result?: T) {
         this.isSuccess = true;
         this.code = code;
         this.message = message;

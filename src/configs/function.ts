@@ -1,4 +1,4 @@
-async function createCertificateCode() {
+export async function createAuthorizedCode() {
     const feed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const num = "0123456789";
     let result = '';
@@ -9,8 +9,4 @@ async function createCertificateCode() {
     }
 
     return result;
-}
-
-export {
-    createCertificateCode,
 }
