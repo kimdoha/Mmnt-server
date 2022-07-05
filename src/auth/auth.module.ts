@@ -14,13 +14,13 @@ import { ConfigService } from '@nestjs/config';
   imports: [
     TypeOrmModule.forFeature([User]),
     UsersModule, 
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.registerAsync(jwtConfig),
+    // PassportModule.register({ defaultStrategy: 'jwt' }),
+    // JwtModule.registerAsync(jwtConfig),
   ],
   controllers: [AuthController],
   providers: [
     AuthService, 
-    JwtStrategy,
+    // JwtStrategy,
   ],
   exports: [AuthService]
 })
