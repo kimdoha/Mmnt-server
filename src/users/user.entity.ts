@@ -27,7 +27,7 @@ export class User {
     @Column({ type: 'varchar', length: 250, comment: '유저 비밀번호' })
     password: string
 
-    @Column({ type: 'varchar', length: 45, nullable: true, comment: '유저 닉네임' })
+    @Column({ type: 'varchar', length: 45, comment: '유저 닉네임' })
     nickname: string
 
     @Column({ type: 'text', nullable: true, comment: '유저 프로필 이미지' })
@@ -57,7 +57,7 @@ export class User {
     @DeleteDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     deletedAt: Date | null
 
-    @OneToMany(() => Pin, (pin: Pin) => pin.user, { eager: false })
+    @OneToMany(type => Pin, (pin: Pin) => pin.user, { eager: false })
     pins: Pin[];
 
     @AfterInsert()
