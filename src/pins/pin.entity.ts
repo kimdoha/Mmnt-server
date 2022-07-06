@@ -7,7 +7,6 @@ import {
     AfterInsert,
     AfterUpdate,
     AfterRemove,
-    Timestamp,
     CreateDateColumn,
     DeleteDateColumn,
     UpdateDateColumn,
@@ -29,22 +28,26 @@ export class Pin {
     @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' })
     pin_y: Double
 
-    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    @Column({ type: 'char', length: 1, default: 'N', comment: '삭제 여부'})
+    isDeleted: string
+
+    @CreateDateColumn({ type: "timestamp", default: "CURRENT_TIMESTAMP" })
     createdAt : Date
 
-    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    updatedAt: Date
+    @UpdateDateColumn({ type: "timestamp", nullable: true, default: "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" })
+    updatedAt: Date | null
 
-    @DeleteDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    @DeleteDateColumn({ type: "timestamp", nullable: true, })
     deletedAt: Date | null
     
 
-    @ManyToOne(() => User, (user) => user.pins, { eager: false })
+    @ManyToOne(type => User, user => user.pins, { eager: false })
     @JoinColumn({ name: 'userIdx'})
     user: User;
 
-    @OneToMany(() => Moment, (moment: Moment) => moment.pin, { eager: false })
+    @OneToMany(type => Moment, (moment: Moment) => moment.pin, { eager: false })
     moments: Moment[];
+
 
     @AfterInsert()
     logInsert() {
