@@ -1,3 +1,4 @@
+import { Pin } from 'src/pins/pin.entity';
 import { 
     Entity, 
     Column, 
@@ -9,6 +10,8 @@ import {
     DeleteDateColumn,
     Timestamp,
     UpdateDateColumn,
+    JoinColumn,
+    ManyToOne,
 } from 'typeorm';
 
 @Entity("moments")
@@ -16,9 +19,6 @@ export class Moment {
 
     @PrimaryGeneratedColumn()
     momentIdx: number
-
-    @Column("bigint")
-    pinIdx: number
 
     @Column("varchar")
     title: string
@@ -39,13 +39,17 @@ export class Moment {
     artist: string
 
     @CreateDateColumn()
-    createdAt : Timestamp
+    createdAt : Date
 
     @UpdateDateColumn()
-    updatedAt: Timestamp
+    updatedAt: Date
 
     @DeleteDateColumn()
-    deletedAt: Timestamp
+    deletedAt: Date | null
+
+    @ManyToOne(() => Pin, (pin) => pin.moments, { eager: false })
+    @JoinColumn({ name: 'pinIdx'})
+    pin: Pin
     
     @AfterInsert()
     logInsert() {
