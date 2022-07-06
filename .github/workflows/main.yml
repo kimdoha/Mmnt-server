@@ -31,7 +31,7 @@ jobs:
         cache: 'npm'
 
     - name: Setting .env
-        run: |
+        run: 
           echo "MASTER_DB_HOST=${{ secrets.MASTER_DB_HOST }}" >> .env
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
@@ -42,7 +42,7 @@ jobs:
           cat .env
 
     - name: npm install, build and test
-      run: |
+      run: 
         npm install
         npm run build --if-present
         npm test
