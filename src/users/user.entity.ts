@@ -5,25 +5,27 @@ import {
     AfterInsert,
     AfterUpdate,
     AfterRemove,
-    Timestamp,
     CreateDateColumn,
     UpdateDateColumn,
     DeleteDateColumn,
-    PrimaryColumn
+    OneToMany,
+    Timestamp,
+    Double
 } from 'typeorm';
+
+import { Pin } from 'src/pins/pin.entity';
 
 @Entity("users")
 export class User {
 
-    // @PrimaryColumn({ type: 'bigint', comment: '유저 인덱스'})
-    @PrimaryGeneratedColumn({ type: "integer", unsigned: true, comment: "유저 인덱스" })
+    @PrimaryGeneratedColumn({ type: "bigint", unsigned: true, comment: "유저 아이디" })
     userIdx: number
     
     @Column({ type: 'varchar', length: 50, comment: '유저 이메일' })
     email: string
 
     @Column({ type: 'varchar', length: 250, comment: '유저 비밀번호' })
-    password: any
+    password: string
 
     @Column({ type: 'varchar', length: 45, nullable: true, comment: '유저 닉네임' })
     nickname: string
@@ -31,30 +33,32 @@ export class User {
     @Column({ type: 'text', nullable: true, comment: '유저 프로필 이미지' })
     profileImgUrl: string
 
-    @Column({ type: 'decimal', nullable: true, comment: '유저 경도' })
-    location_x: number
+    @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 경도' })
+    location_x: Double
 
-    @Column({ type: 'decimal', nullable: true, comment: '유저 위도' })
-    location_y: number
+    @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 위도' })
+    location_y: Double
 
-    @Column({ type: 'character', length: 1, default: 0, comment: '소셜 로그인'})
+    @Column({ type: 'char', length: 1, default: 0, comment: '소셜 로그인'})
     snsRoute: string
 
-    @Column({ type: 'character', length: 1, default: 'Y', comment: '알림 여부'})
+    @Column({ type: 'char', length: 1, default: 'Y', comment: '알림 여부'})
     alarm: string
 
-    @Column({ type: 'character', length: 1, default: 'N', comment: '삭제 여부'})
+    @Column({ type: 'char', length: 1, default: 'N', comment: '삭제 여부'})
     isDeleted: string
 
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    createdAt : Date
 
-    @CreateDateColumn()
-    createdAt : Timestamp
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    updatedAt: Date
 
-    @UpdateDateColumn()
-    updatedAt: Timestamp
+    @DeleteDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    deletedAt: Date | null
 
-    @DeleteDateColumn()
-    deletedAt: Timestamp
+    @OneToMany(() => Pin, (pin: Pin) => pin.user, { eager: false })
+    pins: Pin[];
 
     @AfterInsert()
     logInsert() {

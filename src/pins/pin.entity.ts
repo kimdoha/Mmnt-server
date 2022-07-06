@@ -1,3 +1,5 @@
+import { Moment } from 'src/moments/moment.entity';
+import { User } from 'src/users/user.entity';
 import { 
     Entity, 
     Column, 
@@ -8,33 +10,42 @@ import {
     Timestamp,
     CreateDateColumn,
     DeleteDateColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    ManyToOne,
+    Double,
+    JoinColumn,
+    OneToMany
 } from 'typeorm';
 
 @Entity("pins")
 export class Pin {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ type: "bigint", unsigned: true, comment: "핀 아이디" })
     pinIdx: number
+
+    @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 경도' })
+    pin_x: Double
+
+    @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' })
+    pin_y: Double
+
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    createdAt : Date
+
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    updatedAt: Date
+
+    @DeleteDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    deletedAt: Date | null
     
-    @Column("bigint")
-    userIdx: number
 
-    @Column("decimal")
-    pin_x: number
+    @ManyToOne(() => User, (user) => user.pins, { eager: false })
+    @JoinColumn({ name: 'userIdx'})
+    user: User;
 
-    @Column("decimal")
-    pin_y: number
+    @OneToMany(() => Moment, (moment: Moment) => moment.pin, { eager: false })
+    moments: Moment[];
 
-    @CreateDateColumn()
-    createdAt : Timestamp
-
-    @UpdateDateColumn()
-    updatedAt: Timestamp
-
-    @DeleteDateColumn()
-    deletedAt: Timestamp
-    
     @AfterInsert()
     logInsert() {
         console.log('Inserted User with id', this.pinIdx);
