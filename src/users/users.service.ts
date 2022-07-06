@@ -18,7 +18,7 @@ export class UsersService {
     async createUser(email: string, password: string) {
 
         const user: User = await this.findOneByEmail(email);
-        if(user.userIdx){
+        if(user){
             throw new BadRequestException('중복된 이메일입니다.');
         }
         
