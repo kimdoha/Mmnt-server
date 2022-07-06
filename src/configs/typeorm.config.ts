@@ -3,6 +3,9 @@
 require('dotenv/config');
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
+import { Moment } from 'src/moments/moment.entity';
+import { Pin } from 'src/pins/pin.entity';
+import { User } from 'src/users/user.entity';
 
 export const typeORMConfig: TypeOrmModuleOptions = {
       type: 'mysql',
@@ -13,6 +16,7 @@ export const typeORMConfig: TypeOrmModuleOptions = {
       database: process.env.NODE_ENV === 'prod' ? process.env.PROD_NAME : process.env.DEV_NAME,
       entities: [join(__dirname, '../**/*entity{.ts,.js}')],
       autoLoadEntities: true,
+      //entities: [User, Pin, Moment],
       synchronize: false,
       logging: true,
 };    

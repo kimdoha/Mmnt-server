@@ -13,6 +13,6 @@ export class CreateUserDto {
     email: string;
 
     @IsString()
-    @Matches(/^[A-Za-z\d!@#$%^&*()]{10,30}$/)
+    @Matches('[A-Za-z\\d!@#$%^&*()]{10,30}')
     password: string;
 }

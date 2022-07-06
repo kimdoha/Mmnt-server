@@ -3,7 +3,7 @@ import { Expose } from "class-transformer";
 export class CreateAuthorizedCodeResponseDto {
 
     @Expose()
-    phone: string;
+    email: string;
 
     @Expose()
     value: string;

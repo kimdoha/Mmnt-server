@@ -5,13 +5,14 @@ import { UsersService } from './users.service';
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { StatusCodes } from 'http-status-codes';
 import { SuccessReponse } from 'src/helpers/SuccessReponse';
+import { SignUpResponseDto } from 'src/common/response/auth/signup.response.dto';
 
 
 @Controller('user')
 export class UsersController {
     constructor(private userService: UsersService) {}
 
-    // @Serialize(CreateAuthorizedCodeResponseDto)
+    
     @Post('sign-up')
     async signup(@Body(ValidationPipe) body: CreateUserDto, @Res() res){
         const responseData = await this.userService.createUser(body.email, body.password);

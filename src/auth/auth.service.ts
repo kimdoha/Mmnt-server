@@ -37,14 +37,14 @@ export class AuthService {
         }
     }
 
-    async validateUser(email: string, password: string) {
-        const user = await this.userService.findOneByEmail(email);
-        if(!user || (user && !compare(password, user.password))){
-            throw new UnauthorizedException('요청을 처리할 수 없습니다.')
-        }
+    // async validateUser(email: string, password: string) {
+    //     const user = await this.userService.findOneByEmail(email);
+    //     if(!user || (user && !compare(password, user.password))){
+    //         throw new UnauthorizedException('요청을 처리할 수 없습니다.')
+    //     }
 
-        return await this.userService.findOne(user.userIdx);
-    }
+    //     return await this.userService.findOne(user.userIdx);
+    // }
 
     async login(user: User){
         const payload = { email: user.email, sub: user.userIdx };
