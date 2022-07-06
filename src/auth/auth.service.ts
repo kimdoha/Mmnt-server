@@ -16,22 +16,22 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
-    async createAuthorizedCode(phone: string) {
+    async createAuthorizedCode(email: string) {
         
         const value = await createAuthorizedCode();
-        await redis.set(phone, value);
-        await redis.expire(phone, 120);
+        await redis.set(email, value);
+        await redis.expire(email, 300);
 
-        return { phone, value };
+        return { email, value };
     }
     
-    async verifyAuthorizedCode(phone: string, value: string){
-        const exist = await redis.exists(phone);
+    async verifyAuthorizedCode(email: string, value: string){
+        const exist = await redis.exists(email);
         if(!exist){
             throw new NotFoundException('인증 번호가 만료 되었습니다.');
         }
         
-        const code = await redis.get(phone);
+        const code = await redis.get(email);
         if(value != code){
             throw new ConflictException('인증 번호가 올바르지 않습니다.');
         }

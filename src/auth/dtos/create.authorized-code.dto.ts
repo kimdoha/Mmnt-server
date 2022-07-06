@@ -1,16 +1,14 @@
 import { 
+    IsEmail,
     IsOptional, 
-    IsString, 
-    Length,
-    NotContains
+    IsString,
 } from 'class-validator'
 
 export class CreateAuthorizedCodeDto {
     
     @IsString()
-    @Length(8, 15)
-    @NotContains('-')
-    phone: string;
+    @IsEmail()
+    email: string;
 
     @IsString()
     @IsOptional()
