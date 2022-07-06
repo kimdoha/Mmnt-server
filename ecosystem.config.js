@@ -2,7 +2,7 @@ module.exports = {
   apps : [
     {
       name: "prod_server",
-      script: 'npm run start:prod',
+      script: 'NODE_ENV=prod node dist/src/main',
       instances: 1,
       exec_mode: 'fork',
       autorestart: true,
