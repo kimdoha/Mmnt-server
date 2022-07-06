@@ -16,7 +16,7 @@ export class AuthController {
     @Post('')
     @Serialize(CreateAuthorizedCodeResponseDto)
     async certificateUser(@Body() body: CreateAuthorizedCodeDto, @Res() res) {
-        const responseData = await this.authService.createAuthorizedCode(body.phone);
+        const responseData = await this.authService.createAuthorizedCode(body.email);
         return res
         .status(StatusCodes.CREATED)
         .json(new SuccessReponse(StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
@@ -24,7 +24,7 @@ export class AuthController {
 
     @Get('/verification')
     async validate(@Query() query: FindAuthorizedUserDto, @Res() res){
-        await this.authService.verifyAuthorizedCode(query.phone, query.value);
+        await this.authService.verifyAuthorizedCode(query.email, query.value);
         return res
         .status(StatusCodes.OK)
         .json(new SuccessReponse(StatusCodes.OK, '인증 확인 성공'));

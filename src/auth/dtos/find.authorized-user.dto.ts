@@ -1,15 +1,14 @@
 import { 
+    IsEmail,
     IsString, 
     Length,
-    NotContains
 } from 'class-validator';
 
 export class FindAuthorizedUserDto {
 
     @IsString()
-    @Length(8, 15)
-    @NotContains('-')
-    phone: string;
+    @IsEmail()
+    email: string;
 
     @IsString()
     @Length(6)

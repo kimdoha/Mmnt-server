@@ -1,11 +1,11 @@
-### 1. 인증 번호 발송 API
+### 1. 인증 번호 이메일 발송 API
 POST http://localhost:3001/auth
 Content-Type: application/json
 
 {
-    "phone": "010"
+    "email": "abcd@gmail.com"
 }
 
 ### 2. 인증 확인 API
-GET http://localhost:3001/auth/verification?phone=010&value=f0v0l7
+GET http://localhost:3001/auth/verification?email=abcd@gmail.com&value=kAo086
 
