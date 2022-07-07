@@ -25,5 +25,9 @@ __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
 ], GetProfileInfoResponse.prototype, "nickname", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", String)
+], GetProfileInfoResponse.prototype, "profileImgUrl", void 0);
 exports.GetProfileInfoResponse = GetProfileInfoResponse;
 //# sourceMappingURL=get.profile-Info.response.dto.js.map

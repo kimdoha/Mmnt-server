@@ -49,7 +49,7 @@ let UsersService = class UsersService {
     }
     async findUserByUserIdx(userIdx) {
         const user = await this.repo.createQueryBuilder()
-            .select(['userIdx, email, nickname'])
+            .select(['userIdx, email, nickname, profileImgUrl'])
             .where({ userIdx })
             .andWhere('isDeleted= :YN', { YN: 'N' })
             .getRawOne();

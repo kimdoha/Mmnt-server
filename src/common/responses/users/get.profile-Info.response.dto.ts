@@ -10,4 +10,7 @@ export class GetProfileInfoResponse {
 
     @Expose()
     nickname: string;
+
+    @Expose()
+    profileImgUrl: string;
 }
