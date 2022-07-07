@@ -37,10 +37,6 @@ let AuthService = class AuthService {
             throw new common_1.ConflictException('인증 번호가 올바르지 않습니다.');
         }
     }
-    async login(user) {
-        const payload = { email: user.email, sub: user.userIdx };
-        return { access_token: this.jwtService.signAsync(payload) };
-    }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),

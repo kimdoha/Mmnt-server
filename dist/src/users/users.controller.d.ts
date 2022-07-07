@@ -1,9 +1,10 @@
 import { CreateUserDto } from './dtos/create.user.dto';
 import { UsersService } from './users.service';
+import { GetProfileInfo } from 'src/common/responses/users/get.profile-Info.response.dto';
 export declare class UsersController {
     private userService;
     constructor(userService: UsersService);
     signup(body: CreateUserDto, res: any): Promise<any>;
     signin(body: CreateUserDto, res: any): Promise<any>;
-    findUser(userIdx: string): Promise<void>;
+    findProfileInfo(user: any): Promise<GetProfileInfo>;
 }

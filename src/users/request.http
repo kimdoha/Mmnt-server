@@ -3,7 +3,7 @@ POST http://localhost:3001/user/sign-up
 Content-Type: application/json
 
 {
-    "email": "kimdoha2@gmail.com",
+    "email": "kimdoha@gmail.com",
     "password": "kimdoha123"
 }
 
@@ -13,6 +13,11 @@ POST http://localhost:3001/user/sign-in
 Content-Type: application/json
 
 {
-    "email": "kimdoha2@gmail.com",
+    "email": "kimdoha@gmail.com",
     "password": "kimdoha123"
 }
+
+
+### 유저 정보 조회
+GET http://localhost:3001/user/profile-info
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE1IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzE5MDM4MiwiZXhwIjoxNjU3MTkzOTgyfQ.zJVHAAp6j6hUXDn_DQymLvdQUyxTAL2rgZ9TFbn0tZM

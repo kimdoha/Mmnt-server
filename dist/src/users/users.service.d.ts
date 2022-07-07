@@ -10,11 +10,19 @@ export declare class UsersService {
         email: string;
     }>;
     signIn(email: string, password: string): Promise<{
-        userIdx: number;
+        userIdx: any;
         accessToken: string;
     }>;
+    findUserByEmail(email: string): Promise<User>;
     findOne(userIdx: number): Promise<User>;
-    findOneByEmail(email: string): Promise<any>;
     update(userIdx: number, attrs: Partial<User>): Promise<User>;
     remove(userIdx: number): Promise<User>;
+    validateUser(email: string, password: string): Promise<{
+        id: number;
+        email: string;
+    }>;
+    login(payload: any): Promise<{
+        userIdx: any;
+        accessToken: string;
+    }>;
 }

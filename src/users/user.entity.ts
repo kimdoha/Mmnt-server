@@ -24,7 +24,7 @@ export class User {
     @Column({ type: 'varchar', length: 50, comment: '유저 이메일' })
     email: string
 
-    @Column({ type: 'varchar', length: 250, comment: '유저 비밀번호' })
+    @Column({ type: 'varchar', length: 500, comment: '유저 비밀번호' })
     password: string
 
     @Column({ type: 'varchar', length: 45, comment: '유저 닉네임' })

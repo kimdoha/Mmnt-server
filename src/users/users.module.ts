@@ -8,6 +8,7 @@ import { jwtConfig } from 'src/configs/jwt.config';
 import { User } from './user.entity';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
+import { AuthService } from 'src/auth/auth.service';
 
 @Module({
   imports: [

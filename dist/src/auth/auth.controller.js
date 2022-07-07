@@ -19,7 +19,7 @@ const SuccessReponse_1 = require("../helpers/SuccessReponse");
 const serialize_interceptor_1 = require("../common/interceptors/serialize.interceptor");
 const auth_service_1 = require("./auth.service");
 const create_authorized_code_dto_1 = require("./dtos/create.authorized-code.dto");
-const create_authorized_code_response_dto_1 = require("../common/response/auth/create.authorized-code.response.dto");
+const create_authorized_code_response_dto_1 = require("../common/responses/auth/create.authorized-code.response.dto");
 const find_authorized_user_dto_1 = require("./dtos/find.authorized-user.dto");
 let AuthController = class AuthController {
     constructor(authService) {

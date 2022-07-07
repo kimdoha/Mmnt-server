@@ -1,30 +1,32 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, Type, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
+
+
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User) private repo: Repository<User>,
         private jwtService: JwtService,
-
     ) {}
 
-    
+
     async createUser(email: string, password: string) {
 
-        const user: User = await this.findOneByEmail(email);
+        const user: User = await this.findUserByEmail(email);
         if(user){
             throw new BadRequestException('중복된 이메일입니다.');
         }
         
-        const hashedPassword = await createHashedPassword(password)
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
         const new_user = await this.repo.create({ email, password: hashedPassword });
-
 
         const { userIdx } = await this.repo.save(new_user);
         await this.repo.update(userIdx, { nickname:`${userIdx}번째 익명이` } );
@@ -34,31 +36,22 @@ export class UsersService {
     }
 
     async signIn(email: string, password: string){
-        const user: User = await this.findOneByEmail(email);
-        const hashedPassword = await createHashedPassword(password)
-        if(!user || (!compare(hashedPassword, password))){
-            throw new UnauthorizedException('유저 정보가 올바르지 않습니다.');
-        }
+        const payload = await this.validateUser(email, password);
 
-        const payload = { email };
-        const accessToken = await this.jwtService.sign(payload);
-        
-        return { userIdx: user.userIdx, accessToken };
-
+        return await this.login(payload);
     }
 
     
-    async findOne(userIdx: number){
-        return await this.repo.findOneBy({ userIdx });
+    async findUserByEmail(email: string): Promise<User> {
+        return this.repo.createQueryBuilder()
+        .select(['userIdx, password'])
+        .where({ email })
+        .andWhere('isDeleted= :YN', { YN: 'N' })
+        .getRawOne();
     }
 
-    async findOneByEmail(email: string){
-
-        return await this.repo.createQueryBuilder()
-                        .select('userIdx, password')
-                        .where({ email })
-                        .andWhere('isDeleted= :YN', { YN: 'N' })
-                        .getRawOne();
+    async findOne(userIdx: number){
+        return await this.repo.findOneBy({ userIdx });
     }
 
     async update(userIdx: number, attrs: Partial<User>){
@@ -79,5 +72,22 @@ export class UsersService {
         return this.repo.remove(user);
     }
 
+    async validateUser(email: string, password: string){
+        const user = await this.findUserByEmail(email);
+
+        if(!user || !(await bcrypt.compare(password, user.password))){
+            throw new UnauthorizedException('유저 정보가 올바르지 않습니다.');
+        }
+
+        return { id: user.userIdx, email };
+    }
+
+    async login(payload){
+        const { id, email } = payload;
+        return { 
+            userIdx: id, 
+            accessToken: await this.jwtService.signAsync(payload) 
+        };
+    }
 }
 
