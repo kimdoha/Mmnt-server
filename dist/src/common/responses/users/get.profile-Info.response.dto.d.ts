@@ -1,5 +1,5 @@
-export declare class GetProfileInfo {
+export declare class GetProfileInfoResponse {
     userIdx: number;
     email: string;
-    passwordLength: number;
+    nickname: string;
 }

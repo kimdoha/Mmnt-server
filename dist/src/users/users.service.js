@@ -47,23 +47,16 @@ let UsersService = class UsersService {
             .andWhere('isDeleted= :YN', { YN: 'N' })
             .getRawOne();
     }
-    async findOne(userIdx) {
-        return await this.repo.findOneBy({ userIdx });
-    }
-    async update(userIdx, attrs) {
-        const user = await this.findOne(userIdx);
+    async findUserByUserIdx(userIdx) {
+        const user = await this.repo.createQueryBuilder()
+            .select(['userIdx, email, nickname'])
+            .where({ userIdx })
+            .andWhere('isDeleted= :YN', { YN: 'N' })
+            .getRawOne();
         if (!user) {
-            throw new common_1.NotFoundException('user not found');
+            throw new common_1.NotFoundException('해당 유저가 존재하지 않습니다.');
         }
-        Object.assign(user, attrs);
-        return this.repo.save(user);
-    }
-    async remove(userIdx) {
-        const user = await this.findOne(userIdx);
-        if (!user) {
-            throw new common_1.NotFoundException('user not found');
-        }
-        return this.repo.remove(user);
+        return user;
     }
     async validateUser(email, password) {
         const user = await this.findUserByEmail(email);

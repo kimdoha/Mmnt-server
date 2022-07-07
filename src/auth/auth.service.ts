@@ -3,11 +3,8 @@ import { createAuthorizedCode } from 'src/configs/functions/create.authorized-co
 
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
 
 import Redis from 'ioredis';
-import { User } from 'src/users/user.entity';
-import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
 const redis = new Redis();
 
 @Injectable()

@@ -9,21 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetProfileInfo = void 0;
+exports.GetProfileInfoResponse = void 0;
 const class_transformer_1 = require("class-transformer");
-class GetProfileInfo {
+class GetProfileInfoResponse {
 }
 __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", Number)
-], GetProfileInfo.prototype, "userIdx", void 0);
+], GetProfileInfoResponse.prototype, "userIdx", void 0);
 __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
-], GetProfileInfo.prototype, "email", void 0);
+], GetProfileInfoResponse.prototype, "email", void 0);
 __decorate([
     (0, class_transformer_1.Expose)(),
-    __metadata("design:type", Number)
-], GetProfileInfo.prototype, "passwordLength", void 0);
-exports.GetProfileInfo = GetProfileInfo;
+    __metadata("design:type", String)
+], GetProfileInfoResponse.prototype, "nickname", void 0);
+exports.GetProfileInfoResponse = GetProfileInfoResponse;
 //# sourceMappingURL=get.profile-Info.response.dto.js.map

@@ -8,7 +8,8 @@ import {
     Res, 
     ValidationPipe, 
     UseGuards, 
-    UseInterceptors
+    UseInterceptors,
+    NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create.user.dto';
 import { UsersService } from './users.service';
@@ -21,7 +22,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
 import { CommonResponseInterceptor } from 'src/common/interceptors/common.response.interceptor';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { GetProfileInfo } from 'src/common/responses/users/get.profile-Info.response.dto';
+import { GetProfileInfoResponse } from 'src/common/responses/users/get.profile-Info.response.dto';
+import { User } from './user.entity';
 
 
 @Controller('user')
@@ -46,11 +48,10 @@ export class UsersController {
 
     @Get('/profile-info')
     @UseGuards(JwtAuthGuard)
-    async findProfileInfo(@GetUser() user, ): Promise<GetProfileInfo>{
-
-        const find_user = await this.userService.findOne(user);
-        console.log('find_user:    ', find_user);
-        return ;
+    async findProfileInfo(@GetUser() user, @Res() res): Promise<GetProfileInfoResponse>{
+        
+        const responseData: User = await this.userService.findUserByUserIdx(user.userIdx);
+        return res.json(new SuccessReponse(StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
 
 }

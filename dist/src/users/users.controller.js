@@ -32,10 +32,9 @@ let UsersController = class UsersController {
         const responseData = await this.userService.signIn(body.email, body.password);
         return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '로그인 성공', responseData));
     }
-    async findProfileInfo(user) {
-        const find_user = await this.userService.findOne(user);
-        console.log('find_user:    ', find_user);
-        return;
+    async findProfileInfo(user, res) {
+        const responseData = await this.userService.findUserByUserIdx(user.userIdx);
+        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
 };
 __decorate([
@@ -58,8 +57,9 @@ __decorate([
     (0, common_1.Get)('/profile-info'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findProfileInfo", null);
 UsersController = __decorate([

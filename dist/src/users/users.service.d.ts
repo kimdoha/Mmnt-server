@@ -14,9 +14,7 @@ export declare class UsersService {
         accessToken: string;
     }>;
     findUserByEmail(email: string): Promise<User>;
-    findOne(userIdx: number): Promise<User>;
-    update(userIdx: number, attrs: Partial<User>): Promise<User>;
-    remove(userIdx: number): Promise<User>;
+    findUserByUserIdx(userIdx: number): Promise<any>;
     validateUser(email: string, password: string): Promise<{
         id: number;
         email: string;

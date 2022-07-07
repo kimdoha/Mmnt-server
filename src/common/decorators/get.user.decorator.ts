@@ -1,7 +1,6 @@
 import { 
     createParamDecorator,
     ExecutionContext,
-    UnauthorizedException
 } from "@nestjs/common";
 import { User } from "src/users/user.entity";
 

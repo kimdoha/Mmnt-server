@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException, Type, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
+
 
 
 
@@ -25,7 +25,7 @@ export class UsersService {
         
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
-        
+
         const new_user = await this.repo.create({ email, password: hashedPassword });
 
         const { userIdx } = await this.repo.save(new_user);
@@ -50,27 +50,37 @@ export class UsersService {
         .getRawOne();
     }
 
-    async findOne(userIdx: number){
-        return await this.repo.findOneBy({ userIdx });
-    }
+    async findUserByUserIdx(userIdx: number){
+        const user = await this.repo.createQueryBuilder()
+            .select(['userIdx, email, nickname'])
+            .where({ userIdx })
+            .andWhere('isDeleted= :YN', { YN: 'N' })
+            .getRawOne();
 
-    async update(userIdx: number, attrs: Partial<User>){
-        const user = await this.findOne(userIdx);
         if(!user){
-            throw new NotFoundException('user not found');
+            throw new NotFoundException('해당 유저가 존재하지 않습니다.');
         }
-        Object.assign(user, attrs);
-        return this.repo.save(user);
+        
+        return user;
     }
 
-    async remove(userIdx: number){
-        const user = await this.findOne(userIdx);
-        if(!user){
-            throw new NotFoundException('user not found');
-        }
+    // async update(userIdx: number, attrs: Partial<User>){
+    //     const user = await this.findOne(userIdx);
+    //     if(!user){
+    //         throw new NotFoundException('user not found');
+    //     }
+    //     Object.assign(user, attrs);
+    //     return this.repo.save(user);
+    // }
 
-        return this.repo.remove(user);
-    }
+    // async remove(userIdx: number){
+    //     const user = await this.findOne(userIdx);
+    //     if(!user){
+    //         throw new NotFoundException('user not found');
+    //     }
+
+    //     return this.repo.remove(user);
+    // }
 
     async validateUser(email: string, password: string){
         const user = await this.findUserByEmail(email);

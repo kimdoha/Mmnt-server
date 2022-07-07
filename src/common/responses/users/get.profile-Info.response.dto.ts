@@ -1,6 +1,6 @@
 import { Expose } from "class-transformer";
 
-export class GetProfileInfo {
+export class GetProfileInfoResponse {
 
     @Expose()
     userIdx: number;
@@ -9,6 +9,5 @@ export class GetProfileInfo {
     email: string;
 
     @Expose()
-    passwordLength: number;
-
+    nickname: string;
 }
