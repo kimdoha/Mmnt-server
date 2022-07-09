@@ -1,0 +1,14 @@
+### 10. 핀 및 모먼트 생성 API
+POST http://localhost:3001/moment
+Content-Type: application/json
+
+{
+    "pin_x": ,
+    "pin_y": ,
+    "title": "",
+    "description": "",
+    "imageUrl": "",
+    "youtubeUrl": "",
+    "music": "",
+    "artist": ""
+}

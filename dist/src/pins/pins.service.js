@@ -23,6 +23,11 @@ let PinsService = class PinsService {
         this.repo = repo;
         this.usersService = usersService;
     }
+    async createPin(userIdx, pin_x, pin_y) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const pin = await this.repo.create({ userIdx, pin_x, pin_y });
+        return await this.repo.save(pin);
+    }
 };
 PinsService = __decorate([
     (0, common_1.Injectable)(),

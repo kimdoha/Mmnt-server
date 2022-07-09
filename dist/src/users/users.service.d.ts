@@ -14,13 +14,10 @@ export declare class UsersService {
         userIdx: any;
         accessToken: string;
     }>;
-    updateUserLocation(userIdx: number, location: UpdateLocationDto): Promise<{
-        location_x: number;
-        location_y: number;
-        userIdx: any;
-    } & User>;
+    updateUserLocation(userIdx: number, location: UpdateLocationDto): Promise<import("typeorm").UpdateResult>;
     findUserByEmail(email: string): Promise<User>;
     findUserByUserIdx(userIdx: number): Promise<any>;
+    findActiveUserByUserIdx(userIdx: number): Promise<any>;
     validateUser(email: string, password: string): Promise<{
         id: number;
         email: string;

@@ -23,10 +23,10 @@ export class Pin {
     pinIdx: number
 
     @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 경도' })
-    pin_x: Double
+    pin_x: number
 
     @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' })
-    pin_y: Double
+    pin_y: number
 
     @Column({ type: 'char', length: 1, default: 'N', comment: '삭제 여부'})
     isDeleted: string
@@ -43,7 +43,7 @@ export class Pin {
 
     @ManyToOne(type => User, user => user.pins, { eager: false })
     @JoinColumn({ name: 'userIdx'})
-    user: User;
+    userIdx: number;
 
     @OneToMany(type => Moment, (moment: Moment) => moment.pin, { eager: false })
     moments: Moment[];

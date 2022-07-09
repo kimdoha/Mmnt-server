@@ -1,15 +1,13 @@
 import { Moment } from 'src/moments/moment.entity';
-import { User } from 'src/users/user.entity';
-import { Double } from 'typeorm';
 export declare class Pin {
     pinIdx: number;
-    pin_x: Double;
-    pin_y: Double;
+    pin_x: number;
+    pin_y: number;
     isDeleted: string;
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;
-    user: User;
+    userIdx: number;
     moments: Moment[];
     logInsert(): void;
     logUpdate(): void;

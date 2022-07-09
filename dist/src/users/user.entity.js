@@ -76,7 +76,7 @@ __decorate([
     __metadata("design:type", Date)
 ], User.prototype, "deletedAt", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(type => pin_entity_1.Pin, (pin) => pin.user, { eager: false }),
+    (0, typeorm_1.OneToMany)(type => pin_entity_1.Pin, (pin) => pin.userIdx, { eager: false }),
     __metadata("design:type", Array)
 ], User.prototype, "pins", void 0);
 __decorate([

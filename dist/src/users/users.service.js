@@ -42,7 +42,7 @@ let UsersService = class UsersService {
     }
     async updateUserLocation(userIdx, location) {
         const user = await this.findUserByUserIdx(userIdx);
-        return await this.repo.save(Object.assign({ userIdx: user.userIdx }, location));
+        return await this.repo.update(userIdx, location);
     }
     async findUserByEmail(email) {
         return this.repo.createQueryBuilder()
@@ -54,6 +54,17 @@ let UsersService = class UsersService {
     async findUserByUserIdx(userIdx) {
         const user = await this.repo.createQueryBuilder()
             .select(['userIdx, email, nickname, profileImgUrl'])
+            .where({ userIdx })
+            .andWhere('isDeleted= :YN', { YN: 'N' })
+            .getRawOne();
+        if (!user) {
+            throw new common_1.NotFoundException('해당 유저가 존재하지 않습니다.');
+        }
+        return user;
+    }
+    async findActiveUserByUserIdx(userIdx) {
+        const user = await this.repo.createQueryBuilder()
+            .select(['userIdx'])
             .where({ userIdx })
             .andWhere('isDeleted= :YN', { YN: 'N' })
             .getRawOne();

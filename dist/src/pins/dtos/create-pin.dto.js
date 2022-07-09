@@ -9,20 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PinsController = void 0;
-const common_1 = require("@nestjs/common");
-const pins_service_1 = require("./pins.service");
-let PinsController = class PinsController {
-    constructor(pinsService) {
-        this.pinsService = pinsService;
-    }
-    async createPin(userIdx, pin_x, pin_y) {
-        return await this.pinsService.createPin(userIdx, pin_x, pin_y);
-    }
-};
-PinsController = __decorate([
-    (0, common_1.Controller)('pins'),
-    __metadata("design:paramtypes", [pins_service_1.PinsService])
-], PinsController);
-exports.PinsController = PinsController;
-//# sourceMappingURL=pins.controller.js.map
+exports.CreatePinDto = void 0;
+const class_validator_1 = require("class-validator");
+class CreatePinDto {
+}
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsLongitude)(),
+    __metadata("design:type", Number)
+], CreatePinDto.prototype, "pin_x", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsLatitude)(),
+    __metadata("design:type", Number)
+], CreatePinDto.prototype, "pin_y", void 0);
+exports.CreatePinDto = CreatePinDto;
+//# sourceMappingURL=create-pin.dto.js.map

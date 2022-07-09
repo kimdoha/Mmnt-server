@@ -25,6 +25,12 @@ let MomentsService = class MomentsService {
         this.pinsService = pinsService;
         this.usersService = usersService;
     }
+    async createMoment(userIdx, body) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const pin = await this.pinsService.createPin(userIdx, body.pin_x, body.pin_y);
+        console.log(pin);
+        await this.repo.save({});
+    }
 };
 MomentsService = __decorate([
     (0, common_1.Injectable)(),

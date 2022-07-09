@@ -30,11 +30,11 @@ __decorate([
 ], Pin.prototype, "pinIdx", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, comment: '핀 경도' }),
-    __metadata("design:type", typeorm_1.Double)
+    __metadata("design:type", Number)
 ], Pin.prototype, "pin_x", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' }),
-    __metadata("design:type", typeorm_1.Double)
+    __metadata("design:type", Number)
 ], Pin.prototype, "pin_y", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'char', length: 1, default: 'N', comment: '삭제 여부' }),
@@ -55,8 +55,8 @@ __decorate([
 __decorate([
     (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.pins, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'userIdx' }),
-    __metadata("design:type", user_entity_1.User)
-], Pin.prototype, "user", void 0);
+    __metadata("design:type", Number)
+], Pin.prototype, "userIdx", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(type => moment_entity_1.Moment, (moment) => moment.pin, { eager: false }),
     __metadata("design:type", Array)

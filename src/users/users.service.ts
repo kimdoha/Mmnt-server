@@ -45,7 +45,7 @@ export class UsersService {
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
         const user = await this.findUserByUserIdx(userIdx);
-        return await this.repo.save({ userIdx: user.userIdx, ...location });
+        return await this.repo.update(userIdx, location);
     }
     
     
@@ -60,6 +60,20 @@ export class UsersService {
     async findUserByUserIdx(userIdx: number){
         const user = await this.repo.createQueryBuilder()
             .select(['userIdx, email, nickname, profileImgUrl'])
+            .where({ userIdx })
+            .andWhere('isDeleted= :YN', { YN: 'N' })
+            .getRawOne();
+
+        if(!user){
+            throw new NotFoundException('해당 유저가 존재하지 않습니다.');
+        }
+        
+        return user;
+    }
+
+    async findActiveUserByUserIdx(userIdx: number){
+        const user = await this.repo.createQueryBuilder()
+            .select(['userIdx'])
             .where({ userIdx })
             .andWhere('isDeleted= :YN', { YN: 'N' })
             .getRawOne();
