@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
@@ -19,7 +20,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     AuthModule,
     UsersModule, 
     PinsModule, 
-    MomentsModule, 
+    MomentsModule
   ],
   controllers: [AppController],
   providers: [AppService],

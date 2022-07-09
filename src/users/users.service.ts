@@ -1,9 +1,11 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { UpdateLocationDto } from './dtos/update-location.dto';
+
 
 
 
@@ -41,6 +43,14 @@ export class UsersService {
         return await this.login(payload);
     }
 
+    async updateUserLocation(userIdx: number, geo: UpdateLocationDto) {
+        let user = await this.findUserByUserIdx(userIdx);
+        user.location_x = geo.location_x;
+        user.location_y = geo.location_y;
+
+        return await this.repo.save(user);
+    }
+    
     
     async findUserByEmail(email: string): Promise<User> {
         return this.repo.createQueryBuilder()

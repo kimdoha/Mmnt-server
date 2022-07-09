@@ -20,4 +20,15 @@ Content-Type: application/json
 
 ### 유저 정보 조회
 GET http://localhost:3001/user/profile-info
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzE5MzQyMCwiZXhwIjoxNjU3MTk3MDIwfQ.CG89Bsb_BMYA2U7Zavj0CsyU2q5xiwARcpYUfwsD1KI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzMyOTA3MSwiZXhwIjoxNjU3MzMyNjcxfQ.h_htJ2OYoTWP_Bs7y3SndjV8saAQnBSfOD3RWxpErhk
+
+
+### 유저 위치 수정
+PATCH http://localhost:3001/user/location
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzM0MDM2NywiZXhwIjoxNjU3MzQzOTY3fQ.dzKmyYO1MCgJXUUYC_X_Nwu0YZpTz4_eQHOvXhPRn5Y
+Content-Type: application/json
+
+{
+    "location_x" : 12.888,
+    "location_y": 12.888
+}

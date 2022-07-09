@@ -29,7 +29,7 @@ AppModule = __decorate([
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
             pins_module_1.PinsModule,
-            moments_module_1.MomentsModule,
+            moments_module_1.MomentsModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

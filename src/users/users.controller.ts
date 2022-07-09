@@ -10,6 +10,7 @@ import {
     UseGuards, 
     UseInterceptors,
     NotFoundException,
+    Patch,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create.user.dto';
 import { UsersService } from './users.service';
@@ -24,6 +25,8 @@ import { CommonResponseInterceptor } from 'src/common/interceptors/common.respon
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { GetProfileInfoResponse } from 'src/common/responses/users/get.profile-Info.response.dto';
 import { User } from './user.entity';
+import { UpdateLocationDto } from './dtos/update-location.dto';
+
 
 
 @Controller('user')
@@ -38,7 +41,7 @@ export class UsersController {
         return res.json(new SuccessReponse(StatusCodes.CREATED, '회원 가입 성공', responseData));
     }
 
-
+    // 4. 유저 로그인
     @Post('sign-in')
     async signin(@Body(ValidationPipe) body: CreateUserDto, @Res() res){
         const responseData = await this.userService.signIn(body.email, body.password);
@@ -46,6 +49,7 @@ export class UsersController {
         return res.json(new SuccessReponse(StatusCodes.CREATED, '로그인 성공', responseData));
     }
 
+    // 7. 유저 프로필 조회
     @Get('/profile-info')
     @UseGuards(JwtAuthGuard)
     async findProfileInfo(@GetUser() user, @Res() res): Promise<GetProfileInfoResponse>{
@@ -54,6 +58,19 @@ export class UsersController {
         return res.json(new SuccessReponse(StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
 
+    // 8. 유저 위치 수정
+    @Patch('/location')
+    @UseGuards(JwtAuthGuard)
+    async updateUserLocation(
+        @GetUser() user, 
+        @Body(ValidationPipe) body: UpdateLocationDto, 
+        @Res() res) 
+    {
+        const responseData = await this.userService.updateUserLocation(user.userIdx, body);
+        return res.json(new SuccessReponse(StatusCodes.OK, '유저 위치 수정 성공', responseData));
+    }
+
+    
 }
 
 

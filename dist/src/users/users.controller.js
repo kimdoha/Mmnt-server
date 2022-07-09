@@ -20,6 +20,7 @@ const http_status_codes_1 = require("http-status-codes");
 const SuccessReponse_1 = require("../helpers/SuccessReponse");
 const get_user_decorator_1 = require("../common/decorators/get.user.decorator");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
+const update_location_dto_1 = require("./dtos/update-location.dto");
 let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
@@ -35,6 +36,10 @@ let UsersController = class UsersController {
     async findProfileInfo(user, res) {
         const responseData = await this.userService.findUserByUserIdx(user.userIdx);
         return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '내 프로필 조회 성공', responseData));
+    }
+    async updateUserLocation(user, body, res) {
+        const responseData = await this.userService.updateUserLocation(user.userIdx, body);
+        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 위치 수정 성공', responseData));
     }
 };
 __decorate([
@@ -62,6 +67,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findProfileInfo", null);
+__decorate([
+    (0, common_1.Patch)('/location'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
+    __param(1, (0, common_1.Body)(common_1.ValidationPipe)),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, update_location_dto_1.UpdateLocationDto, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "updateUserLocation", null);
 UsersController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

@@ -1,6 +1,7 @@
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateLocationDto } from './dtos/update-location.dto';
 export declare class UsersService {
     private repo;
     private jwtService;
@@ -13,6 +14,7 @@ export declare class UsersService {
         userIdx: any;
         accessToken: string;
     }>;
+    updateUserLocation(userIdx: number, geo: UpdateLocationDto): Promise<any>;
     findUserByEmail(email: string): Promise<User>;
     findUserByUserIdx(userIdx: number): Promise<any>;
     validateUser(email: string, password: string): Promise<{

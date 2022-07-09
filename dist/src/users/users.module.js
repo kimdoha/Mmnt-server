@@ -24,6 +24,7 @@ UsersModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
             passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
             jwt_1.JwtModule.registerAsync(jwt_config_1.jwtConfig),
+            common_1.CacheModule.register(),
         ],
         controllers: [users_controller_1.UsersController],
         providers: [
