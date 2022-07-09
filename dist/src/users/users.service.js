@@ -40,11 +40,9 @@ let UsersService = class UsersService {
         const payload = await this.validateUser(email, password);
         return await this.login(payload);
     }
-    async updateUserLocation(userIdx, geo) {
-        let user = await this.findUserByUserIdx(userIdx);
-        user.location_x = geo.location_x;
-        user.location_y = geo.location_y;
-        return await this.repo.save(user);
+    async updateUserLocation(userIdx, location) {
+        const user = await this.findUserByUserIdx(userIdx);
+        return await this.repo.save(Object.assign({ userIdx: user.userIdx }, location));
     }
     async findUserByEmail(email) {
         return this.repo.createQueryBuilder()

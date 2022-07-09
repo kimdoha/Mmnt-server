@@ -64,10 +64,9 @@ export class UsersController {
     async updateUserLocation(
         @GetUser() user, 
         @Body(ValidationPipe) body: UpdateLocationDto, 
-        @Res() res) 
-    {
-        const responseData = await this.userService.updateUserLocation(user.userIdx, body);
-        return res.json(new SuccessReponse(StatusCodes.OK, '유저 위치 수정 성공', responseData));
+        @Res() res) {
+        await this.userService.updateUserLocation(user.userIdx, body);
+        return res.json(new SuccessReponse(StatusCodes.OK, '유저 위치 수정 성공'));
     }
 
     

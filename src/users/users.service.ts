@@ -43,12 +43,9 @@ export class UsersService {
         return await this.login(payload);
     }
 
-    async updateUserLocation(userIdx: number, geo: UpdateLocationDto) {
-        let user = await this.findUserByUserIdx(userIdx);
-        user.location_x = geo.location_x;
-        user.location_y = geo.location_y;
-
-        return await this.repo.save(user);
+    async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
+        const user = await this.findUserByUserIdx(userIdx);
+        return await this.repo.save({ userIdx: user.userIdx, ...location });
     }
     
     

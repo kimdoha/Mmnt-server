@@ -14,7 +14,11 @@ export declare class UsersService {
         userIdx: any;
         accessToken: string;
     }>;
-    updateUserLocation(userIdx: number, geo: UpdateLocationDto): Promise<any>;
+    updateUserLocation(userIdx: number, location: UpdateLocationDto): Promise<{
+        location_x: number;
+        location_y: number;
+        userIdx: any;
+    } & User>;
     findUserByEmail(email: string): Promise<User>;
     findUserByUserIdx(userIdx: number): Promise<any>;
     validateUser(email: string, password: string): Promise<{
