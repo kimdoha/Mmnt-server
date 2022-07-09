@@ -70,8 +70,8 @@ __decorate([
 __decorate([
     (0, typeorm_1.ManyToOne)(type => pin_entity_1.Pin, pin => pin.moments, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'pinIdx' }),
-    __metadata("design:type", pin_entity_1.Pin)
-], Moment.prototype, "pin", void 0);
+    __metadata("design:type", Number)
+], Moment.prototype, "pinIdx", void 0);
 __decorate([
     (0, typeorm_1.AfterInsert)(),
     __metadata("design:type", Function),

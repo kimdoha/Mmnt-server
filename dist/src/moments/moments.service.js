@@ -11,6 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MomentsService = void 0;
 const common_1 = require("@nestjs/common");
@@ -20,16 +31,29 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const moment_entity_1 = require("./moment.entity");
 let MomentsService = class MomentsService {
-    constructor(repo, pinsService, usersService) {
+    constructor(repo, pinsService, usersService, connection) {
         this.repo = repo;
         this.pinsService = pinsService;
         this.usersService = usersService;
+        this.connection = connection;
     }
     async createMoment(userIdx, body) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
-        const pin = await this.pinsService.createPin(userIdx, body.pin_x, body.pin_y);
-        console.log(pin);
-        await this.repo.save({});
+        const { pin_x, pin_y } = body, momentInfo = __rest(body, ["pin_x", "pin_y"]);
+        const queryRunner = this.connection.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+        try {
+            const { pinIdx } = await this.pinsService.createPin(userIdx, pin_x, pin_y);
+            const moment = await this.repo.create(Object.assign({ pinIdx }, momentInfo));
+            return await this.repo.save(moment);
+        }
+        catch (e) {
+            await queryRunner.rollbackTransaction();
+        }
+        finally {
+            await queryRunner.release();
+        }
     }
 };
 MomentsService = __decorate([
@@ -37,7 +61,8 @@ MomentsService = __decorate([
     __param(0, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
         pins_service_1.PinsService,
-        users_service_1.UsersService])
+        users_service_1.UsersService,
+        typeorm_1.Connection])
 ], MomentsService);
 exports.MomentsService = MomentsService;
 //# sourceMappingURL=moments.service.js.map

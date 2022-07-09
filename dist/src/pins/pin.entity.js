@@ -58,7 +58,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Pin.prototype, "userIdx", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(type => moment_entity_1.Moment, (moment) => moment.pin, { eager: false }),
+    (0, typeorm_1.OneToMany)(type => moment_entity_1.Moment, (moment) => moment.pinIdx, { eager: false }),
     __metadata("design:type", Array)
 ], Pin.prototype, "moments", void 0);
 __decorate([

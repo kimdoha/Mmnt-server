@@ -1,4 +1,3 @@
-import { Pin } from 'src/pins/pin.entity';
 export declare class Moment {
     momentIdx: number;
     title: string;
@@ -11,7 +10,7 @@ export declare class Moment {
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;
-    pin: Pin;
+    pinIdx: number;
     logInsert(): void;
     logUpdate(): void;
     logRemove(): void;

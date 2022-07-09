@@ -52,7 +52,7 @@ export class Moment {
 
     @ManyToOne(type => Pin, pin => pin.moments, { eager: false })
     @JoinColumn({ name: 'pinIdx'})
-    pin: Pin
+    pinIdx: number
     
 
     @AfterInsert()

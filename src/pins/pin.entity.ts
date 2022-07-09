@@ -45,7 +45,7 @@ export class Pin {
     @JoinColumn({ name: 'userIdx'})
     userIdx: number;
 
-    @OneToMany(type => Moment, (moment: Moment) => moment.pin, { eager: false })
+    @OneToMany(type => Moment, (moment: Moment) => moment.pinIdx, { eager: false })
     moments: Moment[];
 
 

@@ -1,14 +1,15 @@
 ### 10. 핀 및 모먼트 생성 API
 POST http://localhost:3001/moment
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzM2ODEyMSwiZXhwIjoxNjU3MzcxNzIxfQ.3cmcAqW64t7El38oNHz3WEP5qdNdjp5nnqivy8NcXVI
 Content-Type: application/json
 
 {
-    "pin_x": ,
-    "pin_y": ,
-    "title": "",
-    "description": "",
-    "imageUrl": "",
-    "youtubeUrl": "",
-    "music": "",
-    "artist": ""
+    "pin_x": 126.9532624,
+    "pin_y": 37.5475643,
+    "title": "여기 완전 노을 맛집",
+    "description": "여기 처음 와보는데 완전 노을 맛집",
+    "imageUrl": "http://alkdjf.com",
+    "youtubeUrl": "https://www.youtube.com/watch?v=JdHUWfmZbqI",
+    "music": "Dar+ling",
+    "artist": "SEVENTEEN"
 }
