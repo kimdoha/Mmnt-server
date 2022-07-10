@@ -8,6 +8,7 @@ import { MomentsModule } from './moments/moments.module';
 import { typeORMConfig } from './configs/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UploadsModule } from './uploads/uploads.module';
 
 
 
@@ -20,7 +21,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     AuthModule,
     UsersModule, 
     PinsModule, 
-    MomentsModule
+    MomentsModule, UploadsModule
   ],
   controllers: [AppController],
   providers: [AppService],
