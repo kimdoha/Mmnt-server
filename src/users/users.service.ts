@@ -5,6 +5,7 @@ import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UpdateLocationDto } from './dtos/update-location.dto';
+import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
 
 
 
@@ -44,7 +45,7 @@ export class UsersService {
     }
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
-        const user = await this.findUserByUserIdx(userIdx);
+        const user = await this.findActiveUserByUserIdx(userIdx);
         return await this.repo.update(userIdx, location);
     }
     
@@ -113,7 +114,7 @@ export class UsersService {
         return { id: user.userIdx, email };
     }
 
-    async login(payload){
+    async login(payload): Promise<SignInResponseDto>{
         const { id, email } = payload;
         return { 
             userIdx: id, 

@@ -15,22 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadsController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
-const aws_config_1 = require("../configs/aws.config");
-const AWS = require("aws-sdk");
+const uploads_service_1 = require("./uploads.service");
 const BUCKET_NAME = 'mmntuploads';
 let UploadsController = class UploadsController {
+    constructor(uploadsService) {
+        this.uploadsService = uploadsService;
+    }
     async uploadFile(file) {
-        const s3 = new AWS.S3();
-        AWS.config.update(aws_config_1.AWSConfig);
-        const fileName = Date.now() + file.originalname;
         try {
-            const upload = await new AWS.S3().upload({
-                Key: fileName,
-                Body: file.buffer,
-                Bucket: BUCKET_NAME,
-                ACL: 'public-read',
-            }).promise();
-            return upload.Location;
+            return this.uploadsService.uploadImageToStorage(file);
         }
         catch (e) {
             throw new common_1.BadRequestException(e.message);
@@ -46,7 +39,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UploadsController.prototype, "uploadFile", null);
 UploadsController = __decorate([
-    (0, common_1.Controller)('uploads')
+    (0, common_1.Controller)('uploads'),
+    __metadata("design:paramtypes", [uploads_service_1.UploadsService])
 ], UploadsController);
 exports.UploadsController = UploadsController;
 //# sourceMappingURL=uploads.controller.js.map

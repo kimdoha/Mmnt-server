@@ -2,6 +2,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateLocationDto } from './dtos/update-location.dto';
+import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
 export declare class UsersService {
     private repo;
     private jwtService;
@@ -10,10 +11,7 @@ export declare class UsersService {
         userIdx: number;
         email: string;
     }>;
-    signIn(email: string, password: string): Promise<{
-        userIdx: any;
-        accessToken: string;
-    }>;
+    signIn(email: string, password: string): Promise<SignInResponseDto>;
     updateUserLocation(userIdx: number, location: UpdateLocationDto): Promise<import("typeorm").UpdateResult>;
     findUserByEmail(email: string): Promise<User>;
     findUserByUserIdx(userIdx: number): Promise<any>;
@@ -22,8 +20,5 @@ export declare class UsersService {
         id: number;
         email: string;
     }>;
-    login(payload: any): Promise<{
-        userIdx: any;
-        accessToken: string;
-    }>;
+    login(payload: any): Promise<SignInResponseDto>;
 }

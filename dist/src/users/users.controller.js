@@ -20,7 +20,11 @@ const http_status_codes_1 = require("http-status-codes");
 const SuccessReponse_1 = require("../helpers/SuccessReponse");
 const get_user_decorator_1 = require("../common/decorators/get.user.decorator");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
+const get_profile_Info_response_dto_1 = require("../common/responses/users/get.profile-Info.response.dto");
 const update_location_dto_1 = require("./dtos/update-location.dto");
+const swagger_1 = require("@nestjs/swagger");
+const sign_up_response_dto_1 = require("../common/responses/users/sign-up.response.dto");
+const sign_in_response_dto_1 = require("../common/responses/users/sign-in.response.dto");
 let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
@@ -43,6 +47,10 @@ let UsersController = class UsersController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: '회원 가입 API' }),
+    (0, swagger_1.ApiBody)({ type: create_user_dto_1.CreateUserDto }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '회원 가입 성공', type: sign_up_response_dto_1.SignUpResponseDto }),
+    (0, swagger_1.ApiBadRequestResponse)({ status: 400, description: '중복된 이메일 외 Bad Request' }),
     (0, common_1.Post)('sign-up'),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(1, (0, common_1.Res)()),
@@ -51,6 +59,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "signup", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: '로그인 API' }),
+    (0, swagger_1.ApiBody)({ type: create_user_dto_1.CreateUserDto }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '로그인 성공', type: sign_in_response_dto_1.SignInResponseDto }),
+    (0, swagger_1.ApiUnauthorizedResponse)({ status: 401, description: '유저 정보가 올바르지 않습니다.' }),
     (0, common_1.Post)('sign-in'),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(1, (0, common_1.Res)()),
@@ -59,6 +71,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "signin", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)('Authorization'),
+    (0, swagger_1.ApiOperation)({ summary: '유저 프로필 조회' }),
+    (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 프로필 조회 성공', type: get_profile_Info_response_dto_1.GetProfileInfoResponse }),
+    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다' }),
     (0, common_1.Get)('/profile-info'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -68,6 +84,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findProfileInfo", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)('Authorization'),
+    (0, swagger_1.ApiOperation)({ summary: '유저 위치 수정' }),
+    (0, swagger_1.ApiBody)({ type: update_location_dto_1.UpdateLocationDto }),
+    (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 위치 수정 성공', type: get_profile_Info_response_dto_1.GetProfileInfoResponse }),
     (0, common_1.Patch)('/location'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -78,6 +98,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateUserLocation", null);
 UsersController = __decorate([
+    (0, swagger_1.ApiTags)('user'),
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);

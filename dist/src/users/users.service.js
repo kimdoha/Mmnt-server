@@ -41,7 +41,7 @@ let UsersService = class UsersService {
         return await this.login(payload);
     }
     async updateUserLocation(userIdx, location) {
-        const user = await this.findUserByUserIdx(userIdx);
+        const user = await this.findActiveUserByUserIdx(userIdx);
         return await this.repo.update(userIdx, location);
     }
     async findUserByEmail(email) {

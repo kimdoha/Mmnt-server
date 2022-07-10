@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MomentsController = void 0;
 const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
 const http_status_codes_1 = require("http-status-codes");
 const get_user_decorator_1 = require("../common/decorators/get.user.decorator");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
@@ -40,6 +41,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MomentsController.prototype, "createMoment", null);
 MomentsController = __decorate([
+    (0, swagger_1.ApiTags)('moment'),
     (0, common_1.Controller)('moment'),
     __metadata("design:paramtypes", [moments_service_1.MomentsService])
 ], MomentsController);

@@ -9,26 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateLocationDto = void 0;
-const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
-class UpdateLocationDto {
+exports.SignUpResponseDto = void 0;
+const class_transformer_1 = require("class-transformer");
+class SignUpResponseDto {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)({
-        description: '유저 위치 경도',
-    }),
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.IsLongitude)(),
+    (0, class_transformer_1.Expose)(),
     __metadata("design:type", Number)
-], UpdateLocationDto.prototype, "location_x", void 0);
+], SignUpResponseDto.prototype, "userIdx", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({
-        description: '유저 위치 위도',
-    }),
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.IsLatitude)(),
-    __metadata("design:type", Number)
-], UpdateLocationDto.prototype, "location_y", void 0);
-exports.UpdateLocationDto = UpdateLocationDto;
-//# sourceMappingURL=update-location.dto.js.map
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", String)
+], SignUpResponseDto.prototype, "email", void 0);
+exports.SignUpResponseDto = SignUpResponseDto;
+//# sourceMappingURL=sign-up.response.dto.js.map

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PinsController = void 0;
 const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
 const pins_service_1 = require("./pins.service");
 let PinsController = class PinsController {
     constructor(pinsService) {
@@ -21,6 +22,7 @@ let PinsController = class PinsController {
     }
 };
 PinsController = __decorate([
+    (0, swagger_1.ApiTags)('pin'),
     (0, common_1.Controller)('pins'),
     __metadata("design:paramtypes", [pins_service_1.PinsService])
 ], PinsController);

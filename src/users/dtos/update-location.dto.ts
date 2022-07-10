@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { 
     IsLongitude, 
     IsLatitude, 
@@ -5,11 +6,17 @@ import {
 } from 'class-validator';
 
 export class UpdateLocationDto {
-
+    
+    @ApiProperty({
+        description: '유저 위치 경도',
+    })
     @IsNumber()
     @IsLongitude()
     location_x: number;
 
+    @ApiProperty({
+        description: '유저 위치 위도',
+    })
     @IsNumber()
     @IsLatitude()
     location_y: number;
