@@ -30,7 +30,7 @@ let UploadsController = class UploadsController {
                 Bucket: BUCKET_NAME,
                 ACL: 'public-read',
             }).promise();
-            return `https://${BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/${fileName}`;
+            return upload.Location;
         }
         catch (e) {
             throw new common_1.BadRequestException(e.message);

@@ -33,8 +33,7 @@ export class UploadsController {
                                 ACL: 'public-read',
                             }).promise();
 
-
-            return `https://${BUCKET_NAME}.s3.ap-northeast-2.amazonaws.com/${fileName}`;
+            return upload.Location;
 
         } catch (e) {
             throw new BadRequestException(e.message);
