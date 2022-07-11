@@ -21,6 +21,7 @@ const auth_service_1 = require("./auth.service");
 const create_authorized_code_dto_1 = require("./dtos/create.authorized-code.dto");
 const create_authorized_code_response_dto_1 = require("../common/responses/auth/create.authorized-code.response.dto");
 const find_authorized_user_dto_1 = require("./dtos/find.authorized-user.dto");
+const swagger_1 = require("@nestjs/swagger");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -39,6 +40,9 @@ let AuthController = class AuthController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: '인증 번호 발송 API' }),
+    (0, swagger_1.ApiBody)({ type: create_authorized_code_dto_1.CreateAuthorizedCodeDto }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '인증 번호 발송 성공' }),
     (0, common_1.Post)(''),
     (0, serialize_interceptor_1.Serialize)(create_authorized_code_response_dto_1.CreateAuthorizedCodeResponseDto),
     __param(0, (0, common_1.Body)()),
@@ -48,6 +52,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "certificateUser", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: '인증 번호 확인 API' }),
+    (0, swagger_1.ApiOkResponse)({ status: 200, description: '인증 확인 성공' }),
     (0, common_1.Get)('/verification'),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Res)()),
@@ -56,6 +62,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "validate", null);
 AuthController = __decorate([
+    (0, swagger_1.ApiTags)('auth'),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);

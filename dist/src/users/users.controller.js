@@ -72,7 +72,7 @@ __decorate([
 ], UsersController.prototype, "signin", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
-    (0, swagger_1.ApiOperation)({ summary: '유저 프로필 조회' }),
+    (0, swagger_1.ApiOperation)({ summary: '유저 프로필 조회 API' }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 프로필 조회 성공', type: get_profile_Info_response_dto_1.GetProfileInfoResponse }),
     (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다' }),
     (0, common_1.Get)('/profile-info'),
@@ -85,7 +85,7 @@ __decorate([
 ], UsersController.prototype, "findProfileInfo", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
-    (0, swagger_1.ApiOperation)({ summary: '유저 위치 수정' }),
+    (0, swagger_1.ApiOperation)({ summary: '유저 위치 수정 API' }),
     (0, swagger_1.ApiBody)({ type: update_location_dto_1.UpdateLocationDto }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 위치 수정 성공', type: get_profile_Info_response_dto_1.GetProfileInfoResponse }),
     (0, common_1.Patch)('/location'),
