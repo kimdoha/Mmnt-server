@@ -15,7 +15,10 @@ export class MomentsController {
     constructor(private momentsService: MomentsService) {}
     
     @ApiBearerAuth('Authorization')
-    @ApiOperation({ summary: '핀 및 모먼트 생성 API' })
+    @ApiOperation({ 
+        summary: '핀 및 모먼트 생성 API', 
+        description: '이미지 파일은 "이미지 URL 생성 API"로 변환 후 URL 을 입력해주시면 됩니다.'
+    })
     @ApiBody({ type: CreateMomentDto })
     @ApiCreatedResponse({ status: 201, description: '핀 및 모먼트 생성 성공' })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.' })

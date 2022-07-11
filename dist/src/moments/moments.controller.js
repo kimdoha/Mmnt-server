@@ -32,7 +32,10 @@ let MomentsController = class MomentsController {
 };
 __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
-    (0, swagger_1.ApiOperation)({ summary: '핀 및 모먼트 생성 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '핀 및 모먼트 생성 API',
+        description: '이미지 파일은 "이미지 URL 생성 API"로 변환 후 URL 을 입력해주시면 됩니다.'
+    }),
     (0, swagger_1.ApiBody)({ type: create_moment_dto_1.CreateMomentDto }),
     (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '핀 및 모먼트 생성 성공' }),
     (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
