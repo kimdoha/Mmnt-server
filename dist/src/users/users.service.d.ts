@@ -14,7 +14,7 @@ export declare class UsersService {
     signIn(email: string, password: string): Promise<SignInResponseDto>;
     updateUserLocation(userIdx: number, location: UpdateLocationDto): Promise<import("typeorm").UpdateResult>;
     findUserByEmail(email: string): Promise<User>;
-    findUserByUserIdx(userIdx: number): Promise<any>;
+    getDetailUserInfo(userIdx: number): Promise<any>;
     findActiveUserByUserIdx(userIdx: number): Promise<any>;
     validateUser(email: string, password: string): Promise<{
         id: number;

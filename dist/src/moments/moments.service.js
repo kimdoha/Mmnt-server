@@ -46,7 +46,7 @@ let MomentsService = class MomentsService {
         await queryRunner.startTransaction();
         try {
             const { pinIdx } = await this.pinsService.createPin(userIdx, pin_x, pin_y);
-            const moment = await this.repo.create(Object.assign({ pinIdx }, momentInfo));
+            const moment = await this.repo.create(Object.assign({ userIdx, pinIdx }, momentInfo));
             return await this.repo.save(moment);
         }
         catch (e) {
@@ -56,6 +56,13 @@ let MomentsService = class MomentsService {
         finally {
             await queryRunner.release();
         }
+    }
+    async getMomentDetailInfo(momentIdx) {
+        const moment = await this.repo.findOneBy({ momentIdx });
+        if (!moment) {
+            throw new common_1.NotFoundException('삭제된 모먼트 입니다.');
+        }
+        return moment;
     }
 };
 MomentsService = __decorate([

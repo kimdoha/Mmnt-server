@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Moment = void 0;
 const pin_entity_1 = require("../pins/pin.entity");
+const user_entity_1 = require("../users/user.entity");
 const typeorm_1 = require("typeorm");
 let Moment = class Moment {
     logInsert() {
@@ -32,7 +33,7 @@ __decorate([
     __metadata("design:type", String)
 ], Moment.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'tinytext', comment: '상세 설명' }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 60, comment: '상세 설명' }),
     __metadata("design:type", String)
 ], Moment.prototype, "description", void 0);
 __decorate([
@@ -72,6 +73,11 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'pinIdx' }),
     __metadata("design:type", Number)
 ], Moment.prototype, "pinIdx", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.moments, { eager: false }),
+    (0, typeorm_1.JoinColumn)({ name: 'userIdx' }),
+    __metadata("design:type", Number)
+], Moment.prototype, "userIdx", void 0);
 __decorate([
     (0, typeorm_1.AfterInsert)(),
     __metadata("design:type", Function),

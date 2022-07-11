@@ -4,8 +4,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1ha
 Content-Type: application/json
 
 {
-    "pin_x": 12.60000,
-    "pin_y": 37.00000,
+    "pin_x": 126.9532624,
+    "pin_y": 37.5475643,
     "title": "여기 완전 노을 맛집3",
     "description": "여기 처음 와보는데 완전 노을 맛집3",
     "imageUrl": "https://mmntuploads.s3.ap-northeast-2.amazonaws.com/1657523185072%E1%84%82%E1%85%A3%E1%86%B7.jpg",
@@ -13,3 +13,7 @@ Content-Type: application/json
     "music": "Dar+ling",
     "artist": "SEVENTEEN"
 }
+
+
+### 11. 모먼트 조회 API
+GET http://localhost:3001/moment/5

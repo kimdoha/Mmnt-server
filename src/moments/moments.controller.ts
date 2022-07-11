@@ -31,10 +31,11 @@ export class MomentsController {
         return res.json(new SuccessReponse(StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
     }
 
+
     @Get('/:momentIdx')
-    async getMomentDetailInfo(@GetUser() user, @Param('momentIdx') momentIdx: number, @Res() res) {
-        //const responseData = await this.momentsService.getMomentDetailInfo(user.userIdx);
-        // return res.json(new SuccessReponse(StatusCodes.OK, `${momentIdx} 번째 모먼트 조회 성공`, responseData))
+    async getMomentDetailInfo(@Param('momentIdx') momentIdx: number, @Res() res) {
+        const responseData = await this.momentsService.getMomentDetailInfo(momentIdx);
+        return res.json(new SuccessReponse(StatusCodes.OK, `${momentIdx} 번째 모먼트 조회 성공`, responseData))
     }
 
 }

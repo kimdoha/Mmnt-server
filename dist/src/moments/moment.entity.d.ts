@@ -11,6 +11,7 @@ export declare class Moment {
     updatedAt: Date | null;
     deletedAt: Date | null;
     pinIdx: number;
+    userIdx: number;
     logInsert(): void;
     logUpdate(): void;
     logRemove(): void;

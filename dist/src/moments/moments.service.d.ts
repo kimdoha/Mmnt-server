@@ -10,4 +10,5 @@ export declare class MomentsService {
     private connection;
     constructor(repo: Repository<Moment>, pinsService: PinsService, usersService: UsersService, connection: Connection);
     createMoment(userIdx: number, body: CreateMomentDto): Promise<Moment>;
+    getMomentDetailInfo(momentIdx: number): Promise<Moment>;
 }

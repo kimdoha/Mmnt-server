@@ -1,4 +1,5 @@
 import { Pin } from 'src/pins/pin.entity';
+import { User } from 'src/users/user.entity';
 import { 
     Entity, 
     Column, 
@@ -22,7 +23,7 @@ export class Moment {
     @Column({ type: 'varchar', length: 100, comment: '모먼트 제목'})
     title: string
 
-    @Column({ type: 'tinytext', comment: '상세 설명'})
+    @Column({ type: 'varchar', length: 60, comment: '상세 설명'})
     description: string
 
     @Column({ type: 'text', comment: '모먼트 이미지'})
@@ -54,6 +55,9 @@ export class Moment {
     @JoinColumn({ name: 'pinIdx'})
     pinIdx: number
     
+    @ManyToOne(type => User, user => user.moments, { eager: false })
+    @JoinColumn({ name: 'userIdx'})
+    userIdx: number
 
     @AfterInsert()
     logInsert() {

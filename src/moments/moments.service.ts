@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PinsService } from 'src/pins/pins.service';
 import { UsersService } from 'src/users/users.service';
 import {  Connection, Repository } from 'typeorm';
@@ -28,7 +28,7 @@ export class MomentsService {
         
         try {
             const { pinIdx } = await this.pinsService.createPin(userIdx, pin_x, pin_y);
-            const moment = await this.repo.create({ pinIdx, ... momentInfo });
+            const moment = await this.repo.create({ userIdx, pinIdx, ... momentInfo });
             return await this.repo.save(moment);
 
         } catch (e) {
@@ -40,5 +40,13 @@ export class MomentsService {
         }
     }
 
+    async getMomentDetailInfo(momentIdx: number) {
+        const moment = await this.repo.findOneBy({ momentIdx });
+        if(!moment){
+            throw new NotFoundException('삭제된 모먼트 입니다.');
+        }
+
+        return moment;
+    }
 
 }

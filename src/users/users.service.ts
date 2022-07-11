@@ -45,7 +45,7 @@ export class UsersService {
     }
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
-        const user = await this.findActiveUserByUserIdx(userIdx);
+        const user = await this.repo.findOneBy({ userIdx });
         return await this.repo.update(userIdx, location);
     }
     
@@ -58,7 +58,7 @@ export class UsersService {
         .getRawOne();
     }
 
-    async findUserByUserIdx(userIdx: number){
+    async getDetailUserInfo(userIdx: number){
         const user = await this.repo.createQueryBuilder()
             .select(['userIdx, email, nickname, profileImgUrl'])
             .where({ userIdx })

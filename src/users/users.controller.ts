@@ -41,8 +41,8 @@ export class UsersController {
     @ApiBadRequestResponse({ status: 400, description: '중복된 이메일 외 Bad Request' })
     @Post('sign-up')
     async signup(@Body(ValidationPipe) body: CreateUserDto, @Res() res) : Promise<any>{
+        
         const responseData = await this.userService.createUser(body.email, body.password);
-
         return res.json(new SuccessReponse(StatusCodes.CREATED, '회원 가입 성공', responseData));
     }
 
@@ -52,8 +52,8 @@ export class UsersController {
     @ApiUnauthorizedResponse({ status: 401, description: '유저 정보가 올바르지 않습니다.' })
     @Post('sign-in')
     async signin(@Body(ValidationPipe) body: CreateUserDto, @Res() res) {
+        
         const responseData = await this.userService.signIn(body.email, body.password);
-
         return res.json(new SuccessReponse(StatusCodes.CREATED, '로그인 성공', responseData));
     }
 
@@ -65,7 +65,7 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     async findProfileInfo(@GetUser() user, @Res() res): Promise<any>{
         
-        const responseData: User = await this.userService.findUserByUserIdx(user.userIdx);
+        const responseData: User = await this.userService.getDetailUserInfo(user.userIdx);
         return res.json(new SuccessReponse(StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
 

@@ -14,6 +14,7 @@ import {
 } from 'typeorm';
 
 import { Pin } from 'src/pins/pin.entity';
+import { Moment } from 'src/moments/moment.entity';
 
 @Entity("users")
 export class User {
@@ -59,6 +60,10 @@ export class User {
 
     @OneToMany(type => Pin, (pin: Pin) => pin.userIdx, { eager: false })
     pins: Pin[];
+
+
+    @OneToMany(type => Moment, (moment: Moment) => moment.userIdx, { eager: false })
+    moments: Moment[];
 
     @AfterInsert()
     logInsert() {

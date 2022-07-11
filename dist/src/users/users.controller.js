@@ -38,7 +38,7 @@ let UsersController = class UsersController {
         return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '로그인 성공', responseData));
     }
     async findProfileInfo(user, res) {
-        const responseData = await this.userService.findUserByUserIdx(user.userIdx);
+        const responseData = await this.userService.getDetailUserInfo(user.userIdx);
         return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
     async updateUserLocation(user, body, res) {

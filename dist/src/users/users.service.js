@@ -41,7 +41,7 @@ let UsersService = class UsersService {
         return await this.login(payload);
     }
     async updateUserLocation(userIdx, location) {
-        const user = await this.findActiveUserByUserIdx(userIdx);
+        const user = await this.repo.findOneBy({ userIdx });
         return await this.repo.update(userIdx, location);
     }
     async findUserByEmail(email) {
@@ -51,7 +51,7 @@ let UsersService = class UsersService {
             .andWhere('isDeleted= :YN', { YN: 'N' })
             .getRawOne();
     }
-    async findUserByUserIdx(userIdx) {
+    async getDetailUserInfo(userIdx) {
         const user = await this.repo.createQueryBuilder()
             .select(['userIdx, email, nickname, profileImgUrl'])
             .where({ userIdx })

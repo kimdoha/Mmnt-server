@@ -29,7 +29,9 @@ let MomentsController = class MomentsController {
         const responseData = await this.momentsService.createMoment(user.userIdx, body);
         return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
     }
-    async getMomentDetailInfo(user, momentIdx, res) {
+    async getMomentDetailInfo(momentIdx, res) {
+        const responseData = await this.momentsService.getMomentDetailInfo(momentIdx);
+        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `${momentIdx} 번째 모먼트 조회 성공`, responseData));
     }
 };
 __decorate([
@@ -53,11 +55,10 @@ __decorate([
 ], MomentsController.prototype, "createMoment", null);
 __decorate([
     (0, common_1.Get)('/:momentIdx'),
-    __param(0, (0, get_user_decorator_1.GetUser)()),
-    __param(1, (0, common_1.Param)('momentIdx')),
-    __param(2, (0, common_1.Res)()),
+    __param(0, (0, common_1.Param)('momentIdx')),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Number, Object]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], MomentsController.prototype, "getMomentDetailInfo", null);
 MomentsController = __decorate([
