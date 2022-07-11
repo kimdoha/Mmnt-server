@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Res, UseGuards, ValidationPipe } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { StatusCodes } from 'http-status-codes';
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
@@ -14,28 +14,18 @@ export class MomentsController {
 
     constructor(private momentsService: MomentsService) {}
     
-    // @ApiOperation({ summary: '핀 및 모먼트 생성 API' })
-    // @Post()
-    // @UseGuards(JwtAuthGuard)
-    // async createMoment(@GetUser() user, @Body(ValidationPipe) body: CreateMomentDto, @Res() res){
-    //     console.log(body);
-        
-    //     const responseData = await this.momentsService.createMoment(user.userIdx, body);
-    //     return res.json(new SuccessReponse(StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
-    // }
-
+    @ApiBearerAuth('Authorization')
     @ApiOperation({ summary: '핀 및 모먼트 생성 API' })
+    @ApiBody({ type: CreateMomentDto })
+    @ApiCreatedResponse({ status: 201, description: '핀 및 모먼트 생성 성공' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.' })
     @Post()
-    @FormDataRequest({storage: MemoryStoredFile})
     @UseGuards(JwtAuthGuard)
-    async createMoment(
-        @GetUser() user, 
-    @Body(ValidationPipe) body: CreateMomentDto, @Res() res){
-     
-        console.log(body);
+    async createMoment(@GetUser() user, @Body(ValidationPipe) body: CreateMomentDto, @Res() res){
         
-        // const responseData = await this.momentsService.createMoment(user.userIdx, body);
-        // return res.json(new SuccessReponse(StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
+        const responseData = await this.momentsService.createMoment(user.userIdx, body);
+        return res.json(new SuccessReponse(StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
     }
+
 
 }

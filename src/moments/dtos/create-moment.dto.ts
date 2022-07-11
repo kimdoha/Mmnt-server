@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { 
     IsLatitude, 
     IsLongitude, 
@@ -5,37 +6,40 @@ import {
     IsString, 
     IsUrl 
 } from 'class-validator';
-import { HasMimeType, IsFile, MaxFileSize, MemoryStoredFile } from 'nestjs-form-data';
-// import { UploadImage } from 'src/uploads/dtos/upload-image.dto';
 
 export class CreateMomentDto {
     
+    @ApiProperty()
     @IsNumber()
     @IsLongitude()
     pin_x: number;
 
+    @ApiProperty()
     @IsNumber()
     @IsLatitude()
     pin_y: number;
     
+    @ApiProperty()
     @IsString()
     title: string;
 
+    @ApiProperty()
     @IsString()
     description: string;
 
-    @IsFile()
-    @MaxFileSize(1e6)
-    @HasMimeType(['image/jpeg', 'image/png'])
-    imageFile: MemoryStoredFile;
+    @ApiProperty()
+    @IsUrl()
+    imageUrl: string
 
-
+    @ApiProperty()
     @IsUrl()
     youtubeUrl: string;
 
+    @ApiProperty()
     @IsString()
     music: string;
 
+    @ApiProperty()
     @IsString()
     artist: string;    
 }

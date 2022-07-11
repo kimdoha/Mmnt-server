@@ -10,43 +10,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMomentDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-const nestjs_form_data_1 = require("nestjs-form-data");
 class CreateMomentDto {
 }
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsLongitude)(),
     __metadata("design:type", Number)
 ], CreateMomentDto.prototype, "pin_x", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsLatitude)(),
     __metadata("design:type", Number)
 ], CreateMomentDto.prototype, "pin_y", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "title", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "description", void 0);
 __decorate([
-    (0, nestjs_form_data_1.IsFile)(),
-    (0, nestjs_form_data_1.MaxFileSize)(1e6),
-    (0, nestjs_form_data_1.HasMimeType)(['image/jpeg', 'image/png']),
-    __metadata("design:type", nestjs_form_data_1.MemoryStoredFile)
-], CreateMomentDto.prototype, "imageFile", void 0);
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], CreateMomentDto.prototype, "imageUrl", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "youtubeUrl", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "music", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "artist", void 0);
