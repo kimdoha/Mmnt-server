@@ -18,6 +18,7 @@ const typeorm_config_1 = require("./configs/typeorm.config");
 const auth_module_1 = require("./auth/auth.module");
 const config_1 = require("@nestjs/config");
 const uploads_module_1 = require("./uploads/uploads.module");
+const nestjs_form_data_1 = require("nestjs-form-data");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -30,7 +31,9 @@ AppModule = __decorate([
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
             pins_module_1.PinsModule,
-            moments_module_1.MomentsModule, uploads_module_1.UploadsModule
+            moments_module_1.MomentsModule,
+            uploads_module_1.UploadsModule,
+            nestjs_form_data_1.NestjsFormDataModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

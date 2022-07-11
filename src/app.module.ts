@@ -9,6 +9,7 @@ import { typeORMConfig } from './configs/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UploadsModule } from './uploads/uploads.module';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 
 
 
@@ -21,7 +22,9 @@ import { UploadsModule } from './uploads/uploads.module';
     AuthModule,
     UsersModule, 
     PinsModule, 
-    MomentsModule, UploadsModule
+    MomentsModule, 
+    UploadsModule,
+    NestjsFormDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],

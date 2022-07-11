@@ -15,31 +15,41 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadsController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
+const swagger_1 = require("@nestjs/swagger");
+const http_status_codes_1 = require("http-status-codes");
+const SuccessReponse_1 = require("../helpers/SuccessReponse");
+const file_upload_dto_1 = require("./dtos/file-upload.dto");
 const uploads_service_1 = require("./uploads.service");
 const BUCKET_NAME = 'mmntuploads';
 let UploadsController = class UploadsController {
     constructor(uploadsService) {
         this.uploadsService = uploadsService;
     }
-    async uploadFile(file) {
-        try {
-            return this.uploadsService.uploadImageToStorage(file);
-        }
-        catch (e) {
-            throw new common_1.BadRequestException(e.message);
-        }
+    async uploadFile(file, res) {
+        const responseData = await this.uploadsService.uploadImageToStorage(file);
+        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '이미지 URL 생성 성공', responseData));
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: '이미지 URL 생성 API' }),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, swagger_1.ApiBody)({
+        description: 'image upload',
+        type: file_upload_dto_1.FileUploadDto,
+    }),
+    (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '이미지 URL 생성 성공' }),
+    (0, swagger_1.ApiConflictResponse)({ status: 409, description: '이미지 생성 실패' }),
     (0, common_1.Post)(''),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UploadsController.prototype, "uploadFile", null);
 UploadsController = __decorate([
-    (0, common_1.Controller)('uploads'),
+    (0, swagger_1.ApiTags)('upload'),
+    (0, common_1.Controller)('upload'),
     __metadata("design:paramtypes", [uploads_service_1.UploadsService])
 ], UploadsController);
 exports.UploadsController = UploadsController;

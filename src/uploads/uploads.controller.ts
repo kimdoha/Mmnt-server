@@ -2,30 +2,47 @@ import {
     BadRequestException,
     Controller, 
     Post, 
+    Res, 
     UploadedFile, 
-    UseInterceptors 
+    UseInterceptors, 
+    ValidationPipe
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AWSConfig } from 'src/configs/aws.config';
-import * as AWS from 'aws-sdk';
+import { 
+    ApiBody, 
+    ApiConflictResponse, 
+    ApiConsumes, 
+    ApiCreatedResponse, 
+    ApiOperation, 
+    ApiTags 
+} from '@nestjs/swagger';
+import { StatusCodes } from 'http-status-codes';
+import { SuccessReponse } from 'src/helpers/SuccessReponse';
+import { FileUploadDto } from './dtos/file-upload.dto';
 import { UploadsService } from './uploads.service';
 
 
 const BUCKET_NAME = 'mmntuploads';
 
-@Controller('uploads')
+@ApiTags('upload')
+@Controller('upload')
 export class UploadsController {
     
     constructor(private uploadsService: UploadsService){}
 
+    @ApiOperation({ summary: '이미지 URL 생성 API' })
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        description: 'image upload',
+        type: FileUploadDto,
+      })
+    @ApiCreatedResponse({ status: 201, description: '이미지 URL 생성 성공' })
+    @ApiConflictResponse({ status: 409, description: '이미지 생성 실패' })
     @Post('')
     @UseInterceptors(FileInterceptor('file'))
-    async uploadFile(@UploadedFile() file){
-        try {
-            return this.uploadsService.uploadImageToStorage(file);     
-        } catch (e) {
-            throw new BadRequestException(e.message);
-        }
+    async uploadFile(@UploadedFile() file: any, @Res() res){
 
+        const responseData = await this.uploadsService.uploadImageToStorage(file);     
+        return res.json(new SuccessReponse(StatusCodes.CREATED, '이미지 URL 생성 성공', responseData));
     }
 }

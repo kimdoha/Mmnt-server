@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMomentDto = void 0;
 const class_validator_1 = require("class-validator");
+const nestjs_form_data_1 = require("nestjs-form-data");
 class CreateMomentDto {
 }
 __decorate([
@@ -32,9 +33,11 @@ __decorate([
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "description", void 0);
 __decorate([
-    (0, class_validator_1.IsUrl)(),
-    __metadata("design:type", String)
-], CreateMomentDto.prototype, "imageUrl", void 0);
+    (0, nestjs_form_data_1.IsFile)(),
+    (0, nestjs_form_data_1.MaxFileSize)(1e6),
+    (0, nestjs_form_data_1.HasMimeType)(['image/jpeg', 'image/png']),
+    __metadata("design:type", nestjs_form_data_1.MemoryStoredFile)
+], CreateMomentDto.prototype, "imageFile", void 0);
 __decorate([
     (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)

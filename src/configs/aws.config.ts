@@ -1,3 +1,4 @@
+require('dotenv/config');
 
 export const AWSConfig = {
     region: 'ap-northeast-2',

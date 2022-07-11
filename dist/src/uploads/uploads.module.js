@@ -15,7 +15,8 @@ let UploadsModule = class UploadsModule {
 UploadsModule = __decorate([
     (0, common_1.Module)({
         controllers: [uploads_controller_1.UploadsController],
-        providers: [uploads_service_1.UploadsService]
+        providers: [uploads_service_1.UploadsService],
+        exports: [uploads_service_1.UploadsService]
     })
 ], UploadsModule);
 exports.UploadsModule = UploadsModule;

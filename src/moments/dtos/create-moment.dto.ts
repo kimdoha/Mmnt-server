@@ -5,6 +5,8 @@ import {
     IsString, 
     IsUrl 
 } from 'class-validator';
+import { HasMimeType, IsFile, MaxFileSize, MemoryStoredFile } from 'nestjs-form-data';
+// import { UploadImage } from 'src/uploads/dtos/upload-image.dto';
 
 export class CreateMomentDto {
     
@@ -22,8 +24,11 @@ export class CreateMomentDto {
     @IsString()
     description: string;
 
-    @IsUrl()
-    imageUrl: string;
+    @IsFile()
+    @MaxFileSize(1e6)
+    @HasMimeType(['image/jpeg', 'image/png'])
+    imageFile: MemoryStoredFile;
+
 
     @IsUrl()
     youtubeUrl: string;

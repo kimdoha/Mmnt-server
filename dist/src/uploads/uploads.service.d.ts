@@ -1,4 +1,6 @@
 export declare class UploadsService {
     constructor();
-    uploadImageToStorage(file: any): Promise<string>;
+    uploadImageToStorage(file: any): Promise<{
+        imageUrl: string;
+    }>;
 }

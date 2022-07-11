@@ -14,16 +14,20 @@ const moments_controller_1 = require("./moments.controller");
 const users_module_1 = require("../users/users.module");
 const pins_module_1 = require("../pins/pins.module");
 const moment_entity_1 = require("./moment.entity");
+const nestjs_form_data_1 = require("nestjs-form-data");
 let MomentsModule = class MomentsModule {
 };
 MomentsModule = __decorate([
     (0, common_1.Module)({
         imports: [
             typeorm_1.TypeOrmModule.forFeature([moment_entity_1.Moment]),
+            nestjs_form_data_1.NestjsFormDataModule.config({ storage: nestjs_form_data_1.MemoryStoredFile }),
             users_module_1.UsersModule,
-            pins_module_1.PinsModule
+            pins_module_1.PinsModule,
         ],
-        providers: [moments_service_1.MomentsService],
+        providers: [
+            moments_service_1.MomentsService,
+        ],
         controllers: [moments_controller_1.MomentsController]
     })
 ], MomentsModule);

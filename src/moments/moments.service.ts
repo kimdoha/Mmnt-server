@@ -22,9 +22,11 @@ export class MomentsService {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const { pin_x, pin_y, ... momentInfo } = body;
 
+
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
+        
         try {
             const { pinIdx } = await this.pinsService.createPin(userIdx, pin_x, pin_y);
             const moment = await this.repo.create({ pinIdx, ... momentInfo });
@@ -37,4 +39,6 @@ export class MomentsService {
             await queryRunner.release();
         }
     }
+
+
 }

@@ -15,10 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MomentsController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const http_status_codes_1 = require("http-status-codes");
+const nestjs_form_data_1 = require("nestjs-form-data");
 const get_user_decorator_1 = require("../common/decorators/get.user.decorator");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
-const SuccessReponse_1 = require("../helpers/SuccessReponse");
 const create_moment_dto_1 = require("./dtos/create-moment.dto");
 const moments_service_1 = require("./moments.service");
 let MomentsController = class MomentsController {
@@ -26,12 +25,13 @@ let MomentsController = class MomentsController {
         this.momentsService = momentsService;
     }
     async createMoment(user, body, res) {
-        const responseData = await this.momentsService.createMoment(user.userIdx, body);
-        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
+        console.log(body);
     }
 };
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: '핀 및 모먼트 생성 API' }),
     (0, common_1.Post)(),
+    (0, nestjs_form_data_1.FormDataRequest)({ storage: nestjs_form_data_1.MemoryStoredFile }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Body)(common_1.ValidationPipe)),
