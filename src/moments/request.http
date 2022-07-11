@@ -1,21 +1,14 @@
 ### 10. 핀 및 모먼트 생성 API
 POST http://localhost:3001/moment
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzM2ODEyMSwiZXhwIjoxNjU3MzcxNzIxfQ.3cmcAqW64t7El38oNHz3WEP5qdNdjp5nnqivy8NcXVI
-Content-Type: application/form-multipart/form-data
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzU1MDY0NywiZXhwIjoxNjU3NTU0MjQ3fQ.gzKveSRVuNL-PrP--zyiBz6be4WkpAencKH-GGpEBto
+Content-Type: application/json
 
 {
-    "pin_x": 126.9532624,
-    "pin_y": 37.5475643,
-    "title": "여기 완전 노을 맛집",
-    "description": "여기 처음 와보는데 완전 노을 맛집",
-    "imageFile": {
-  fieldname: 'file',
-  originalname: '냠.jpg',
-  encoding: '7bit',
-  mimetype: 'image/jpeg',
-  buffer: <Buffer ff d8 ff e0 00 10 4a 46 49 46 00 01 01 00 00 48 00 48 00 00 ff e1 00 58 45 78 69 66 00 00 4d 4d 00 2a 00 00 00 08 00 02 01 12 00 03 00 00 00 01 00 01 ... 308494 more bytes>,
-  size: 308544
-    }
+    "pin_x": 12.60000,
+    "pin_y": 37.00000,
+    "title": "여기 완전 노을 맛집3",
+    "description": "여기 처음 와보는데 완전 노을 맛집3",
+    "imageUrl": "https://mmntuploads.s3.ap-northeast-2.amazonaws.com/1657523185072%E1%84%82%E1%85%A3%E1%86%B7.jpg",
     "youtubeUrl": "https://www.youtube.com/watch?v=JdHUWfmZbqI",
     "music": "Dar+ling",
     "artist": "SEVENTEEN"

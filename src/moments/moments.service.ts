@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PinsService } from 'src/pins/pins.service';
 import { UsersService } from 'src/users/users.service';
 import {  Connection, Repository } from 'typeorm';
@@ -19,9 +19,8 @@ export class MomentsService {
 
 
     async createMoment(userIdx: number, body: CreateMomentDto){
-        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const { pin_x, pin_y, ... momentInfo } = body;
-
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
 
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
@@ -34,6 +33,7 @@ export class MomentsService {
 
         } catch (e) {
             await queryRunner.rollbackTransaction();
+            throw new ConflictException(e.response?.message);
 
         } finally {
             await queryRunner.release();

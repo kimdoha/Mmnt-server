@@ -1,5 +1,5 @@
-import { Body, Controller, Post, Res, UseGuards, ValidationPipe } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, Res, UseGuards, ValidationPipe } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { StatusCodes } from 'http-status-codes';
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
@@ -22,6 +22,7 @@ export class MomentsController {
     @ApiBody({ type: CreateMomentDto })
     @ApiCreatedResponse({ status: 201, description: '핀 및 모먼트 생성 성공' })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.' })
+    @ApiConflictResponse({ status: 409, description: '이미 같은 핀이 존재합니다.'})
     @Post()
     @UseGuards(JwtAuthGuard)
     async createMoment(@GetUser() user, @Body(ValidationPipe) body: CreateMomentDto, @Res() res){
@@ -30,5 +31,10 @@ export class MomentsController {
         return res.json(new SuccessReponse(StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
     }
 
+    @Get('/:momentIdx')
+    async getMomentDetailInfo(@GetUser() user, @Param('momentIdx') momentIdx: number, @Res() res) {
+        //const responseData = await this.momentsService.getMomentDetailInfo(user.userIdx);
+        // return res.json(new SuccessReponse(StatusCodes.OK, `${momentIdx} 번째 모먼트 조회 성공`, responseData))
+    }
 
 }

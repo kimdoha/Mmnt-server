@@ -29,6 +29,8 @@ let MomentsController = class MomentsController {
         const responseData = await this.momentsService.createMoment(user.userIdx, body);
         return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
     }
+    async getMomentDetailInfo(user, momentIdx, res) {
+    }
 };
 __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
@@ -39,6 +41,7 @@ __decorate([
     (0, swagger_1.ApiBody)({ type: create_moment_dto_1.CreateMomentDto }),
     (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '핀 및 모먼트 생성 성공' }),
     (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
+    (0, swagger_1.ApiConflictResponse)({ status: 409, description: '이미 같은 핀이 존재합니다.' }),
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -48,6 +51,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, create_moment_dto_1.CreateMomentDto, Object]),
     __metadata("design:returntype", Promise)
 ], MomentsController.prototype, "createMoment", null);
+__decorate([
+    (0, common_1.Get)('/:momentIdx'),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
+    __param(1, (0, common_1.Param)('momentIdx')),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Number, Object]),
+    __metadata("design:returntype", Promise)
+], MomentsController.prototype, "getMomentDetailInfo", null);
 MomentsController = __decorate([
     (0, swagger_1.ApiTags)('moment'),
     (0, common_1.Controller)('moment'),

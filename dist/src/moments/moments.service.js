@@ -38,8 +38,9 @@ let MomentsService = class MomentsService {
         this.connection = connection;
     }
     async createMoment(userIdx, body) {
-        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        var _a;
         const { pin_x, pin_y } = body, momentInfo = __rest(body, ["pin_x", "pin_y"]);
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
@@ -50,6 +51,7 @@ let MomentsService = class MomentsService {
         }
         catch (e) {
             await queryRunner.rollbackTransaction();
+            throw new common_1.ConflictException((_a = e.response) === null || _a === void 0 ? void 0 : _a.message);
         }
         finally {
             await queryRunner.release();

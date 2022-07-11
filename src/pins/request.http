@@ -1,8 +1,0 @@
-### 10. 핀 및 모먼트 추가 API
-POST http://localhost:3001/user/sign-up
-Content-Type: application/json
-
-{
-    "email": "kimdoha@gmail.com",
-    "password": "kimdoha123"
-}
