@@ -19,6 +19,8 @@ const typeorm_2 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
+const pin_entity_1 = require("../pins/pin.entity");
+const moment_entity_1 = require("../moments/moment.entity");
 let UsersService = class UsersService {
     constructor(repo, jwtService) {
         this.repo = repo;
@@ -54,6 +56,18 @@ let UsersService = class UsersService {
     async getDetailUserInfo(userIdx) {
         const user = await this.repo.createQueryBuilder()
             .select(['userIdx, email, nickname, profileImgUrl'])
+            .addSelect(sq => {
+            return sq
+                .select('Count(userIdx)')
+                .from(pin_entity_1.Pin, "pin")
+                .where({ userIdx });
+        }, 'finCount')
+            .addSelect(sq => {
+            return sq
+                .select('Count(userIdx)')
+                .from(moment_entity_1.Moment, "moment")
+                .where({ userIdx });
+        }, 'momentCount')
             .where({ userIdx })
             .andWhere('isDeleted= :YN', { YN: 'N' })
             .getRawOne();

@@ -6,6 +6,8 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UpdateLocationDto } from './dtos/update-location.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
+import { Pin } from 'src/pins/pin.entity';
+import { Moment } from 'src/moments/moment.entity';
 
 
 
@@ -61,6 +63,19 @@ export class UsersService {
     async getDetailUserInfo(userIdx: number){
         const user = await this.repo.createQueryBuilder()
             .select(['userIdx, email, nickname, profileImgUrl'])
+            .addSelect(sq => {
+                return sq
+                .select('Count(userIdx)')
+                .from(Pin, "pin")
+                .where({ userIdx });
+                
+            }, 'finCount')
+            .addSelect(sq => {
+                return sq
+                .select('Count(userIdx)')
+                .from(Moment, "moment")
+                .where({ userIdx });
+            }, 'momentCount')
             .where({ userIdx })
             .andWhere('isDeleted= :YN', { YN: 'N' })
             .getRawOne();

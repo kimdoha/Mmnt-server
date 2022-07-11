@@ -3,4 +3,6 @@ export declare class GetProfileInfoResponse {
     email: string;
     nickname: string;
     profileImgUrl: string;
+    pinCount: string;
+    momentCount: string;
 }

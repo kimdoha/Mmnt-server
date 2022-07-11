@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ### 유저 정보 조회
 GET http://localhost:3001/user/profile-info
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzQ2NTY5OSwiZXhwIjoxNjU3NDY5Mjk5fQ.TmlQygpVSZH4uWPBftshRrsLQrXqo8FHhzQYhU2q_6c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzU1NTAyMSwiZXhwIjoxNjU3NTU4NjIxfQ.0GDAoRO0-zCigOpGV5NmNAEPaNchAMUKTCsVtR3jDqA
 
 
 ### 유저 위치 수정

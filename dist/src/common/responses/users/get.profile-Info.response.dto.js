@@ -10,24 +10,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetProfileInfoResponse = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 class GetProfileInfoResponse {
 }
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", Number)
 ], GetProfileInfoResponse.prototype, "userIdx", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
 ], GetProfileInfoResponse.prototype, "email", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
 ], GetProfileInfoResponse.prototype, "nickname", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
 ], GetProfileInfoResponse.prototype, "profileImgUrl", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", String)
+], GetProfileInfoResponse.prototype, "pinCount", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], GetProfileInfoResponse.prototype, "momentCount", void 0);
 exports.GetProfileInfoResponse = GetProfileInfoResponse;
 //# sourceMappingURL=get.profile-Info.response.dto.js.map

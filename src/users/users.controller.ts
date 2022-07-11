@@ -58,7 +58,7 @@ export class UsersController {
     }
 
     @ApiBearerAuth('Authorization')
-    @ApiOperation({ summary: '유저 프로필 조회 API' })
+    @ApiOperation({ summary: '유저 프로필 조회 API', description: '유저 핀 / 모먼트 개수 확인 가능합니다.'})
     @ApiOkResponse({ status: 200, description: '유저 프로필 조회 성공', type: GetProfileInfoResponse })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다' })
     @Get('/profile-info')
@@ -72,7 +72,7 @@ export class UsersController {
     @ApiBearerAuth('Authorization')
     @ApiOperation({ summary: '유저 위치 수정 API' })
     @ApiBody({ type: UpdateLocationDto })
-    @ApiOkResponse({ status: 200, description: '유저 위치 수정 성공', type: GetProfileInfoResponse })
+    @ApiOkResponse({ status: 200, description: '유저 위치 수정 성공' })
     @Patch('/location')
     @UseGuards(JwtAuthGuard)
     async updateUserLocation(
