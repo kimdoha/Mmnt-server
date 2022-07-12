@@ -22,7 +22,6 @@ export class MomentsController {
     @ApiBody({ type: CreateMomentDto })
     @ApiCreatedResponse({ status: 201, description: '핀 및 모먼트 생성 성공' })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.' })
-    @ApiConflictResponse({ status: 409, description: '이미 같은 핀이 존재합니다.'})
     @Post()
     @UseGuards(JwtAuthGuard)
     async createMoment(@GetUser() user, @Body(ValidationPipe) body: CreateMomentDto, @Res() res){

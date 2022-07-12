@@ -14,7 +14,7 @@ module.exports = {
     },
     {
       name: "dev_server",
-      script: 'npm run start:dev',
+      script: 'NODE_ENV=dev node dist/src/main',
       instances: 1,
       exec_mode: 'fork',
       autorestart: true,

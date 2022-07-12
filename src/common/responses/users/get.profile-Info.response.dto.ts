@@ -5,7 +5,7 @@ export class GetProfileInfoResponse {
 
     @ApiProperty()
     @Expose()
-    userIdx: number;
+    userIdx: string;
 
     @ApiProperty()
     @Expose()
