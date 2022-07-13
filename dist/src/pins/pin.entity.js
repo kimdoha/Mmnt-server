@@ -54,7 +54,7 @@ __decorate([
 ], Pin.prototype, "deletedAt", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.pins, { eager: false }),
-    (0, typeorm_1.JoinColumn)({ name: 'userIdx' }),
+    (0, typeorm_1.JoinColumn)({ name: 'user_idx' }),
     __metadata("design:type", Number)
 ], Pin.prototype, "userIdx", void 0);
 __decorate([

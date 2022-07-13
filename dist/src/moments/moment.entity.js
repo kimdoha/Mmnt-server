@@ -70,12 +70,12 @@ __decorate([
 ], Moment.prototype, "deletedAt", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(type => pin_entity_1.Pin, pin => pin.moments, { eager: false }),
-    (0, typeorm_1.JoinColumn)({ name: 'pinIdx' }),
+    (0, typeorm_1.JoinColumn)({ name: 'pin_idx' }),
     __metadata("design:type", Number)
 ], Moment.prototype, "pinIdx", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.moments, { eager: false }),
-    (0, typeorm_1.JoinColumn)({ name: 'userIdx' }),
+    (0, typeorm_1.JoinColumn)({ name: 'user_idx' }),
     __metadata("design:type", Number)
 ], Moment.prototype, "userIdx", void 0);
 __decorate([

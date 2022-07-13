@@ -78,11 +78,7 @@ let UsersService = class UsersService {
         return user;
     }
     async findActiveUserByUserIdx(userIdx) {
-        const user = await this.repo.createQueryBuilder()
-            .select(['user_idx'])
-            .where('user_idx= :user_idx', { user_idx: userIdx })
-            .andWhere('isDeleted= :YN', { YN: 'N' })
-            .getRawOne();
+        const user = await this.repo.findOneBy({ userIdx });
         if (!user) {
             throw new common_1.NotFoundException('해당 유저가 존재하지 않습니다.');
         }

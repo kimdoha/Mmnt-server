@@ -52,11 +52,11 @@ export class Moment {
 
 
     @ManyToOne(type => Pin, pin => pin.moments, { eager: false })
-    @JoinColumn({ name: 'pinIdx'})
+    @JoinColumn({ name: 'pin_idx'})
     pinIdx: number
     
     @ManyToOne(type => User, user => user.moments, { eager: false })
-    @JoinColumn({ name: 'userIdx'})
+    @JoinColumn({ name: 'user_idx'})
     userIdx: number
 
     @AfterInsert()

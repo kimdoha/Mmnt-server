@@ -1,13 +1,13 @@
 ### 10. 핀 및 모먼트 생성 API
 POST http://localhost:3001/moment
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2IiwiZW1haWwiOiJraW1kb2hhQGdtYWlsLmNvbSIsImlhdCI6MTY1NzU1MDY0NywiZXhwIjoxNjU3NTU0MjQ3fQ.gzKveSRVuNL-PrP--zyiBz6be4WkpAencKH-GGpEBto
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzMyNTc3LCJleHAiOjE2NTc3MzYxNzd9._wrp4EMRMQhynngpmqDCWsBuysox6TBeWoDNh1tPgZ0
 Content-Type: application/json
 
 {
-    "pin_x": 126.9532624,
-    "pin_y": 37.5475643,
-    "title": "여기 완전 노을 맛집3",
-    "description": "여기 처음 와보는데 완전 노을 맛집3",
+    "pinX": 126.9532624,
+    "pinY": 37.5475643,
+    "title": "여기 완전 노을 맛집1",
+    "description": "여기 처음 와보는데 완전 노을 맛집1",
     "imageUrl": "https://mmntuploads.s3.ap-northeast-2.amazonaws.com/1657523185072%E1%84%82%E1%85%A3%E1%86%B7.jpg",
     "youtubeUrl": "https://www.youtube.com/watch?v=JdHUWfmZbqI",
     "music": "Dar+ling",

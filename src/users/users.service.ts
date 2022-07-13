@@ -89,12 +89,7 @@ export class UsersService {
     }
 
     async findActiveUserByUserIdx(userIdx: number){
-        const user = await this.repo.createQueryBuilder()
-            .select(['user_idx'])
-            .where('user_idx= :user_idx', { user_idx: userIdx })
-            .andWhere('isDeleted= :YN', { YN: 'N' })
-            .getRawOne();
-
+        const user = await this.repo.findOneBy({ userIdx });
         if(!user){
             throw new NotFoundException('해당 유저가 존재하지 않습니다.');
         }
