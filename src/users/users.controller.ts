@@ -50,6 +50,7 @@ export class UsersController {
     @ApiBody({ type: CreateUserDto })
     @ApiCreatedResponse({ status: 201, description: '로그인 성공', type: SignInResponseDto })
     @ApiUnauthorizedResponse({ status: 401, description: '유저 정보가 올바르지 않습니다.' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
     @Post('sign-in')
     async signin(@Body(ValidationPipe) body: CreateUserDto, @Res() res) {
         
@@ -60,7 +61,7 @@ export class UsersController {
     @ApiBearerAuth('Authorization')
     @ApiOperation({ summary: '유저 프로필 조회 API', description: '유저 핀 / 모먼트 개수 확인 가능합니다.'})
     @ApiOkResponse({ status: 200, description: '유저 프로필 조회 성공', type: GetProfileInfoResponse })
-    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
     @Get('/profile-info')
     @UseGuards(JwtAuthGuard)
     async findProfileInfo(@GetUser() user, @Res() res): Promise<any>{
@@ -73,6 +74,7 @@ export class UsersController {
     @ApiOperation({ summary: '유저 위치 수정 API' })
     @ApiBody({ type: UpdateLocationDto })
     @ApiOkResponse({ status: 200, description: '유저 위치 수정 성공' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
     @Patch('/location')
     @UseGuards(JwtAuthGuard)
     async updateUserLocation(

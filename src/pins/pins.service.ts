@@ -14,7 +14,8 @@ export class PinsService {
     async createPin(userIdx: number, pinX: number, pinY: number) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const pin = await this.repo.findOneBy({ pinX, pinY });
-
+        console.log(pin);
+        
         if(pin) { 
             return pin;
         } else {

@@ -47,19 +47,12 @@ export class UsersService {
     }
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
-        const user = await this.repo.findOneBy({ userIdx });
-        console.log(user);
+        const user = await this.findActiveUserByUserIdx(userIdx);
+
         return await this.repo.update(userIdx, location);
     }
     
     
-    async findUserByEmail(email: string): Promise<User> {
-        return this.repo.createQueryBuilder()
-        .select(['user_idx, password'])
-        .where({ email })
-        .andWhere('is_deleted= :YN', { YN: 'N' })
-        .getRawOne();
-    }
 
     async getDetailUserInfo(userIdx: number){
         const user = await this.repo.createQueryBuilder()
@@ -97,6 +90,15 @@ export class UsersService {
         return user;
     }
 
+    async findActiveUserByEmail(email: string){
+        const user = await this.repo.findOneBy({ email });
+        if(!user){
+            throw new NotFoundException('해당 유저가 존재하지 않습니다.');
+        }
+        
+        return user;
+    }
+
     // async update(userIdx: number, attrs: Partial<User>){
     //     const user = await this.findOne(userIdx);
     //     if(!user){
@@ -116,9 +118,9 @@ export class UsersService {
     // }
 
     async validateUser(email: string, password: string){
-        const user = await this.repo.findOneBy({ email });
+        const user = await this.findActiveUserByEmail(email);
 
-        if(!user || !(await bcrypt.compare(password, user.password))){
+        if(!(await bcrypt.compare(password, user.password))){
             throw new UnauthorizedException('유저 정보가 올바르지 않습니다.');
         }
 
