@@ -23,7 +23,7 @@ export class UsersService {
 
     async createUser(email: string, password: string) {
 
-        const user: User = await this.findUserByEmail(email);
+        const user: User = await this.repo.findOneBy({ email });
         if(user){
             throw new BadRequestException('중복된 이메일입니다.');
         }
@@ -55,30 +55,30 @@ export class UsersService {
     
     async findUserByEmail(email: string): Promise<User> {
         return this.repo.createQueryBuilder()
-        .select(['userIdx, password'])
+        .select(['user_idx, password'])
         .where({ email })
-        .andWhere('isDeleted= :YN', { YN: 'N' })
+        .andWhere('is_deleted= :YN', { YN: 'N' })
         .getRawOne();
     }
 
     async getDetailUserInfo(userIdx: number){
         const user = await this.repo.createQueryBuilder()
-            .select(['userIdx, email, nickname, profileImgUrl'])
+            .select(['user_idx, email, nickname, profile_url'])
             .addSelect(sq => {
                 return sq
-                .select('Count(userIdx)')
+                .select('Count(user_idx)')
                 .from(Pin, "pin")
-                .where({ userIdx });
+                .where( 'user_idx= :user_idx', { user_idx: userIdx });
                 
             }, 'finCount')
             .addSelect(sq => {
                 return sq
-                .select('Count(userIdx)')
+                .select('Count(user_idx)')
                 .from(Moment, "moment")
-                .where({ userIdx });
+                .where('user_idx= :user_idx', { user_idx: userIdx });
             }, 'momentCount')
             .where({ userIdx })
-            .andWhere('isDeleted= :YN', { YN: 'N' })
+            .andWhere('is_deleted= :YN', { YN: 'N' })
             .getRawOne();
 
         if(!user){
@@ -90,8 +90,8 @@ export class UsersService {
 
     async findActiveUserByUserIdx(userIdx: number){
         const user = await this.repo.createQueryBuilder()
-            .select(['userIdx'])
-            .where({ userIdx })
+            .select(['user_idx'])
+            .where('user_idx= :user_idx', { user_idx: userIdx })
             .andWhere('isDeleted= :YN', { YN: 'N' })
             .getRawOne();
 
@@ -121,7 +121,7 @@ export class UsersService {
     // }
 
     async validateUser(email: string, password: string){
-        const user = await this.findUserByEmail(email);
+        const user = await this.repo.findOneBy({ email });
 
         if(!user || !(await bcrypt.compare(password, user.password))){
             throw new UnauthorizedException('유저 정보가 올바르지 않습니다.');

@@ -12,12 +12,12 @@ export class CreateMomentDto {
     @ApiProperty()
     @IsNumber()
     @IsLongitude()
-    pin_x: number;
+    pinX: number;
 
     @ApiProperty()
     @IsNumber()
     @IsLatitude()
-    pin_y: number;
+    pinY: number;
     
     @ApiProperty()
     @IsString()

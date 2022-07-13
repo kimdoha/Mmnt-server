@@ -43,15 +43,15 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'text', nullable: true, comment: '유저 프로필 이미지' }),
     __metadata("design:type", String)
-], User.prototype, "profileImgUrl", void 0);
+], User.prototype, "profileUrl", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 경도' }),
     __metadata("design:type", typeorm_1.Double)
-], User.prototype, "location_x", void 0);
+], User.prototype, "locationX", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 위도' }),
     __metadata("design:type", typeorm_1.Double)
-], User.prototype, "location_y", void 0);
+], User.prototype, "locationY", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'char', length: 1, default: 0, comment: '소셜 로그인' }),
     __metadata("design:type", String)
@@ -103,7 +103,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], User.prototype, "logRemove", null);
 User = __decorate([
-    (0, typeorm_1.Entity)("users")
+    (0, typeorm_1.Entity)("mmnt.users")
 ], User);
 exports.User = User;
 //# sourceMappingURL=user.entity.js.map

@@ -31,11 +31,11 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, comment: '핀 경도' }),
     __metadata("design:type", Number)
-], Pin.prototype, "pin_x", void 0);
+], Pin.prototype, "pinX", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' }),
     __metadata("design:type", Number)
-], Pin.prototype, "pin_y", void 0);
+], Pin.prototype, "pinY", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'char', length: 1, default: 'N', comment: '삭제 여부' }),
     __metadata("design:type", String)
@@ -80,7 +80,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], Pin.prototype, "logRemove", null);
 Pin = __decorate([
-    (0, typeorm_1.Entity)("pins")
+    (0, typeorm_1.Entity)("mmnt.pins")
 ], Pin);
 exports.Pin = Pin;
 //# sourceMappingURL=pin.entity.js.map

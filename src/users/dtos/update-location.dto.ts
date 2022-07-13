@@ -12,13 +12,13 @@ export class UpdateLocationDto {
     })
     @IsNumber()
     @IsLongitude()
-    location_x: number;
+    locationX: number;
 
     @ApiProperty({
         description: '유저 위치 위도',
     })
     @IsNumber()
     @IsLatitude()
-    location_y: number;
+    locationY: number;
 
 }

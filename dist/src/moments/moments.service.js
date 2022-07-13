@@ -39,13 +39,13 @@ let MomentsService = class MomentsService {
     }
     async createMoment(userIdx, body) {
         var _a;
-        const { pin_x, pin_y } = body, momentInfo = __rest(body, ["pin_x", "pin_y"]);
+        const { pinX, pinY } = body, momentInfo = __rest(body, ["pinX", "pinY"]);
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            const { pinIdx } = await this.pinsService.createPin(userIdx, pin_x, pin_y);
+            const { pinIdx } = await this.pinsService.createPin(userIdx, pinX, pinY);
             const moment = await this.repo.create(Object.assign({ userIdx, pinIdx }, momentInfo));
             return await this.repo.save(moment);
         }

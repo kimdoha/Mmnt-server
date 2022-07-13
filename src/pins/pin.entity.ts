@@ -16,17 +16,17 @@ import {
     OneToMany
 } from 'typeorm';
 
-@Entity("pins")
+@Entity("mmnt.pins")
 export class Pin {
 
     @PrimaryGeneratedColumn({ type: "bigint", unsigned: true, comment: "핀 아이디" })
     pinIdx: number
 
     @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 경도' })
-    pin_x: number
+    pinX: number
 
     @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' })
-    pin_y: number
+    pinY: number
 
     @Column({ type: 'char', length: 1, default: 'N', comment: '삭제 여부'})
     isDeleted: string

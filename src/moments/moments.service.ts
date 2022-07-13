@@ -19,7 +19,7 @@ export class MomentsService {
 
 
     async createMoment(userIdx: number, body: CreateMomentDto){
-        const { pin_x, pin_y, ... momentInfo } = body;
+        const { pinX, pinY, ... momentInfo } = body;
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
 
         const queryRunner = this.connection.createQueryRunner();
@@ -27,7 +27,7 @@ export class MomentsService {
         await queryRunner.startTransaction();
         
         try {
-            const { pinIdx } = await this.pinsService.createPin(userIdx, pin_x, pin_y);
+            const { pinIdx } = await this.pinsService.createPin(userIdx, pinX, pinY);
             const moment = await this.repo.create({ userIdx, pinIdx, ... momentInfo });
             return await this.repo.save(moment);
 

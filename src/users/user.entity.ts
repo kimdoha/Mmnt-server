@@ -16,7 +16,7 @@ import {
 import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
 
-@Entity("users")
+@Entity("mmnt.users")
 export class User {
 
     @PrimaryGeneratedColumn({ type: "bigint", unsigned: true, comment: "유저 아이디" })
@@ -32,13 +32,13 @@ export class User {
     nickname: string
 
     @Column({ type: 'text', nullable: true, comment: '유저 프로필 이미지' })
-    profileImgUrl: string
+    profileUrl: string
 
     @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 경도' })
-    location_x: Double
+    locationX: Double
 
     @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 위도' })
-    location_y: Double
+    locationY: Double
 
     @Column({ type: 'char', length: 1, default: 0, comment: '소셜 로그인'})
     snsRoute: string

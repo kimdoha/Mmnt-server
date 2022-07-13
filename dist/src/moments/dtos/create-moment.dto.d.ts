@@ -1,6 +1,6 @@
 export declare class CreateMomentDto {
-    pin_x: number;
-    pin_y: number;
+    pinX: number;
+    pinY: number;
     title: string;
     description: string;
     imageUrl: string;

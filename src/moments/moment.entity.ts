@@ -14,7 +14,7 @@ import {
     ManyToOne,
 } from 'typeorm';
 
-@Entity("moments")
+@Entity("mmnt.moments")
 export class Moment {
 
     @PrimaryGeneratedColumn({ type: "bigint", unsigned: true, comment: "모먼트 아이디" })

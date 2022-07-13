@@ -1,8 +1,8 @@
 import { Moment } from 'src/moments/moment.entity';
 export declare class Pin {
     pinIdx: number;
-    pin_x: number;
-    pin_y: number;
+    pinX: number;
+    pinY: number;
     isDeleted: string;
     createdAt: Date;
     updatedAt: Date | null;

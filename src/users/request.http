@@ -3,7 +3,7 @@ POST http://localhost:3001/user/sign-up
 Content-Type: application/json
 
 {
-    "email": "kimdoha4@gmail.com",
+    "email": "kimdoha@gmail.com",
     "password": "kimdoha123"
 }
 
@@ -13,22 +13,22 @@ POST http://localhost:3001/user/sign-in
 Content-Type: application/json
 
 {
-    "email": "kimdoha4@gmail.com",
+    "email": "kimdoha@gmail.com",
     "password": "kimdoha123"
 }
 
 
 ### 유저 정보 조회
 GET http://localhost:3001/user/profile-info
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyIiwiZW1haWwiOiJraW1kb2hhNEBnbWFpbC5jb20iLCJpYXQiOjE2NTc3MjQzODksImV4cCI6MTY1NzcyNzk4OX0.h_Ap04WCdAwMCe77OJdSnDa6vlUpc1JVONjEk5saspQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzMyNTc3LCJleHAiOjE2NTc3MzYxNzd9._wrp4EMRMQhynngpmqDCWsBuysox6TBeWoDNh1tPgZ0
 
 
 ### 유저 위치 수정
 PATCH http://localhost:3001/user/location
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyIiwiZW1haWwiOiJraW1kb2hhNEBnbWFpbC5jb20iLCJpYXQiOjE2NTc3MjQzODksImV4cCI6MTY1NzcyNzk4OX0.h_Ap04WCdAwMCe77OJdSnDa6vlUpc1JVONjEk5saspQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzMyNTc3LCJleHAiOjE2NTc3MzYxNzd9._wrp4EMRMQhynngpmqDCWsBuysox6TBeWoDNh1tPgZ0
 Content-Type: application/json
 
 {
-    "location_x" : 12.999,
-    "location_y": 12.999
+    "locationX" : 12.999,
+    "locationY": 12.999
 }

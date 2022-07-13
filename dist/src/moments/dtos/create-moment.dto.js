@@ -19,13 +19,13 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsLongitude)(),
     __metadata("design:type", Number)
-], CreateMomentDto.prototype, "pin_x", void 0);
+], CreateMomentDto.prototype, "pinX", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsLatitude)(),
     __metadata("design:type", Number)
-], CreateMomentDto.prototype, "pin_y", void 0);
+], CreateMomentDto.prototype, "pinY", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),

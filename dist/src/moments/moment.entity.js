@@ -97,7 +97,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], Moment.prototype, "logRemove", null);
 Moment = __decorate([
-    (0, typeorm_1.Entity)("moments")
+    (0, typeorm_1.Entity)("mmnt.moments")
 ], Moment);
 exports.Moment = Moment;
 //# sourceMappingURL=moment.entity.js.map

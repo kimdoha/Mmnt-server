@@ -23,14 +23,14 @@ let PinsService = class PinsService {
         this.repo = repo;
         this.usersService = usersService;
     }
-    async createPin(userIdx, pin_x, pin_y) {
+    async createPin(userIdx, pinX, pinY) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
-        const pin = await this.repo.findOneBy({ pin_x, pin_y });
+        const pin = await this.repo.findOneBy({ pinX, pinY });
         if (pin) {
             return pin;
         }
         else {
-            const new_pin = await this.repo.create({ userIdx, pin_x, pin_y });
+            const new_pin = await this.repo.create({ userIdx, pinX, pinY });
             return await this.repo.save(new_pin);
         }
     }

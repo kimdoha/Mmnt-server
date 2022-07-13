@@ -21,7 +21,7 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsLongitude)(),
     __metadata("design:type", Number)
-], UpdateLocationDto.prototype, "location_x", void 0);
+], UpdateLocationDto.prototype, "locationX", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: '유저 위치 위도',
@@ -29,6 +29,6 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsLatitude)(),
     __metadata("design:type", Number)
-], UpdateLocationDto.prototype, "location_y", void 0);
+], UpdateLocationDto.prototype, "locationY", void 0);
 exports.UpdateLocationDto = UpdateLocationDto;
 //# sourceMappingURL=update-location.dto.js.map

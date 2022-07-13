@@ -11,14 +11,14 @@ export class PinsService {
         @InjectRepository(Pin) private repo: Repository<Pin>,
         private usersService: UsersService) {}
 
-    async createPin(userIdx: number, pin_x: number, pin_y: number) {
+    async createPin(userIdx: number, pinX: number, pinY: number) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
-        const pin = await this.repo.findOneBy({ pin_x, pin_y });
+        const pin = await this.repo.findOneBy({ pinX, pinY });
 
         if(pin) { 
             return pin;
         } else {
-            const new_pin = await this.repo.create({ userIdx, pin_x, pin_y });
+            const new_pin = await this.repo.create({ userIdx, pinX, pinY });
             return await this.repo.save(new_pin);
         }
     }

@@ -6,9 +6,9 @@ export declare class User {
     email: string;
     password: string;
     nickname: string;
-    profileImgUrl: string;
-    location_x: Double;
-    location_y: Double;
+    profileUrl: string;
+    locationX: Double;
+    locationY: Double;
     snsRoute: string;
     alarm: string;
     isDeleted: string;

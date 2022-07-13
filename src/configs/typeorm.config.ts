@@ -6,6 +6,7 @@ import { join } from 'path';
 import { Moment } from 'src/moments/moment.entity';
 import { Pin } from 'src/pins/pin.entity';
 import { User } from 'src/users/user.entity';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 export const typeORMConfig: TypeOrmModuleOptions = {
       type: 'postgres',
@@ -19,6 +20,7 @@ export const typeORMConfig: TypeOrmModuleOptions = {
       //entities: [User, Pin, Moment],
       synchronize: false,
       logging: true,
+      namingStrategy: new SnakeNamingStrategy(),
 };    
 
 
