@@ -4,5 +4,5 @@ export declare class MomentsController {
     private momentsService;
     constructor(momentsService: MomentsService);
     createMoment(user: any, body: CreateMomentDto, res: any): Promise<any>;
-    getMomentDetailInfo(momentIdx: number, res: any): Promise<any>;
+    getMyMomentFeeds(user: any, type: string, res: any): Promise<any>;
 }

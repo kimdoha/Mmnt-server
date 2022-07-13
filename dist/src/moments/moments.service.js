@@ -30,6 +30,7 @@ const users_service_1 = require("../users/users.service");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const moment_entity_1 = require("./moment.entity");
+const user_entity_1 = require("../users/user.entity");
 let MomentsService = class MomentsService {
     constructor(repo, pinsService, usersService, connection) {
         this.repo = repo;
@@ -57,12 +58,36 @@ let MomentsService = class MomentsService {
             await queryRunner.release();
         }
     }
-    async getMomentDetailInfo(momentIdx) {
-        const moment = await this.repo.findOneBy({ momentIdx });
-        if (!moment) {
-            throw new common_1.NotFoundException('삭제된 모먼트 입니다.');
+    async getMyMoments(userIdx, type) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        let moments;
+        if (type === 'main') {
+            moments = this.repo.createQueryBuilder()
+                .select(['moment_idx, title, image_url, updated_at'])
+                .where("user_idx= :id", { id: userIdx })
+                .orderBy("moment_idx", "DESC")
+                .getRawMany();
         }
-        return moment;
+        else if (type === 'detail') {
+            moments = await this.repo.createQueryBuilder()
+                .select(['moment_idx, title, description, image_url, youtube_url, music, artist, updated_at'])
+                .addSelect(sq => {
+                return sq
+                    .select(['nickname'])
+                    .from(user_entity_1.User, "user")
+                    .where('user_idx= :user_idx', { user_idx: userIdx });
+            })
+                .where("user_idx= :id", { id: userIdx })
+                .orderBy("moment_idx", "DESC")
+                .getRawMany();
+        }
+        else {
+            throw new common_1.BadRequestException('type 이 올바르지 않습니다.');
+        }
+        if (!moments) {
+            throw new common_1.NotFoundException('등록된 모먼트가 없습니다.');
+        }
+        return moments;
     }
 };
 MomentsService = __decorate([

@@ -43,16 +43,8 @@ let UsersService = class UsersService {
         return await this.login(payload);
     }
     async updateUserLocation(userIdx, location) {
-        const user = await this.repo.findOneBy({ userIdx });
-        console.log(user);
+        const user = await this.findActiveUserByUserIdx(userIdx);
         return await this.repo.update(userIdx, location);
-    }
-    async findUserByEmail(email) {
-        return this.repo.createQueryBuilder()
-            .select(['user_idx, password'])
-            .where({ email })
-            .andWhere('is_deleted= :YN', { YN: 'N' })
-            .getRawOne();
     }
     async getDetailUserInfo(userIdx) {
         const user = await this.repo.createQueryBuilder()
@@ -84,9 +76,16 @@ let UsersService = class UsersService {
         }
         return user;
     }
-    async validateUser(email, password) {
+    async findActiveUserByEmail(email) {
         const user = await this.repo.findOneBy({ email });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        if (!user) {
+            throw new common_1.NotFoundException('해당 유저가 존재하지 않습니다.');
+        }
+        return user;
+    }
+    async validateUser(email, password) {
+        const user = await this.findActiveUserByEmail(email);
+        if (!(await bcrypt.compare(password, user.password))) {
             throw new common_1.UnauthorizedException('유저 정보가 올바르지 않습니다.');
         }
         return { id: user.userIdx, email };

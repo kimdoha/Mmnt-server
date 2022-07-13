@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post, Res, UseGuards, ValidationPipe } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, Query, Res, UseGuards, ValidationPipe } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { StatusCodes } from 'http-status-codes';
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
@@ -30,11 +30,22 @@ export class MomentsController {
         return res.json(new SuccessReponse(StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
     }
 
-
-    @Get('/:momentIdx')
-    async getMomentDetailInfo(@Param('momentIdx') momentIdx: number, @Res() res) {
-        const responseData = await this.momentsService.getMomentDetailInfo(momentIdx);
-        return res.json(new SuccessReponse(StatusCodes.OK, `${momentIdx} 번째 모먼트 조회 성공`, responseData))
+    
+    @ApiBearerAuth('Authorization')
+    @ApiOperation({ 
+        summary: '나의 모먼트 피드 조회 API', 
+        description: 
+        'type -> main : 나의 모먼트 피드 전체 조회,  detail : 나의 모먼트 상세 조회'
+    })
+    @ApiOkResponse({ status: 200, description: '나의 모먼트 피드 조회 성공' })
+    @ApiBadRequestResponse({ status: 400, description: 'type 이 올바르지 않습니다.' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다. / 등록된 모먼트가 없습니다.' })
+    @Get('/my-history')
+    @UseGuards(JwtAuthGuard)
+    async getMyMomentFeeds(@GetUser() user, @Query('type') type: string, @Res() res) {
+        console.log(type);
+        const responseData = await this.momentsService.getMyMoments(user.userIdx, type);
+        return res.json(new SuccessReponse(StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData))
     }
 
 }

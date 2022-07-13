@@ -46,11 +46,11 @@ __decorate([
 ], User.prototype, "profileUrl", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 경도' }),
-    __metadata("design:type", typeorm_1.Double)
+    __metadata("design:type", Number)
 ], User.prototype, "locationX", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 위도' }),
-    __metadata("design:type", typeorm_1.Double)
+    __metadata("design:type", Number)
 ], User.prototype, "locationY", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'char', length: 1, default: 0, comment: '소셜 로그인' }),

@@ -9,22 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PinsController = void 0;
-const common_1 = require("@nestjs/common");
+exports.getMyMoments = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const pins_service_1 = require("./pins.service");
-let PinsController = class PinsController {
-    constructor(pinsService) {
-        this.pinsService = pinsService;
-    }
-    async createPin(userIdx, pinX, pinY) {
-        return await this.pinsService.createPin(userIdx, pinX, pinY);
-    }
-};
-PinsController = __decorate([
-    (0, swagger_1.ApiTags)('pin'),
-    (0, common_1.Controller)('pins'),
-    __metadata("design:paramtypes", [pins_service_1.PinsService])
-], PinsController);
-exports.PinsController = PinsController;
-//# sourceMappingURL=pins.controller.js.map
+const class_validator_1 = require("class-validator");
+class getMyMoments {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Matches)('main|detail'),
+    __metadata("design:type", String)
+], getMyMoments.prototype, "type", void 0);
+exports.getMyMoments = getMyMoments;
+//# sourceMappingURL=get-my-moments.dto.js.map

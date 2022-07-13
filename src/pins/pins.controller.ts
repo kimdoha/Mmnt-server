@@ -12,7 +12,7 @@ export class PinsController {
     constructor(private pinsService: PinsService) {}
 
 
-    async createPin(userIdx: number, pin_x: number, pin_y: number ) {
-        return await this.pinsService.createPin(userIdx, pin_x, pin_y);
+    async createPin(userIdx: number, pinX: number, pinY: number ) {
+        return await this.pinsService.createPin(userIdx, pinX, pinY);
     }
 }

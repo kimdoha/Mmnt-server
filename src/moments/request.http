@@ -1,19 +1,20 @@
 ### 10. 핀 및 모먼트 생성 API
 POST http://localhost:3001/moment
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzMyNTc3LCJleHAiOjE2NTc3MzYxNzd9._wrp4EMRMQhynngpmqDCWsBuysox6TBeWoDNh1tPgZ0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzM2MzY5LCJleHAiOjE2NTc3Mzk5Njl9.hG7Oth7cbgbgDHc7WTbMqn5vbiXOiqozD7X0HzOa16k
 Content-Type: application/json
 
 {
-    "pinX": 126.9532624,
-    "pinY": 37.5475643,
-    "title": "여기 완전 노을 맛집1",
-    "description": "여기 처음 와보는데 완전 노을 맛집1",
+    "pinX": 127.036082,
+    "pinY": 37.558484,
+    "title": "제일 큰 피자집",
+    "description": "왕손피자 들어는 봤니",
     "imageUrl": "https://mmntuploads.s3.ap-northeast-2.amazonaws.com/1657523185072%E1%84%82%E1%85%A3%E1%86%B7.jpg",
     "youtubeUrl": "https://www.youtube.com/watch?v=JdHUWfmZbqI",
-    "music": "Dar+ling",
-    "artist": "SEVENTEEN"
+    "music": "SMILEY",
+    "artist": "최예나"
 }
 
 
-### 11. 모먼트 조회 API
-GET http://localhost:3001/moment/5
+### 11. 나의 모먼트 피드 조회 API
+GET http://localhost:3001/moment/my-history?type=detail
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzQwMDEzLCJleHAiOjE2NTc3NDM2MTN9.LCrutBdIRu4otyXo_nbbg0Eq3HTR_ofMGLsyGEtdWkI

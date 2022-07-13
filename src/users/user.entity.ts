@@ -35,10 +35,10 @@ export class User {
     profileUrl: string
 
     @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 경도' })
-    locationX: Double
+    locationX: number
 
     @Column({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 위도' })
-    locationY: Double
+    locationY: number
 
     @Column({ type: 'char', length: 1, default: 0, comment: '소셜 로그인'})
     snsRoute: string
