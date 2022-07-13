@@ -44,6 +44,7 @@ let UsersService = class UsersService {
     }
     async updateUserLocation(userIdx, location) {
         const user = await this.repo.findOneBy({ userIdx });
+        console.log(user);
         return await this.repo.update(userIdx, location);
     }
     async findUserByEmail(email) {

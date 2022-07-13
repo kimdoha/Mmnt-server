@@ -48,6 +48,7 @@ export class UsersService {
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
         const user = await this.repo.findOneBy({ userIdx });
+        console.log(user);
         return await this.repo.update(userIdx, location);
     }
     

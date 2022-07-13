@@ -17,7 +17,7 @@ class GetProfileInfoResponse {
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_transformer_1.Expose)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], GetProfileInfoResponse.prototype, "userIdx", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),

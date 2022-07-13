@@ -1,5 +1,5 @@
 export declare class GetProfileInfoResponse {
-    userIdx: number;
+    userIdx: string;
     email: string;
     nickname: string;
     profileImgUrl: string;

@@ -4,7 +4,7 @@ exports.typeORMConfig = void 0;
 require('dotenv/config');
 const path_1 = require("path");
 exports.typeORMConfig = {
-    type: 'mysql',
+    type: 'postgres',
     host: process.env.MASTER_DB_HOST,
     port: Number(process.env.DB_PORT),
     username: process.env.DB_USER,
