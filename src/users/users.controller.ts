@@ -28,6 +28,7 @@ import { UpdateLocationDto } from './dtos/update-location.dto';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { SignUpResponseDto } from 'src/common/responses/users/sign-up.response.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
+import { UpdatePassword } from './dtos/update-password.dto';
 
 
 @ApiTags('user')
@@ -39,7 +40,7 @@ export class UsersController {
     @ApiBody({ type: CreateUserDto })
     @ApiCreatedResponse({ status: 201, description: '회원 가입 성공', type: SignUpResponseDto })
     @ApiBadRequestResponse({ status: 400, description: '중복된 이메일 외 Bad Request' })
-    @Post('sign-up')
+    @Post('/sign-up')
     async signup(@Body(ValidationPipe) body: CreateUserDto, @Res() res) : Promise<any>{
         
         const responseData = await this.userService.createUser(body.email, body.password);
@@ -51,12 +52,24 @@ export class UsersController {
     @ApiCreatedResponse({ status: 201, description: '로그인 성공', type: SignInResponseDto })
     @ApiUnauthorizedResponse({ status: 401, description: '유저 정보가 올바르지 않습니다.' })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
-    @Post('sign-in')
+    @Post('/sign-in')
     async signin(@Body(ValidationPipe) body: CreateUserDto, @Res() res) {
         
         const responseData = await this.userService.signIn(body.email, body.password);
         return res.json(new SuccessReponse(StatusCodes.CREATED, '로그인 성공', responseData));
     }
+
+    @ApiOperation({ summary: '비밀번호 변경 API' })
+    @ApiOkResponse({ status: 200, description: '비밀번호 변경 성공' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
+    @Patch('/password')
+    @UseGuards(JwtAuthGuard)
+    async updatePassword(@GetUser() user, @Body(ValidationPipe) body: UpdatePassword, @Res() res): Promise<any> {
+
+        const responseData = await this.userService.updateUserPassword(user.userIdx, body.password);
+        return res.json(new SuccessReponse(StatusCodes.OK, '비밀번호 변경 성공'))
+    }
+
 
     @ApiBearerAuth('Authorization')
     @ApiOperation({ summary: '유저 프로필 조회 API', description: '유저 핀 / 모먼트 개수 확인 가능합니다.'})

@@ -7,5 +7,11 @@ Content-Type: application/json
 }
 
 ### 2. 인증 확인 API
-GET http://localhost:3001/auth/verification?email=kimdoha@gmail.com&value=pCp444
+POST http://localhost:3001/auth/verification?email=kkhhjj3393@gmail.com&value=KWG622
+Content-Type: application/json
+
+{
+    "email": "kkhhjj3393@gmail.com",
+    "value": "KWG622"
+}
 

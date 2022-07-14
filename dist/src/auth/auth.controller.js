@@ -36,9 +36,10 @@ let AuthController = class AuthController {
     }
 };
 __decorate([
-    (0, swagger_1.ApiOperation)({ summary: '인증 번호 발송 API' }),
+    (0, swagger_1.ApiOperation)({ summary: '인증 번호 발송 API', description: '이메일 발송 추가 완료' }),
     (0, swagger_1.ApiBody)({ type: create_authorized_code_dto_1.CreateAuthorizedCodeDto }),
     (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '인증 번호 발송 성공' }),
+    (0, swagger_1.ApiConflictResponse)({ status: 409, description: '인증 번호 발송에 실패했습니다.' }),
     (0, common_1.Post)(''),
     (0, serialize_interceptor_1.Serialize)(create_authorized_code_response_dto_1.CreateAuthorizedCodeResponseDto),
     __param(0, (0, common_1.Body)()),

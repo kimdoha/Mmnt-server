@@ -3,7 +3,7 @@ import { Moment } from 'src/moments/moment.entity';
 export declare class User {
     userIdx: number;
     email: string;
-    password: string;
+    password: () => string;
     nickname: string;
     profileUrl: string;
     locationX: number;

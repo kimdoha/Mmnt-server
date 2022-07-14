@@ -18,6 +18,7 @@ import { FindAuthorizedUserDto } from './dtos/find.authorized-user.dto';
 import { CreateUserDto } from '../users/dtos/create.user.dto';
 import { 
     ApiBody, 
+    ApiConflictResponse, 
     ApiCreatedResponse, 
     ApiNotFoundResponse, 
     ApiOkResponse, 
@@ -31,9 +32,10 @@ import {
 export class AuthController {
     constructor(private authService: AuthService) {}
 
-    @ApiOperation({ summary: '인증 번호 발송 API' })
+    @ApiOperation({ summary: '인증 번호 발송 API', description: '이메일 발송 추가 완료' })
     @ApiBody({ type: CreateAuthorizedCodeDto })
     @ApiCreatedResponse({ status: 201, description: '인증 번호 발송 성공' })
+    @ApiConflictResponse({ status: 409, description: '인증 번호 발송에 실패했습니다.'})
     @Post('')
     @Serialize(CreateAuthorizedCodeResponseDto)
     async certificateUser(@Body() body: CreateAuthorizedCodeDto, @Res() res) {
@@ -51,5 +53,4 @@ export class AuthController {
         return res.json(new SuccessReponse(StatusCodes.CREATED, '인증 확인 성공', responseData));
     }
 
-    
 }

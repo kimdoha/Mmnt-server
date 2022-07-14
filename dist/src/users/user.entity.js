@@ -34,7 +34,7 @@ __decorate([
 ], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 500, comment: '유저 비밀번호' }),
-    __metadata("design:type", String)
+    __metadata("design:type", Function)
 ], User.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 45, comment: '유저 닉네임' }),

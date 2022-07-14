@@ -18,7 +18,11 @@ export class AuthService {
     ) {}
 
     async createAuthorizedCode(email: string) {
-        
+        try{
+
+        } catch(e) {
+            throw new ConflictException('인증 번호 발송에 실패했습니다.');
+        }
         const value = await createAuthorizedCode();
         await this.cacheManager.set(email, value, { ttl: 300 });
         
@@ -27,8 +31,6 @@ export class AuthService {
             id: `id`,
             body: content,
         };
-
-        console.log(message);
 
         await this.sqsService.send(QUEUE, message)
         return content;

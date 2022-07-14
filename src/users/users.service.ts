@@ -8,6 +8,7 @@ import { UpdateLocationDto } from './dtos/update-location.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
 import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
+import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
 
 
 
@@ -28,8 +29,7 @@ export class UsersService {
             throw new BadRequestException('중복된 이메일입니다.');
         }
         
-        const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const hashedPassword = createHashedPassword(password);
 
         const new_user = await this.repo.create({ email, password: hashedPassword });
 
@@ -45,6 +45,12 @@ export class UsersService {
         const payload = await this.validateUser(email, password);
 
         return await this.login(payload);
+    }
+
+    async updateUserPassword(userIdx: number, password: string) {
+        const user = await this.findActiveUserByUserIdx(userIdx);
+        const hashedPassword = await createHashedPassword(password);
+        return await this.repo.update(userIdx, { password: hashedPassword }); 
     }
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {

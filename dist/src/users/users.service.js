@@ -21,6 +21,7 @@ const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
 const pin_entity_1 = require("../pins/pin.entity");
 const moment_entity_1 = require("../moments/moment.entity");
+const create_hashed_password_1 = require("../configs/functions/create.hashed-password");
 let UsersService = class UsersService {
     constructor(repo, jwtService) {
         this.repo = repo;
@@ -31,8 +32,7 @@ let UsersService = class UsersService {
         if (user) {
             throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
-        const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const hashedPassword = (0, create_hashed_password_1.createHashedPassword)(password);
         const new_user = await this.repo.create({ email, password: hashedPassword });
         const { userIdx } = await this.repo.save(new_user);
         await this.repo.update(userIdx, { nickname: `${userIdx}번째 익명이` });
@@ -41,6 +41,11 @@ let UsersService = class UsersService {
     async signIn(email, password) {
         const payload = await this.validateUser(email, password);
         return await this.login(payload);
+    }
+    async updateUserPassword(userIdx, password) {
+        const user = await this.findActiveUserByUserIdx(userIdx);
+        const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
+        return await this.repo.update(userIdx, { password: hashedPassword });
     }
     async updateUserLocation(userIdx, location) {
         const user = await this.findActiveUserByUserIdx(userIdx);

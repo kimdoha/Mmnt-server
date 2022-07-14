@@ -26,7 +26,7 @@ export class User {
     email: string
 
     @Column({ type: 'varchar', length: 500, comment: '유저 비밀번호' })
-    password: string
+    password: () => string
 
     @Column({ type: 'varchar', length: 45, comment: '유저 닉네임' })
     nickname: string

@@ -25,6 +25,7 @@ const update_location_dto_1 = require("./dtos/update-location.dto");
 const swagger_1 = require("@nestjs/swagger");
 const sign_up_response_dto_1 = require("../common/responses/users/sign-up.response.dto");
 const sign_in_response_dto_1 = require("../common/responses/users/sign-in.response.dto");
+const update_password_dto_1 = require("./dtos/update-password.dto");
 let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
@@ -36,6 +37,10 @@ let UsersController = class UsersController {
     async signin(body, res) {
         const responseData = await this.userService.signIn(body.email, body.password);
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '로그인 성공', responseData));
+    }
+    async updatePassword(user, body, res) {
+        const responseData = await this.userService.updateUserPassword(user.userIdx, body.password);
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '비밀번호 변경 성공'));
     }
     async findProfileInfo(user, res) {
         const responseData = await this.userService.getDetailUserInfo(user.userIdx);
@@ -51,7 +56,7 @@ __decorate([
     (0, swagger_1.ApiBody)({ type: create_user_dto_1.CreateUserDto }),
     (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '회원 가입 성공', type: sign_up_response_dto_1.SignUpResponseDto }),
     (0, swagger_1.ApiBadRequestResponse)({ status: 400, description: '중복된 이메일 외 Bad Request' }),
-    (0, common_1.Post)('sign-up'),
+    (0, common_1.Post)('/sign-up'),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -64,13 +69,26 @@ __decorate([
     (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '로그인 성공', type: sign_in_response_dto_1.SignInResponseDto }),
     (0, swagger_1.ApiUnauthorizedResponse)({ status: 401, description: '유저 정보가 올바르지 않습니다.' }),
     (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
-    (0, common_1.Post)('sign-in'),
+    (0, common_1.Post)('/sign-in'),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "signin", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: '비밀번호 변경 API' }),
+    (0, swagger_1.ApiOkResponse)({ status: 200, description: '비밀번호 변경 성공' }),
+    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
+    (0, common_1.Patch)('/password'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
+    __param(1, (0, common_1.Body)(common_1.ValidationPipe)),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, update_password_dto_1.UpdatePassword, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "updatePassword", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiOperation)({ summary: '유저 프로필 조회 API', description: '유저 핀 / 모먼트 개수 확인 가능합니다.' }),
