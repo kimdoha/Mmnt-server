@@ -37,6 +37,7 @@ export class UsersService {
         await this.repo.update(userIdx, { nickname:`${userIdx}번째 익명이` } );
 
         return { userIdx, email };
+        
 
     }
 

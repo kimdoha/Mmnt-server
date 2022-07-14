@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const create_user_dto_1 = require("./dtos/create.user.dto");
 const users_service_1 = require("./users.service");
 const http_status_codes_1 = require("http-status-codes");
-const SuccessReponse_1 = require("../helpers/SuccessReponse");
+const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
 const get_user_decorator_1 = require("../common/decorators/get.user.decorator");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
 const get_profile_Info_response_dto_1 = require("../common/responses/users/get.profile-Info.response.dto");
@@ -31,19 +31,19 @@ let UsersController = class UsersController {
     }
     async signup(body, res) {
         const responseData = await this.userService.createUser(body.email, body.password);
-        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '회원 가입 성공', responseData));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '회원 가입 성공', responseData));
     }
     async signin(body, res) {
         const responseData = await this.userService.signIn(body.email, body.password);
-        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '로그인 성공', responseData));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '로그인 성공', responseData));
     }
     async findProfileInfo(user, res) {
         const responseData = await this.userService.getDetailUserInfo(user.userIdx);
-        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '내 프로필 조회 성공', responseData));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
     async updateUserLocation(user, body, res) {
         await this.userService.updateUserLocation(user.userIdx, body);
-        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 위치 수정 성공'));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 위치 수정 성공'));
     }
 };
 __decorate([

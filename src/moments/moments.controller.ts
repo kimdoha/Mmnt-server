@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { SuccessReponse } from 'src/helpers/SuccessReponse';
+import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { CreateMomentDto } from './dtos/create-moment.dto';
 import { MomentsService } from './moments.service';
 

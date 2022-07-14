@@ -17,7 +17,7 @@ import {
     ApiTags 
 } from '@nestjs/swagger';
 import { StatusCodes } from 'http-status-codes';
-import { SuccessReponse } from 'src/helpers/SuccessReponse';
+import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { FileUploadDto } from './dtos/file-upload.dto';
 import { UploadsService } from './uploads.service';
 

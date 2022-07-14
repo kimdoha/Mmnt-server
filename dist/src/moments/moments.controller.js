@@ -18,7 +18,7 @@ const swagger_1 = require("@nestjs/swagger");
 const http_status_codes_1 = require("http-status-codes");
 const get_user_decorator_1 = require("../common/decorators/get.user.decorator");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
-const SuccessReponse_1 = require("../helpers/SuccessReponse");
+const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
 const create_moment_dto_1 = require("./dtos/create-moment.dto");
 const moments_service_1 = require("./moments.service");
 let MomentsController = class MomentsController {
@@ -27,12 +27,12 @@ let MomentsController = class MomentsController {
     }
     async createMoment(user, body, res) {
         const responseData = await this.momentsService.createMoment(user.userIdx, body);
-        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '핀 및 모먼트 생성 성공', responseData));
     }
     async getMyMomentFeeds(user, type, res) {
         console.log(type);
         const responseData = await this.momentsService.getMyMoments(user.userIdx, type);
-        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData));
     }
 };
 __decorate([

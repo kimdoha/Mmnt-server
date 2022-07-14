@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { userInfo } from 'os';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { SuccessReponse } from 'src/helpers/SuccessReponse';
+import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { PinsService } from './pins.service';
 
 @ApiTags('pin')

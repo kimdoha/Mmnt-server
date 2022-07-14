@@ -61,7 +61,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Moment.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)({ type: "timestamp", nullable: true, default: "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" }),
+    (0, typeorm_1.UpdateDateColumn)({ type: "timestamp", nullable: true, default: "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], Moment.prototype, "updatedAt", void 0);
 __decorate([

@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
 const http_status_codes_1 = require("http-status-codes");
-const SuccessReponse_1 = require("../helpers/SuccessReponse");
+const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
 const file_upload_dto_1 = require("./dtos/file-upload.dto");
 const uploads_service_1 = require("./uploads.service");
 const BUCKET_NAME = 'mmntuploads';
@@ -27,7 +27,7 @@ let UploadsController = class UploadsController {
     }
     async uploadFile(file, res) {
         const responseData = await this.uploadsService.uploadImageToStorage(file);
-        return res.json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '이미지 URL 생성 성공', responseData));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '이미지 URL 생성 성공', responseData));
     }
 };
 __decorate([

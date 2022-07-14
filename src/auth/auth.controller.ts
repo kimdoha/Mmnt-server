@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { StatusCodes } from 'http-status-codes';
-import { SuccessReponse } from 'src/helpers/SuccessReponse';
+import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 

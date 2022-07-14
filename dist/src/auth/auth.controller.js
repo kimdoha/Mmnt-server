@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const http_status_codes_1 = require("http-status-codes");
-const SuccessReponse_1 = require("../helpers/SuccessReponse");
+const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
 const serialize_interceptor_1 = require("../common/interceptors/serialize.interceptor");
 const auth_service_1 = require("./auth.service");
 const create_authorized_code_dto_1 = require("./dtos/create.authorized-code.dto");
@@ -30,13 +30,13 @@ let AuthController = class AuthController {
         const responseData = await this.authService.createAuthorizedCode(body.email);
         return res
             .status(http_status_codes_1.StatusCodes.CREATED)
-            .json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
+            .json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
     }
     async validate(query, res) {
         await this.authService.verifyAuthorizedCode(query.email, query.value);
         return res
             .status(http_status_codes_1.StatusCodes.OK)
-            .json(new SuccessReponse_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '인증 확인 성공'));
+            .json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '인증 확인 성공'));
     }
 };
 __decorate([
