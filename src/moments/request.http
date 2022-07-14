@@ -18,3 +18,8 @@ Content-Type: application/json
 ### 11. 나의 모먼트 히스토리 조회 API
 GET http://localhost:3001/moment/my-history?page=2&limit=10&type=main
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzgwODc5LCJleHAiOjE2NTc3ODQ0Nzl9.svWUkavsDsLpRDa4ctiwZUSmmWIT5I66QIXGpYi8IfQ
+
+
+### 12. 모먼트 삭제 API
+DELETE http://localhost:3001/moment/:momentIdx
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzgwODc5LCJleHAiOjE2NTc3ODQ0Nzl9.svWUkavsDsLpRDa4ctiwZUSmmWIT5I66QIXGpYi8IfQ
