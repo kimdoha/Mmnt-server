@@ -28,15 +28,11 @@ let AuthController = class AuthController {
     }
     async certificateUser(body, res) {
         const responseData = await this.authService.createAuthorizedCode(body.email);
-        return res
-            .status(http_status_codes_1.StatusCodes.CREATED)
-            .json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
     }
-    async validate(query, res) {
-        await this.authService.verifyAuthorizedCode(query.email, query.value);
-        return res
-            .status(http_status_codes_1.StatusCodes.OK)
-            .json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '인증 확인 성공'));
+    async validate(body, res) {
+        const responseData = await this.authService.verifyAuthorizedCode(body.email, body.value);
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '인증 확인 성공', responseData));
     }
 };
 __decorate([
@@ -53,9 +49,10 @@ __decorate([
 ], AuthController.prototype, "certificateUser", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '인증 번호 확인 API' }),
-    (0, swagger_1.ApiOkResponse)({ status: 200, description: '인증 확인 성공' }),
-    (0, common_1.Get)('/verification'),
-    __param(0, (0, common_1.Query)()),
+    (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '인증 확인 성공' }),
+    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '인증 번호가 올바르지 않습니다.' }),
+    (0, common_1.Post)('/verification'),
+    __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [find_authorized_user_dto_1.FindAuthorizedUserDto, Object]),

@@ -11,6 +11,7 @@ import { CreateUserDto } from '../users/dtos/create.user.dto';
 import { 
     ApiBody, 
     ApiCreatedResponse, 
+    ApiNotFoundResponse, 
     ApiOkResponse, 
     ApiOperation, 
     ApiQuery, 
@@ -28,20 +29,18 @@ export class AuthController {
     @Post('')
     @Serialize(CreateAuthorizedCodeResponseDto)
     async certificateUser(@Body() body: CreateAuthorizedCodeDto, @Res() res) {
+        
         const responseData = await this.authService.createAuthorizedCode(body.email);
-        return res
-        .status(StatusCodes.CREATED)
-        .json(new SuccessReponse(StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
+        return res.json(new SuccessReponse(StatusCodes.CREATED, '인증 번호 발송 성공', responseData));
     }
 
     @ApiOperation({ summary: '인증 번호 확인 API' })
-    @ApiOkResponse({ status: 200, description: '인증 확인 성공' })
-    @Get('/verification')
-    async validate(@Query() query: FindAuthorizedUserDto, @Res() res){
-        await this.authService.verifyAuthorizedCode(query.email, query.value);
-        return res
-        .status(StatusCodes.OK)
-        .json(new SuccessReponse(StatusCodes.OK, '인증 확인 성공'));
+    @ApiCreatedResponse({ status: 201, description: '인증 확인 성공' })
+    @ApiNotFoundResponse({ status: 404, description: '인증 번호가 올바르지 않습니다.' })
+    @Post('/verification')
+    async validate(@Body() body: FindAuthorizedUserDto, @Res() res){
+        const responseData = await this.authService.verifyAuthorizedCode(body.email, body.value);
+        return res.json(new SuccessReponse(StatusCodes.CREATED, '인증 확인 성공', responseData));
     }
 
     

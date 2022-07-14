@@ -3,9 +3,9 @@ POST http://localhost:3001/auth
 Content-Type: application/json
 
 {
-    "email": "abcd@gmail.com"
+    "email": "kimdoha@gmail.com"
 }
 
 ### 2. 인증 확인 API
-GET http://localhost:3001/auth/verification?email=abcd@gmail.com&value=kAo086
+GET http://localhost:3001/auth/verification?email=kimdoha@gmail.com&value=pCp444
 

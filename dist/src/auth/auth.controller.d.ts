@@ -5,5 +5,5 @@ export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
     certificateUser(body: CreateAuthorizedCodeDto, res: any): Promise<any>;
-    validate(query: FindAuthorizedUserDto, res: any): Promise<any>;
+    validate(body: FindAuthorizedUserDto, res: any): Promise<any>;
 }

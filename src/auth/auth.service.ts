@@ -1,38 +1,36 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { CACHE_MANAGER, ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { createAuthorizedCode } from 'src/configs/functions/create.authorized-code';
 
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { Cache } from 'cache-manager';
 
-import Redis from 'ioredis';
-const redis = new Redis();
+const QUEUE = process.env.QUEUE_NAME;
 
 @Injectable()
 export class AuthService {
     constructor(
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
         private userService: UsersService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
     ) {}
 
     async createAuthorizedCode(email: string) {
         
         const value = await createAuthorizedCode();
-        await redis.set(email, value);
-        await redis.expire(email, 300);
+        await this.cacheManager.set(email, value, { ttl: 300 });
 
+        // await this.sqsService.send(QUEUE, { email, value })
         return { email, value };
     }
     
     async verifyAuthorizedCode(email: string, value: string){
-        const exist = await redis.exists(email);
-        if(!exist){
-            throw new NotFoundException('인증 번호가 만료 되었습니다.');
-        }
-        
-        const code = await redis.get(email);
+        const code = await this.cacheManager.get(email);
         if(value != code){
-            throw new ConflictException('인증 번호가 올바르지 않습니다.');
+            throw new NotFoundException('인증 번호가 올바르지 않습니다.');
         }
+
+        return { email, value };
     }
 
 }

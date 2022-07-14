@@ -8,39 +8,39 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const create_authorized_code_1 = require("../configs/functions/create.authorized-code");
 const users_service_1 = require("../users/users.service");
 const jwt_1 = require("@nestjs/jwt");
-const ioredis_1 = require("ioredis");
-const redis = new ioredis_1.default();
+const QUEUE = process.env.QUEUE_NAME;
 let AuthService = class AuthService {
-    constructor(userService, jwtService) {
+    constructor(cacheManager, userService, jwtService) {
+        this.cacheManager = cacheManager;
         this.userService = userService;
         this.jwtService = jwtService;
     }
     async createAuthorizedCode(email) {
         const value = await (0, create_authorized_code_1.createAuthorizedCode)();
-        await redis.set(email, value);
-        await redis.expire(email, 300);
+        await this.cacheManager.set(email, value, { ttl: 300 });
         return { email, value };
     }
     async verifyAuthorizedCode(email, value) {
-        const exist = await redis.exists(email);
-        if (!exist) {
-            throw new common_1.NotFoundException('인증 번호가 만료 되었습니다.');
-        }
-        const code = await redis.get(email);
+        const code = await this.cacheManager.get(email);
         if (value != code) {
-            throw new common_1.ConflictException('인증 번호가 올바르지 않습니다.');
+            throw new common_1.NotFoundException('인증 번호가 올바르지 않습니다.');
         }
+        return { email, value };
     }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [users_service_1.UsersService,
+    __param(0, (0, common_1.Inject)(common_1.CACHE_MANAGER)),
+    __metadata("design:paramtypes", [Object, users_service_1.UsersService,
         jwt_1.JwtService])
 ], AuthService);
 exports.AuthService = AuthService;
