@@ -1,7 +1,5 @@
-export declare class Page<T> {
-    pageSize: number;
-    totalCount: number;
-    totalPage: number;
-    items: T[];
-    constructor(totalCount: number, pageSize: number, items: T[]);
+export declare class Page {
+    static getOffset(page: number, limit: number): number;
+    static getLimit(limit: number): number;
+    static getPage(page: number): number;
 }

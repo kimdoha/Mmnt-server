@@ -2,11 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Page = void 0;
 class Page {
-    constructor(totalCount, pageSize, items) {
-        this.pageSize = pageSize;
-        this.totalCount = totalCount;
-        this.totalPage = Math.ceil(totalCount / pageSize);
-        this.items = items;
+    static getOffset(page, limit) {
+        return (page - 1) * limit;
+    }
+    static getLimit(limit) {
+        return limit;
+    }
+    static getPage(page) {
+        return page;
     }
 }
 exports.Page = Page;

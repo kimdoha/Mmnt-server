@@ -6,6 +6,7 @@ import { GetUser } from 'src/common/decorators/get.user.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { CreateMomentDto } from './dtos/create-moment.dto';
+import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { MomentsService } from './moments.service';
 
 @ApiTags('moment')
@@ -33,18 +34,19 @@ export class MomentsController {
     
     @ApiBearerAuth('Authorization')
     @ApiOperation({ 
-        summary: '나의 모먼트 피드 조회 API', 
+        summary: '나의 모먼트 히스토리 조회 API', 
         description: 
-        'type -> main : 나의 모먼트 피드 전체 조회,  detail : 나의 모먼트 상세 조회'
+        `[type] main : 나의 모먼트 피드 전체 조회,  detail : 나의 모먼트 상세 조회 </br>
+         [page] page 는 1부터 시작합니다.`
     })
     @ApiOkResponse({ status: 200, description: '나의 모먼트 피드 조회 성공' })
-    @ApiBadRequestResponse({ status: 400, description: 'type 이 올바르지 않습니다.' })
-    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다. / 등록된 모먼트가 없습니다.' })
+    @ApiBadRequestResponse({ status: 400, description: 'type, page, limit 이 올바르지 않습니다.' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다. | 등록된 모먼트가 없습니다.' })
     @Get('/my-history')
     @UseGuards(JwtAuthGuard)
-    async getMyMomentFeeds(@GetUser() user, @Query('type') type: string, @Res() res) {
-        console.log(type);
-        const responseData = await this.momentsService.getMyMoments(user.userIdx, type);
+    async getMyMomentHistory(@GetUser() user, @Query(ValidationPipe) query: GetHistoryRequest, @Res() res) {
+           
+        const responseData = await this.momentsService.getMyMoments(user.userIdx, query);
         return res.json(new SuccessReponse(StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData))
     }
 

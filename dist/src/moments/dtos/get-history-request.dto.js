@@ -9,26 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PageRequest = void 0;
+exports.GetHistoryRequest = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
-class PageRequest {
+const page_request_1 = require("../../helpers/page/page.request");
+class GetHistoryRequest extends page_request_1.PageRequest {
+    constructor() {
+        super();
+    }
 }
 __decorate([
     (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsPositive)(),
-    (0, class_transformer_1.Type)(() => Number),
-    __metadata("design:type", Number)
-], PageRequest.prototype, "page", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsPositive)(),
-    (0, class_validator_1.Max)(50),
-    (0, class_transformer_1.Type)(() => Number),
-    __metadata("design:type", Number)
-], PageRequest.prototype, "limit", void 0);
-exports.PageRequest = PageRequest;
-//# sourceMappingURL=page.request.js.map
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Matches)('main|detail'),
+    __metadata("design:type", String)
+], GetHistoryRequest.prototype, "type", void 0);
+exports.GetHistoryRequest = GetHistoryRequest;
+//# sourceMappingURL=get-history-request.dto.js.map

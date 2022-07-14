@@ -7,6 +7,10 @@ import { Moment } from './moment.entity';
 import { CreateMomentDto } from './dtos/create-moment.dto';
 import { query } from 'express';
 import { User } from 'src/users/user.entity';
+import { GetHistoryRequest } from './dtos/get-history-request.dto';
+import { Page } from 'src/helpers/page/page';
+// import { PaginationHelper } from 'src/helpers/page/pagination.helper';
+
 
 
 
@@ -17,6 +21,7 @@ export class MomentsService {
         private pinsService: PinsService,
         private usersService: UsersService,
         private connection: Connection,
+        // private paginationHelper: PaginationHelper
     ) {}
 
 
@@ -42,18 +47,23 @@ export class MomentsService {
         }
     }
 
-    async getMyMoments(userIdx: number, type: string) {
+    async getMyMoments(userIdx: number, query: GetHistoryRequest) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         let moments;
 
-        if(type === 'main') {
-            moments = this.repo.createQueryBuilder()
-            .select([ 'moment_idx, title, image_url, updated_at' ])
-            .where("user_idx= :id", { id: userIdx })
-            .orderBy("moment_idx", "DESC")
+        const limit = Page.getLimit(query.limit);
+        const offset = Page.getOffset(query.page, query.limit);
+        
+        if(query.type === 'main') {
+            moments = this.repo.createQueryBuilder('users')
+            .select([ 'users.moment_idx, users.title, users.image_url, users.updated_at' ])
+            .where('user_idx= :id', { id: userIdx })
+            .orderBy('moment_idx', 'DESC')
+            .limit(limit)
+            .offset(offset)
             .getRawMany();
 
-        } else if(type === 'detail') {
+        } else if(query.type === 'detail') {
             moments = await this.repo.createQueryBuilder()
             .select(['moment_idx, title, description, image_url, youtube_url, music, artist, updated_at' ])
             .addSelect(sq => {

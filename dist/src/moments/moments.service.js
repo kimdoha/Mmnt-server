@@ -31,6 +31,7 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const moment_entity_1 = require("./moment.entity");
 const user_entity_1 = require("../users/user.entity");
+const page_1 = require("../helpers/page/page");
 let MomentsService = class MomentsService {
     constructor(repo, pinsService, usersService, connection) {
         this.repo = repo;
@@ -58,17 +59,21 @@ let MomentsService = class MomentsService {
             await queryRunner.release();
         }
     }
-    async getMyMoments(userIdx, type) {
+    async getMyMoments(userIdx, query) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         let moments;
-        if (type === 'main') {
-            moments = this.repo.createQueryBuilder()
-                .select(['moment_idx, title, image_url, updated_at'])
-                .where("user_idx= :id", { id: userIdx })
-                .orderBy("moment_idx", "DESC")
+        const limit = page_1.Page.getLimit(query.limit);
+        const offset = page_1.Page.getOffset(query.page, query.limit);
+        if (query.type === 'main') {
+            moments = this.repo.createQueryBuilder('users')
+                .select(['users.moment_idx, users.title, users.image_url, users.updated_at'])
+                .where('user_idx= :id', { id: userIdx })
+                .orderBy('moment_idx', 'DESC')
+                .limit(limit)
+                .offset(offset)
                 .getRawMany();
         }
-        else if (type === 'detail') {
+        else if (query.type === 'detail') {
             moments = await this.repo.createQueryBuilder()
                 .select(['moment_idx, title, description, image_url, youtube_url, music, artist, updated_at'])
                 .addSelect(sq => {

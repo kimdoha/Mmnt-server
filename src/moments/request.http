@@ -15,6 +15,6 @@ Content-Type: application/json
 }
 
 
-### 11. 나의 모먼트 피드 조회 API
-GET http://localhost:3001/moment/my-history?type=detail
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzQwMDEzLCJleHAiOjE2NTc3NDM2MTN9.LCrutBdIRu4otyXo_nbbg0Eq3HTR_ofMGLsyGEtdWkI
+### 11. 나의 모먼트 히스토리 조회 API
+GET http://localhost:3001/moment/my-history?page=2&limit=10&type=main
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzgwODc5LCJleHAiOjE2NTc3ODQ0Nzl9.svWUkavsDsLpRDa4ctiwZUSmmWIT5I66QIXGpYi8IfQ
