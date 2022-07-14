@@ -80,14 +80,13 @@ let MomentsService = class MomentsService {
                 return sq
                     .select(['nickname'])
                     .from(user_entity_1.User, "user")
-                    .where('user_idx= :user_idx', { user_idx: userIdx });
+                    .where('user_idx= :id', { id: userIdx });
             })
                 .where("user_idx= :id", { id: userIdx })
                 .orderBy("moment_idx", "DESC")
+                .limit(limit)
+                .offset(offset)
                 .getRawMany();
-        }
-        else {
-            throw new common_1.BadRequestException('type 이 올바르지 않습니다.');
         }
         if (!moments) {
             throw new common_1.NotFoundException('등록된 모먼트가 없습니다.');

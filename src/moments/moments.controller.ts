@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, Query, Res, UseGuards, ValidationPipe } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Query, Res, UseGuards, ValidationPipe } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { StatusCodes } from 'http-status-codes';
 import { FormDataRequest, MemoryStoredFile } from 'nestjs-form-data';
+import { userInfo } from 'os';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { SuccessReponse } from 'src/helpers/success-reponse.helper';
@@ -9,13 +10,14 @@ import { CreateMomentDto } from './dtos/create-moment.dto';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { MomentsService } from './moments.service';
 
+@ApiBearerAuth('Authorization')
 @ApiTags('moment')
 @Controller('moment')
 export class MomentsController {
 
     constructor(private momentsService: MomentsService) {}
     
-    @ApiBearerAuth('Authorization')
+    
     @ApiOperation({ 
         summary: '핀 및 모먼트 생성 API', 
         description: '이미지 파일은 "이미지 URL 생성 API"로 변환 후 URL 을 입력해주시면 됩니다.'
@@ -32,7 +34,6 @@ export class MomentsController {
     }
 
     
-    @ApiBearerAuth('Authorization')
     @ApiOperation({ 
         summary: '나의 모먼트 히스토리 조회 API', 
         description: 
@@ -49,5 +50,16 @@ export class MomentsController {
         const responseData = await this.momentsService.getMyMoments(user.userIdx, query);
         return res.json(new SuccessReponse(StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData))
     }
+
+    @ApiOperation({ summary: '모먼트 삭제 API'})
+    @ApiOkResponse({ status: 200, description: '모먼트 삭제 성공' })
+    @ApiUnauthorizedResponse({ status: 404, description: '해당 모먼트의 접근 권한이 없습니다.' })
+    @Delete('/:momentIdx')
+    @UseGuards(JwtAuthGuard)
+    async deleteMoment(@GetUser() user, @Param('momentIdx') momentIdx: number, @Res() res) {
+        //const responseData = await this.momentsService.deleteMoment(user.userIdx, momentIdx);
+        //return res.json(new SuccessReponse(StatusCodes.OK, `모먼트 삭제 성공`, responseData));
+    }
+
 
 }

@@ -34,9 +34,10 @@ let MomentsController = class MomentsController {
         const responseData = await this.momentsService.getMyMoments(user.userIdx, query);
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData));
     }
+    async deleteMoment(user, momentIdx, res) {
+    }
 };
 __decorate([
-    (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiOperation)({
         summary: '핀 및 모먼트 생성 API',
         description: '이미지 파일은 "이미지 URL 생성 API"로 변환 후 URL 을 입력해주시면 됩니다.'
@@ -54,7 +55,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MomentsController.prototype, "createMoment", null);
 __decorate([
-    (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiOperation)({
         summary: '나의 모먼트 히스토리 조회 API',
         description: `[type] main : 나의 모먼트 피드 전체 조회,  detail : 나의 모먼트 상세 조회 </br>
@@ -72,7 +72,21 @@ __decorate([
     __metadata("design:paramtypes", [Object, get_history_request_dto_1.GetHistoryRequest, Object]),
     __metadata("design:returntype", Promise)
 ], MomentsController.prototype, "getMyMomentHistory", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: '모먼트 삭제 API' }),
+    (0, swagger_1.ApiOkResponse)({ status: 200, description: '모먼트 삭제 성공' }),
+    (0, swagger_1.ApiUnauthorizedResponse)({ status: 404, description: '해당 모먼트의 접근 권한이 없습니다.' }),
+    (0, common_1.Delete)('/:momentIdx'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
+    __param(1, (0, common_1.Param)('momentIdx')),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Number, Object]),
+    __metadata("design:returntype", Promise)
+], MomentsController.prototype, "deleteMoment", null);
 MomentsController = __decorate([
+    (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiTags)('moment'),
     (0, common_1.Controller)('moment'),
     __metadata("design:paramtypes", [moments_service_1.MomentsService])

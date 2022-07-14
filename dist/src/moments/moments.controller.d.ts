@@ -6,4 +6,5 @@ export declare class MomentsController {
     constructor(momentsService: MomentsService);
     createMoment(user: any, body: CreateMomentDto, res: any): Promise<any>;
     getMyMomentHistory(user: any, query: GetHistoryRequest, res: any): Promise<any>;
+    deleteMoment(user: any, momentIdx: number, res: any): Promise<void>;
 }

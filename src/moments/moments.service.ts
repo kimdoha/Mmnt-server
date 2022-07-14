@@ -70,14 +70,13 @@ export class MomentsService {
                 return sq
                 .select(['nickname'])
                 .from(User, "user")
-                .where('user_idx= :user_idx', { user_idx: userIdx });
+                .where('user_idx= :id', { id: userIdx });
             })
             .where("user_idx= :id", { id: userIdx })
             .orderBy("moment_idx", "DESC")
+            .limit(limit)
+            .offset(offset)
             .getRawMany();
-
-        } else {
-            throw new BadRequestException('type 이 올바르지 않습니다.')
         }
 
         if(!moments){

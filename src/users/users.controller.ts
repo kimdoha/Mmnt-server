@@ -59,6 +59,7 @@ export class UsersController {
         return res.json(new SuccessReponse(StatusCodes.CREATED, '로그인 성공', responseData));
     }
 
+    @ApiBearerAuth('Authorization')
     @ApiOperation({ summary: '비밀번호 변경 API' })
     @ApiOkResponse({ status: 200, description: '비밀번호 변경 성공' })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
