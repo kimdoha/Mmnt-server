@@ -12,4 +12,5 @@ export declare class MomentsService {
     constructor(repo: Repository<Moment>, pinsService: PinsService, usersService: UsersService, connection: Connection);
     createMoment(userIdx: number, body: CreateMomentDto): Promise<Moment>;
     getMyMoments(userIdx: number, query: GetHistoryRequest): Promise<any>;
+    deleteMoment(userIdx: number, momentIdx: number): Promise<import("typeorm").DeleteResult>;
 }

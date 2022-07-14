@@ -9,8 +9,6 @@ import { query } from 'express';
 import { User } from 'src/users/user.entity';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { Page } from 'src/helpers/page/page';
-// import { PaginationHelper } from 'src/helpers/page/pagination.helper';
-
 
 
 
@@ -84,5 +82,17 @@ export class MomentsService {
         }
         return moments;
     }
+
+    async deleteMoment(userIdx: number, momentIdx: number){
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const moment = await this.repo.findOneBy({ momentIdx, userIdx });
+
+        if(!moment){
+            throw new NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');
+        }
+    
+        return await this.repo.delete(momentIdx);
+    }
+
 
 }

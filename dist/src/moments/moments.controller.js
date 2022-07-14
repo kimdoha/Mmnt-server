@@ -35,6 +35,8 @@ let MomentsController = class MomentsController {
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData));
     }
     async deleteMoment(user, momentIdx, res) {
+        await this.momentsService.deleteMoment(user.userIdx, momentIdx);
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `모먼트 삭제 성공`));
     }
 };
 __decorate([
@@ -75,7 +77,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '모먼트 삭제 API' }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '모먼트 삭제 성공' }),
-    (0, swagger_1.ApiUnauthorizedResponse)({ status: 404, description: '해당 모먼트의 접근 권한이 없습니다.' }),
+    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.' }),
     (0, common_1.Delete)('/:momentIdx'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),

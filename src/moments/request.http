@@ -21,5 +21,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpb
 
 
 ### 12. 모먼트 삭제 API
-DELETE http://localhost:3001/moment/:momentIdx
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzgwODc5LCJleHAiOjE2NTc3ODQ0Nzl9.svWUkavsDsLpRDa4ctiwZUSmmWIT5I66QIXGpYi8IfQ
+DELETE http://localhost:3001/moment/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3ODIyODU4LCJleHAiOjE2NTc4MjY0NTh9.5XvMLyV5QOTbMipAxxr0Ll9cHu5lRdLlA5VSyaAzW9I

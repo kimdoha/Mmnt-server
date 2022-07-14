@@ -93,6 +93,14 @@ let MomentsService = class MomentsService {
         }
         return moments;
     }
+    async deleteMoment(userIdx, momentIdx) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const moment = await this.repo.findOneBy({ momentIdx, userIdx });
+        if (!moment) {
+            throw new common_1.NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');
+        }
+        return await this.repo.delete(momentIdx);
+    }
 };
 MomentsService = __decorate([
     (0, common_1.Injectable)(),

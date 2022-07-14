@@ -53,12 +53,12 @@ export class MomentsController {
 
     @ApiOperation({ summary: '모먼트 삭제 API'})
     @ApiOkResponse({ status: 200, description: '모먼트 삭제 성공' })
-    @ApiUnauthorizedResponse({ status: 404, description: '해당 모먼트의 접근 권한이 없습니다.' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.' })
     @Delete('/:momentIdx')
     @UseGuards(JwtAuthGuard)
     async deleteMoment(@GetUser() user, @Param('momentIdx') momentIdx: number, @Res() res) {
-        //const responseData = await this.momentsService.deleteMoment(user.userIdx, momentIdx);
-        //return res.json(new SuccessReponse(StatusCodes.OK, `모먼트 삭제 성공`, responseData));
+        await this.momentsService.deleteMoment(user.userIdx, momentIdx);
+        return res.json(new SuccessReponse(StatusCodes.OK, `모먼트 삭제 성공`));
     }
 
 
