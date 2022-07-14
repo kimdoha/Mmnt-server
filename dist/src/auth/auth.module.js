@@ -14,6 +14,8 @@ const auth_service_1 = require("./auth.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("../users/user.entity");
 const cache_config_1 = require("../configs/cache.config");
+const nestjs_sqs_1 = require("@ssut/nestjs-sqs");
+const sqs_config_1 = require("../configs/sqs.config");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -21,6 +23,7 @@ AuthModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
             common_1.CacheModule.registerAsync(cache_config_1.cacheConfig),
+            nestjs_sqs_1.SqsModule.register(sqs_config_1.sqsConfig),
             users_module_1.UsersModule,
         ],
         controllers: [auth_controller_1.AuthController],

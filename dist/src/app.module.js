@@ -19,6 +19,12 @@ const auth_module_1 = require("./auth/auth.module");
 const config_1 = require("@nestjs/config");
 const uploads_module_1 = require("./uploads/uploads.module");
 const nestjs_form_data_1 = require("nestjs-form-data");
+const AWS = require("aws-sdk");
+AWS.config.update({
+    region: process.env.AWS_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 let AppModule = class AppModule {
 };
 AppModule = __decorate([

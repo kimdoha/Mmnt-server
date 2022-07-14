@@ -17,17 +17,26 @@ const common_1 = require("@nestjs/common");
 const create_authorized_code_1 = require("../configs/functions/create.authorized-code");
 const users_service_1 = require("../users/users.service");
 const jwt_1 = require("@nestjs/jwt");
+const nestjs_sqs_1 = require("@ssut/nestjs-sqs");
 const QUEUE = process.env.QUEUE_NAME;
 let AuthService = class AuthService {
-    constructor(cacheManager, userService, jwtService) {
+    constructor(cacheManager, userService, jwtService, sqsService) {
         this.cacheManager = cacheManager;
         this.userService = userService;
         this.jwtService = jwtService;
+        this.sqsService = sqsService;
     }
     async createAuthorizedCode(email) {
         const value = await (0, create_authorized_code_1.createAuthorizedCode)();
         await this.cacheManager.set(email, value, { ttl: 300 });
-        return { email, value };
+        const content = { email, value };
+        const message = {
+            id: `id`,
+            body: content,
+        };
+        console.log(message);
+        await this.sqsService.send(QUEUE, message);
+        return content;
     }
     async verifyAuthorizedCode(email, value) {
         const code = await this.cacheManager.get(email);
@@ -41,7 +50,8 @@ AuthService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(common_1.CACHE_MANAGER)),
     __metadata("design:paramtypes", [Object, users_service_1.UsersService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        nestjs_sqs_1.SqsService])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

@@ -3,7 +3,7 @@ POST http://localhost:3001/auth
 Content-Type: application/json
 
 {
-    "email": "kimdoha@gmail.com"
+    "email": "kkhhjj3393@gmail.com"
 }
 
 ### 2. 인증 확인 API

@@ -10,16 +10,21 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { cacheConfig } from 'src/configs/cache.config';
+import { SqsModule } from '@ssut/nestjs-sqs';
+import { sqsConfig } from 'src/configs/sqs.config';
+import { SqsService } from '@ssut/nestjs-sqs';
+
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     CacheModule.registerAsync(cacheConfig),
+    SqsModule.register(sqsConfig),
     UsersModule, 
   ],
   controllers: [AuthController],
   providers: [
-    AuthService, 
+    AuthService,
   ],
   exports: [AuthService]
 })

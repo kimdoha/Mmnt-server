@@ -4,6 +4,7 @@ import { createAuthorizedCode } from 'src/configs/functions/create.authorized-co
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from 'cache-manager';
+import { SqsService } from '@ssut/nestjs-sqs';
 
 const QUEUE = process.env.QUEUE_NAME;
 
@@ -13,15 +14,24 @@ export class AuthService {
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
         private userService: UsersService,
         private jwtService: JwtService,
+        private sqsService: SqsService,
     ) {}
 
     async createAuthorizedCode(email: string) {
         
         const value = await createAuthorizedCode();
         await this.cacheManager.set(email, value, { ttl: 300 });
+        
+        const content = { email, value };
+        const message: any = { 
+            id: `id`,
+            body: content,
+        };
 
-        // await this.sqsService.send(QUEUE, { email, value })
-        return { email, value };
+        console.log(message);
+
+        await this.sqsService.send(QUEUE, message)
+        return content;
     }
     
     async verifyAuthorizedCode(email: string, value: string){
