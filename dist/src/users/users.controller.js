@@ -78,7 +78,11 @@ __decorate([
 ], UsersController.prototype, "signin", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
-    (0, swagger_1.ApiOperation)({ summary: '유저 정보 변경 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '유저 정보 변경 API',
+        description: `이메일, 비밀번호, 닉네임 변경 가능. 
+        이메일 변경 시, [인증 번호 발송] API를 먼저 사용해주세요.`
+    }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 정보 변경 성공' }),
     (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
     (0, common_1.Patch)(''),
