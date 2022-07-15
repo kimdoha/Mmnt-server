@@ -19,7 +19,6 @@ export class MomentsService {
         private pinsService: PinsService,
         private usersService: UsersService,
         private connection: Connection,
-        // private paginationHelper: PaginationHelper
     ) {}
 
 
@@ -83,16 +82,26 @@ export class MomentsService {
         return moments;
     }
 
-    async deleteMoment(userIdx: number, momentIdx: number){
+
+    async deleteMoment(userIdx: number, momentIdx: number, type: string){
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
-        const moment = await this.repo.findOneBy({ momentIdx, userIdx });
 
-        if(!moment){
-            throw new NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');
+        
+        if(type == 'moment') {
+            const moment = await this.repo.findOneBy({ momentIdx, userIdx });
+            if(!moment){
+                throw new NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');
+            }
+
+            return await this.repo.delete(momentIdx);
+
+        } else if(type == 'user') {
+            return await this.repo.delete(userIdx);
+
+        } else {
+            throw new BadRequestException('삭제 경로가 올바르지 않습니다.')
         }
-    
-        return await this.repo.delete(momentIdx);
+     
+        
     }
-
-
 }
