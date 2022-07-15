@@ -28,8 +28,6 @@ export class Pin {
     @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' })
     pinY: number
 
-    @Column({ type: 'char', length: 1, default: 'N', comment: '삭제 여부'})
-    isDeleted: string
 
     @CreateDateColumn({ type: "timestamp", default: "CURRENT_TIMESTAMP" })
     createdAt : Date

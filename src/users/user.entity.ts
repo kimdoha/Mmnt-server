@@ -26,7 +26,7 @@ export class User {
     email: string
 
     @Column({ type: 'varchar', length: 500, comment: '유저 비밀번호' })
-    password: () => string
+    password: any
 
     @Column({ type: 'varchar', length: 45, comment: '유저 닉네임' })
     nickname: string
@@ -46,8 +46,6 @@ export class User {
     @Column({ type: 'char', length: 1, default: 'Y', comment: '알림 여부'})
     alarm: string
 
-    @Column({ type: 'char', length: 1, default: 'N', comment: '삭제 여부'})
-    isDeleted: string
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     createdAt : Date
