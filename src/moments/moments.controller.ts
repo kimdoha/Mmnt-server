@@ -57,7 +57,7 @@ export class MomentsController {
     @Delete('/:momentIdx')
     @UseGuards(JwtAuthGuard)
     async deleteMoment(@GetUser() user, @Param('momentIdx') momentIdx: number, @Res() res) {
-        await this.momentsService.deleteMoment(user.userIdx, momentIdx);
+        await this.momentsService.deleteMoment(user.userIdx, momentIdx, 'moment');
         return res.json(new SuccessReponse(StatusCodes.OK, `모먼트 삭제 성공`));
     }
 
