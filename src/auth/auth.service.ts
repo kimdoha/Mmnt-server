@@ -18,13 +18,9 @@ export class AuthService {
     ) {}
 
     async createAuthorizedCode(email: string) {
-        try{
 
-        } catch(e) {
-            throw new ConflictException('인증 번호 발송에 실패했습니다.');
-        }
         const value = await createAuthorizedCode();
-        await this.cacheManager.set(email, value, { ttl: 300 });
+        await this.cacheManager.set(email, value, { ttl: 180 });
         
         const content = { email, value };
         const message: any = { 
@@ -36,6 +32,7 @@ export class AuthService {
         return content;
     }
     
+
     async verifyAuthorizedCode(email: string, value: string){
         const code = await this.cacheManager.get(email);
         if(value != code){

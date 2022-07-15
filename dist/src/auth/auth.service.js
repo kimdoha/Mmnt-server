@@ -27,13 +27,8 @@ let AuthService = class AuthService {
         this.sqsService = sqsService;
     }
     async createAuthorizedCode(email) {
-        try {
-        }
-        catch (e) {
-            throw new common_1.ConflictException('인증 번호 발송에 실패했습니다.');
-        }
         const value = await (0, create_authorized_code_1.createAuthorizedCode)();
-        await this.cacheManager.set(email, value, { ttl: 300 });
+        await this.cacheManager.set(email, value, { ttl: 180 });
         const content = { email, value };
         const message = {
             id: `id`,

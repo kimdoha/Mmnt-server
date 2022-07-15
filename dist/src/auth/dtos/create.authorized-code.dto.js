@@ -20,11 +20,5 @@ __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], CreateAuthorizedCodeDto.prototype, "email", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateAuthorizedCodeDto.prototype, "password", void 0);
 exports.CreateAuthorizedCodeDto = CreateAuthorizedCodeDto;
 //# sourceMappingURL=create.authorized-code.dto.js.map
