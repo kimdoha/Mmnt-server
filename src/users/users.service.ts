@@ -10,6 +10,8 @@ import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
 import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
+import { MomentsService } from 'src/moments/moments.service';
+
 
 
 
@@ -20,6 +22,7 @@ export class UsersService {
     constructor(
         @InjectRepository(User) private repo: Repository<User>,
         private jwtService: JwtService,
+        private momentService: MomentsService,
     ) {}
 
 
@@ -111,23 +114,15 @@ export class UsersService {
         return user;
     }
 
-    // async update(userIdx: number, attrs: Partial<User>){
-    //     const user = await this.findOne(userIdx);
-    //     if(!user){
-    //         throw new NotFoundException('user not found');
-    //     }
-    //     Object.assign(user, attrs);
-    //     return this.repo.save(user);
-    // }
 
-    // async remove(userIdx: number){
-    //     const user = await this.findOne(userIdx);
-    //     if(!user){
-    //         throw new NotFoundException('user not found');
-    //     }
-
-    //     return this.repo.remove(user);
-    // }
+    async deleteUserInfo(userIdx: number){
+        const user = await this.findActiveUserByUserIdx(userIdx);
+        
+        await this.momentService.deleteMoment(userIdx, 0, 'user');
+        // 핀 삭제 
+        await this.repo.delete({ userIdx });
+        
+    }
 
     async validateUser(email: string, password: string){
         const user = await this.findActiveUserByEmail(email);

@@ -107,7 +107,15 @@ export class UsersController {
         return res.json(new SuccessReponse(StatusCodes.OK, '유저 위치 수정 성공'));
     }
 
-    
+    @ApiBearerAuth('Authorization')
+    @ApiOperation({ summary: '유저 삭제 API' })
+    @ApiOkResponse({ status: 200, description: '유저 삭제 성공' })
+
+    async deleteUserInfo(@GetUser() user, @Res() res) {
+        await this.userService.deleteUserInfo(user.userIdx);
+        return res.json(new SuccessReponse(StatusCodes.OK, '유저 삭제 성공'));
+    }
+
 }
 
 
