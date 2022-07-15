@@ -28,7 +28,7 @@ import { UpdateLocationDto } from './dtos/update-location.dto';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { SignUpResponseDto } from 'src/common/responses/users/sign-up.response.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
-import { UpdatePassword } from './dtos/update-password.dto';
+import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 
 
 @ApiTags('user')
@@ -60,20 +60,23 @@ export class UsersController {
     }
 
     @ApiBearerAuth('Authorization')
-    @ApiOperation({ summary: '비밀번호 변경 API' })
-    @ApiOkResponse({ status: 200, description: '비밀번호 변경 성공' })
+    @ApiOperation({ summary: '유저 정보 변경 API' })
+    @ApiOkResponse({ status: 200, description: '유저 정보 변경 성공' })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
-    @Patch('/password')
+    @Patch('')
     @UseGuards(JwtAuthGuard)
-    async updatePassword(@GetUser() user, @Body(ValidationPipe) body: UpdatePassword, @Res() res): Promise<any> {
+    async updateUserInfo(@GetUser() user, @Body(ValidationPipe) body: UpdateUserInfo, @Res() res): Promise<any> {
 
-        const responseData = await this.userService.updateUserPassword(user.userIdx, body.password);
-        return res.json(new SuccessReponse(StatusCodes.OK, '비밀번호 변경 성공'))
+        const responseData = await this.userService.updateUserInfo(user.userIdx, body);
+        return res.json(new SuccessReponse(StatusCodes.OK, '유저 정보 변경 성공'))
     }
 
 
     @ApiBearerAuth('Authorization')
-    @ApiOperation({ summary: '유저 프로필 조회 API', description: '유저 핀 / 모먼트 개수 확인 가능합니다.'})
+    @ApiOperation({ 
+        summary: '유저 프로필 조회 API', 
+        description: '유저 핀 | 모먼트 개수 확인 가능합니다.'
+    })
     @ApiOkResponse({ status: 200, description: '유저 프로필 조회 성공', type: GetProfileInfoResponse })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
     @Get('/profile-info')

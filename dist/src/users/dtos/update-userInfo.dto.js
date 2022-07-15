@@ -9,16 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdatePassword = void 0;
+exports.UpdateUserInfo = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-class UpdatePassword {
+class UpdateUserInfo {
 }
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsEmail)(),
+    (0, class_validator_1.MaxLength)(50),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUserInfo.prototype, "email", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.Matches)('[A-Za-z\\d!@#$%^&*()]{10,30}'),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdatePassword.prototype, "password", void 0);
-exports.UpdatePassword = UpdatePassword;
-//# sourceMappingURL=update-password.dto.js.map
+], UpdateUserInfo.prototype, "password", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(45),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUserInfo.prototype, "nickname", void 0);
+exports.UpdateUserInfo = UpdateUserInfo;
+//# sourceMappingURL=update-userInfo.dto.js.map

@@ -34,11 +34,13 @@ Content-Type: application/json
 }
 
 
-### 유저 비밀 번호 수정
-PATCH http://localhost:3001/user/password
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3ODE4NzEwLCJleHAiOjE2NTc4MjIzMTB9.4bY4DOrBfTG4xiJdfA24MPHzmHLyGgxfnX0SlyiaPGk
+### 유저 정보 변경
+PATCH http://localhost:3001/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3ODU2MzAzLCJleHAiOjE2NTc4NTk5MDN9.HRqK56XE7_r6-PdhxU7jhdrlQLzef9Jj1XLjUbylgwE
 Content-Type: application/json
 
 {
-    "password": "kimdoha123"
+    "email": "kimdoha@gmail.com",
+    "password": "kimdoha123",
+    "nickname": "3번째 익명이"
 }

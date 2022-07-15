@@ -1,1 +1,1 @@
-export declare function createHashedPassword(password: string): Promise<any>;
+export declare function createHashedPassword(password: any): Promise<any>;

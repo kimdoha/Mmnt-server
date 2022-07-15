@@ -42,10 +42,13 @@ let UsersService = class UsersService {
         const payload = await this.validateUser(email, password);
         return await this.login(payload);
     }
-    async updateUserPassword(userIdx, password) {
+    async updateUserInfo(userIdx, attrs) {
         const user = await this.findActiveUserByUserIdx(userIdx);
-        const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
-        return await this.repo.update(userIdx, { password: hashedPassword });
+        if (attrs === null || attrs === void 0 ? void 0 : attrs.password) {
+            Object.assign(attrs, { password: await (0, create_hashed_password_1.createHashedPassword)(attrs.password) });
+        }
+        Object.assign(user, attrs);
+        return await this.repo.save(user);
     }
     async updateUserLocation(userIdx, location) {
         const user = await this.findActiveUserByUserIdx(userIdx);

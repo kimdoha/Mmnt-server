@@ -9,6 +9,7 @@ import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.d
 import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
 import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
+import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 
 
 
@@ -47,10 +48,14 @@ export class UsersService {
         return await this.login(payload);
     }
 
-    async updateUserPassword(userIdx: number, password: string) {
+    async updateUserInfo(userIdx: number, attrs: Partial<UpdateUserInfo>) {
         const user = await this.findActiveUserByUserIdx(userIdx);
-        const hashedPassword = await createHashedPassword(password);
-        return await this.repo.update(userIdx, { password: hashedPassword }); 
+        if(attrs?.password){
+            Object.assign(attrs, { password: await createHashedPassword(attrs.password) });
+        }
+
+        Object.assign(user, attrs);
+        return await this.repo.save(user);
     }
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
