@@ -26,7 +26,6 @@ export class UsersService {
 
 
     async createUser(email: string, password: string) {
-        console.log(password);
 
         const user: User = await this.repo.findOneBy({ email });
         if(user){
@@ -34,8 +33,9 @@ export class UsersService {
         }
         
         const hashedPassword = await createHashedPassword(password);
+        const profileUrl = 'https://mmntuploads.s3.ap-northeast-2.amazonaws.com/1657956807175version%3Dprofile.png';
 
-        const new_user = await this.repo.create({ email, password: hashedPassword });
+        const new_user = await this.repo.create({ email, password: hashedPassword, profileUrl  });
 
         const { userIdx } = await this.repo.save(new_user);
         await this.repo.update(userIdx, { nickname:`${userIdx}번째 익명이` } );

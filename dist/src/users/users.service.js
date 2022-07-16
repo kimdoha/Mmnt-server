@@ -28,13 +28,13 @@ let UsersService = class UsersService {
         this.jwtService = jwtService;
     }
     async createUser(email, password) {
-        console.log(password);
         const user = await this.repo.findOneBy({ email });
         if (user) {
             throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
         const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
-        const new_user = await this.repo.create({ email, password: hashedPassword });
+        const profileUrl = 'https://mmntuploads.s3.ap-northeast-2.amazonaws.com/1657956807175version%3Dprofile.png';
+        const new_user = await this.repo.create({ email, password: hashedPassword, profileUrl });
         const { userIdx } = await this.repo.save(new_user);
         await this.repo.update(userIdx, { nickname: `${userIdx}번째 익명이` });
         return { userIdx, email };
