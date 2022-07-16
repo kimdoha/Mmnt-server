@@ -23,6 +23,7 @@ const pin_entity_1 = require("../pins/pin.entity");
 const moment_entity_1 = require("../moments/moment.entity");
 const create_hashed_password_1 = require("../configs/functions/create.hashed-password");
 const change_case_1 = require("change-case");
+let wkx = require('wkx');
 let UsersService = class UsersService {
     constructor(repo, pinRepo, momentRepo, jwtService) {
         this.repo = repo;
@@ -56,6 +57,8 @@ let UsersService = class UsersService {
     }
     async updateUserLocation(userIdx, location) {
         const user = await this.findActiveUserByUserIdx(userIdx);
+        let geometry1 = await wkx.Geometry.parseGeoJSON({ type: 'Point', coordinates: [127.1655347, 37.6118924] });
+        let geometry2 = await wkx.Geometry.parseGeoJSON({ type: 'Point', coordinates: [127.1655347, 37.6118924] });
         return await this.repo.update(userIdx, location);
     }
     async getDetailUserInfo(userIdx) {

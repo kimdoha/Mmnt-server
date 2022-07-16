@@ -15,10 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PinsController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const http_status_codes_1 = require("http-status-codes");
 const get_user_decorator_1 = require("../common/decorators/get.user.decorator");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
-const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
 const distance_request_dto_1 = require("./dtos/distance-request.dto");
 const pin_param_dto_1 = require("./dtos/pin-param.dto");
 const pins_service_1 = require("./pins.service");
@@ -27,8 +25,6 @@ let PinsController = class PinsController {
         this.pinsService = pinsService;
     }
     async getPinInfo(user, param, query, res) {
-        const responseData = await this.pinsService.getPinInfo(user.userIdx, param.pinIdx, query.distance);
-        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '핀 조회 성공', responseData));
     }
 };
 __decorate([

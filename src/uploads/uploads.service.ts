@@ -11,7 +11,7 @@ export class UploadsService {
     async uploadImageToStorage(file: any){
         try {
             const s3 = new AWS.S3();
-            const fileName = Date.now() + file.originalname;
+            const fileName = Date.now() + file.originalname ? file.originalname : file.filename;
     
             const upload = await new AWS.S3().upload({
                                 Key: fileName,

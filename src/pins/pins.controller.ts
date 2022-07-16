@@ -37,8 +37,8 @@ export class PinsController {
         @Param(ValidationPipe) param: PinParamDto, 
         @Query(ValidationPipe) query: DistanceRequestDto, @Res() res
     ) {
-        const responseData = await this.pinsService.getPinInfo(user.userIdx, param.pinIdx, query.distance);
-        return res.json(new SuccessReponse(StatusCodes.OK, '핀 조회 성공', responseData));
+        // const responseData = await this.pinsService.getPinInfo(user.userIdx, param.pinIdx, query.distance);
+        // return res.json(new SuccessReponse(StatusCodes.OK, '핀 조회 성공', responseData));
     }
 
     

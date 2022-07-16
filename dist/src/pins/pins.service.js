@@ -34,10 +34,14 @@ let PinsService = class PinsService {
             return await this.repo.save(new_pin);
         }
     }
-    async getPinInfo(userIdx, pinIdx, distance) {
-        const { locationX, locationY } = await this.usersService.findActiveUserByUserIdx(userIdx);
-        const { pinX, pinY } = await this.findActivePinByPinIdx(pinIdx);
-        return;
+    async getPinLists(locationX, locationY) {
+        const distance_tb = await this.repo.createQueryBuilder()
+            .select(`ST_DistanceSphere(
+                                    ST_GeomFromText('POINT(' || ${locationX} || ' ' || ${locationY} || ')', 4326),
+                                    ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y } || ')', 4326 )`)
+            .getRawOne();
+        console.log(distance_tb);
+        return distance_tb;
     }
     async findActivePinByPinIdx(pinIdx) {
         const pin = await this.repo.findOneBy({ pinIdx });

@@ -12,7 +12,7 @@ import { createHashedPassword } from 'src/configs/functions/create.hashed-passwo
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { MomentsService } from 'src/moments/moments.service';
 import { camelCase } from "change-case";
-
+let wkx = require('wkx');
 
 
 
@@ -65,8 +65,26 @@ export class UsersService {
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
         const user = await this.findActiveUserByUserIdx(userIdx);
-        //this.pinRepo.
+        let geometry1 = await wkx.Geometry.parseGeoJSON({ type: 'Point', coordinates: [127.1655347, 37.6118924] });
+        let geometry2 = await wkx.Geometry.parseGeoJSON({ type: 'Point', coordinates: [127.1655347, 37.6118924] });
+
+        // const closestPin = await this.pinRepo.query(
+        //     `SELECT ST_DISTANCE(ST_GeomFromGeoJSON('${ geometry1 }'), ST_GeomFromGeoJSON('${ geometry2 }'));`
+        // );
+
+
+        // console.log(closestPin);
+        
+        // const point = `'POINT (${location.locationY} ${location.locationX})`;
+        
+
+        
+        //const distance_tb = await this.pinRepo.query(query);
+
+
+        // console.log(closestPin);
         return await this.repo.update(userIdx, location);
+        //return Object.assign(result, closestPin);
     }
     
     

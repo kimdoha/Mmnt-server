@@ -4,5 +4,5 @@ import { PinsService } from './pins.service';
 export declare class PinsController {
     private pinsService;
     constructor(pinsService: PinsService);
-    getPinInfo(user: any, param: PinParamDto, query: DistanceRequestDto, res: any): Promise<any>;
+    getPinInfo(user: any, param: PinParamDto, query: DistanceRequestDto, res: any): Promise<void>;
 }

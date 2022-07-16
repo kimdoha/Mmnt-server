@@ -25,12 +25,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpb
 
 ### 유저 위치 수정
 PATCH http://localhost:3001/user/location
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3Nzc4MzMxLCJleHAiOjE2NTc3ODE5MzF9.NFWThP2vwltol8SIkT_GfgV03DcEzZiPUCPEeLUV3rQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3OTgyNzE2LCJleHAiOjE2NTc5ODYzMTZ9.jJanK_QLfBnMaWaJ2uw_ZaKCEvdIxL377W59t8vvJxE
 Content-Type: application/json
 
 {
-    "locationX" : 127.045383,
-    "locationY": 37.557234
+    "locationX" : 127.1655347,
+    "locationY": 37.6118924
 }
 
 

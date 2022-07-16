@@ -6,7 +6,7 @@ export declare class PinsService {
     private usersService;
     constructor(repo: Repository<Pin>, usersService: UsersService);
     createPin(userIdx: number, pinX: number, pinY: number): Promise<Pin>;
-    getPinInfo(userIdx: number, pinIdx: number, distance: number): Promise<void>;
+    getPinLists(locationX: number, locationY: number): Promise<any>;
     findActivePinByPinIdx(pinIdx: number): Promise<Pin>;
     deletePin(pinIdx: number): Promise<import("typeorm").DeleteResult>;
 }
