@@ -17,6 +17,7 @@ let UploadsService = class UploadsService {
     constructor() { }
     async uploadImageToStorage(file) {
         try {
+            console.log(file);
             const s3 = new AWS.S3();
             const fileName = Date.now() + file.originalname ? file.originalname : file.filename;
             const upload = await new AWS.S3().upload({

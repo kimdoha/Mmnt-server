@@ -25,11 +25,13 @@ const create_hashed_password_1 = require("../configs/functions/create.hashed-pas
 const change_case_1 = require("change-case");
 let wkx = require('wkx');
 let UsersService = class UsersService {
-    constructor(repo, pinRepo, momentRepo, jwtService) {
+    constructor(cacheManager, repo, pinRepo, momentRepo, jwtService, connection) {
+        this.cacheManager = cacheManager;
         this.repo = repo;
         this.pinRepo = pinRepo;
         this.momentRepo = momentRepo;
         this.jwtService = jwtService;
+        this.connection = connection;
     }
     async createUser(email, password) {
         const user = await this.repo.findOneBy({ email });
@@ -57,8 +59,8 @@ let UsersService = class UsersService {
     }
     async updateUserLocation(userIdx, location) {
         const user = await this.findActiveUserByUserIdx(userIdx);
-        let geometry1 = await wkx.Geometry.parseGeoJSON({ type: 'Point', coordinates: [127.1655347, 37.6118924] });
-        let geometry2 = await wkx.Geometry.parseGeoJSON({ type: 'Point', coordinates: [127.1655347, 37.6118924] });
+        const results = await this.cacheManager.get(String(userIdx));
+        console.log(results);
         return await this.repo.update(userIdx, location);
     }
     async getDetailUserInfo(userIdx) {
@@ -113,13 +115,15 @@ let UsersService = class UsersService {
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
-    __param(1, (0, typeorm_2.InjectRepository)(pin_entity_1.Pin)),
-    __param(2, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
-    __metadata("design:paramtypes", [typeorm_1.Repository,
+    __param(0, (0, common_1.Inject)(common_1.CACHE_MANAGER)),
+    __param(1, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
+    __param(2, (0, typeorm_2.InjectRepository)(pin_entity_1.Pin)),
+    __param(3, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
+    __metadata("design:paramtypes", [Object, typeorm_1.Repository,
         typeorm_1.Repository,
         typeorm_1.Repository,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        typeorm_1.Connection])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

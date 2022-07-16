@@ -1,5 +1,5 @@
-import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { BadRequestException, CACHE_MANAGER, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Connection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -12,6 +12,8 @@ import { createHashedPassword } from 'src/configs/functions/create.hashed-passwo
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { MomentsService } from 'src/moments/moments.service';
 import { camelCase } from "change-case";
+import { Cache } from 'cache-manager';
+
 let wkx = require('wkx');
 
 
@@ -20,10 +22,12 @@ let wkx = require('wkx');
 @Injectable()
 export class UsersService {
     constructor(
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
         @InjectRepository(User) private repo: Repository<User>,
         @InjectRepository(Pin) private pinRepo: Repository<Pin>,
         @InjectRepository(Moment) private momentRepo: Repository<Moment>,
         private jwtService: JwtService,
+        private connection: Connection,
     ) {}
 
 
@@ -65,26 +69,10 @@ export class UsersService {
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
         const user = await this.findActiveUserByUserIdx(userIdx);
-        let geometry1 = await wkx.Geometry.parseGeoJSON({ type: 'Point', coordinates: [127.1655347, 37.6118924] });
-        let geometry2 = await wkx.Geometry.parseGeoJSON({ type: 'Point', coordinates: [127.1655347, 37.6118924] });
-
-        // const closestPin = await this.pinRepo.query(
-        //     `SELECT ST_DISTANCE(ST_GeomFromGeoJSON('${ geometry1 }'), ST_GeomFromGeoJSON('${ geometry2 }'));`
-        // );
-
-
-        // console.log(closestPin);
         
-        // const point = `'POINT (${location.locationY} ${location.locationX})`;
-        
-
-        
-        //const distance_tb = await this.pinRepo.query(query);
-
-
-        // console.log(closestPin);
+        const results = await this.cacheManager.get(String(userIdx));
+        console.log(results);
         return await this.repo.update(userIdx, location);
-        //return Object.assign(result, closestPin);
     }
     
     

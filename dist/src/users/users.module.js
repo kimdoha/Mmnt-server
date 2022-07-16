@@ -18,6 +18,7 @@ const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
 const moment_entity_1 = require("../moments/moment.entity");
 const pin_entity_1 = require("../pins/pin.entity");
+const cache_config_1 = require("../configs/cache.config");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
@@ -26,7 +27,7 @@ UsersModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, pin_entity_1.Pin, moment_entity_1.Moment]),
             passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
             jwt_1.JwtModule.registerAsync(jwt_config_1.jwtConfig),
-            common_1.CacheModule.register(),
+            common_1.CacheModule.registerAsync(cache_config_1.cacheConfig),
         ],
         controllers: [users_controller_1.UsersController],
         providers: [

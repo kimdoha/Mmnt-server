@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateLocationDto } from './dtos/update-location.dto';
@@ -6,12 +6,15 @@ import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.d
 import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
+import { Cache } from 'cache-manager';
 export declare class UsersService {
+    private cacheManager;
     private repo;
     private pinRepo;
     private momentRepo;
     private jwtService;
-    constructor(repo: Repository<User>, pinRepo: Repository<Pin>, momentRepo: Repository<Moment>, jwtService: JwtService);
+    private connection;
+    constructor(cacheManager: Cache, repo: Repository<User>, pinRepo: Repository<Pin>, momentRepo: Repository<Moment>, jwtService: JwtService, connection: Connection);
     createUser(email: string, password: string): Promise<{
         userIdx: number;
         email: string;

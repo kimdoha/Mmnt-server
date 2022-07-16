@@ -1,14 +1,15 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, CACHE_MANAGER, ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pin } from './pin.entity';
 import { NotFoundError } from 'rxjs';
-
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class PinsService {
     constructor(
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
         @InjectRepository(Pin) private repo: Repository<Pin>,
         private usersService: UsersService) {}
 
@@ -19,6 +20,7 @@ export class PinsService {
         if(pin) { 
             return pin;
         } else {
+            // await this.cacheManager.set(email, value, { ttl: 180 });
             const new_pin = await this.repo.create({ pinX, pinY });
             return await this.repo.save(new_pin);
         }

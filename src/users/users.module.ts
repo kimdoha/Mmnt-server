@@ -17,14 +17,14 @@ import { MomentsService } from 'src/moments/moments.service';
 import { MomentsModule } from 'src/moments/moments.module';
 import { Moment } from 'src/moments/moment.entity';
 import { Pin } from 'src/pins/pin.entity';
-
+import { cacheConfig } from 'src/configs/cache.config';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Pin, Moment]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync(jwtConfig),
-    CacheModule.register(),
+    CacheModule.registerAsync(cacheConfig),
   ],
   controllers: [UsersController],
   providers: [

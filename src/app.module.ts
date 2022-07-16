@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -31,6 +31,7 @@ AWS.config.update({
     MomentsModule, 
     UploadsModule,
     NestjsFormDataModule,
+    
   ],
   controllers: [AppController],
   providers: [AppService],

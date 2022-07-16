@@ -13,13 +13,15 @@ const users_module_1 = require("../users/users.module");
 const pin_entity_1 = require("./pin.entity");
 const pins_controller_1 = require("./pins.controller");
 const pins_service_1 = require("./pins.service");
+const cache_config_1 = require("../configs/cache.config");
 let PinsModule = class PinsModule {
 };
 PinsModule = __decorate([
     (0, common_1.Module)({
         imports: [
             typeorm_1.TypeOrmModule.forFeature([pin_entity_1.Pin]),
-            users_module_1.UsersModule
+            users_module_1.UsersModule,
+            common_1.CacheModule.registerAsync(cache_config_1.cacheConfig),
         ],
         controllers: [pins_controller_1.PinsController],
         providers: [pins_service_1.PinsService],
