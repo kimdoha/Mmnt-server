@@ -56,8 +56,8 @@ export class User {
     @DeleteDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     deletedAt: Date | null
 
-    @OneToMany(type => Pin, (pin: Pin) => pin.userIdx, { eager: false })
-    pins: Pin[];
+    // @OneToMany(type => Pin, (pin: Pin) => pin.userIdx, { eager: false })
+    // pins: Pin[];
 
 
     @OneToMany(type => Moment, (moment: Moment) => moment.userIdx, { eager: false })

@@ -39,9 +39,9 @@ export class Pin {
     deletedAt: Date | null
     
 
-    @ManyToOne(type => User, user => user.pins, { eager: false })
-    @JoinColumn({ name: 'user_idx'})
-    userIdx: number;
+    // @ManyToOne(type => User, user => user.pins, { eager: false })
+    // @JoinColumn({ name: 'user_idx'})
+    // userIdx: number;
 
     @OneToMany(type => Moment, (moment: Moment) => moment.pinIdx, { eager: false })
     moments: Moment[];

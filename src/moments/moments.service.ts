@@ -84,10 +84,11 @@ export class MomentsService {
 
 
     async deleteMoment(userIdx: number, momentIdx: number, type: string){
-        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
-
         
+
         if(type == 'moment') {
+            
+            const user = await this.usersService.findActiveUserByUserIdx(userIdx);
             const moment = await this.repo.findOneBy({ momentIdx, userIdx });
             if(!moment){
                 throw new NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');

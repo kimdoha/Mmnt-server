@@ -41,5 +41,6 @@ export class PinsController {
         return res.json(new SuccessReponse(StatusCodes.OK, '핀 조회 성공', responseData));
     }
 
+    
 
 }

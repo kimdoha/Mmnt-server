@@ -48,4 +48,8 @@ export class PinsService {
         return pin;
     }
 
+    async deletePin(pinIdx: number, userIdx: number, type: string){
+        
+    }
+
 }
