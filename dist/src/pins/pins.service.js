@@ -46,7 +46,9 @@ let PinsService = class PinsService {
         }
         return pin;
     }
-    async deletePin(pinIdx, userIdx, type) {
+    async deletePin(pinIdx) {
+        const pin = await this.findActivePinByPinIdx(pinIdx);
+        return await this.repo.delete({ pinIdx });
     }
 };
 PinsService = __decorate([

@@ -85,7 +85,6 @@ export class MomentsService {
 
     async deleteMoment(userIdx: number, momentIdx: number, type: string){
         
-
         if(type == 'moment') {
             
             const user = await this.usersService.findActiveUserByUserIdx(userIdx);
@@ -100,18 +99,41 @@ export class MomentsService {
             return await this.repo.delete(userIdx);
 
         } else {
-            throw new BadRequestException('삭제 경로가 올바르지 않습니다.')
+            throw new BadRequestException('삭제 경로가 올바르지 않습니다.');
         }
-     
         
     }
 
+    async deletePin(pinIdx: number, userIdx: number, type: string){
+        if(type == 'pin') {
+            const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+            const exist = await this.getMomentCountAboutPin(pinIdx);
+            if(exist){
+                throw new BadRequestException('해당 핀은 삭제할 수 없습니다.');
+            }
+
+            else await this.pinsService.deletePin(pinIdx);
+
+        } else if (type == 'user') {
+            return await this.repo.delete(userIdx);
+        
+        } else {
+            throw new BadRequestException('삭제 경로가 올바르지 않습니다.');
+        }
+    }
+
+    async getMomentCountAboutPin(pinIdx: number) {
+        const count = await this.repo.findAndCountBy({ pinIdx });
+        return count;
+    }
+    
     async deleteUserInfo(userIdx: number){
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         
         await this.deleteMoment(userIdx, 0, 'user');
-        // 핀 삭제 
-        // await this.userService.delete({ userIdx });
+        await this.deletePin(userIdx, 0, 'user');
+        await this.usersService.deleteUser(userIdx);
         
     }
+
 }

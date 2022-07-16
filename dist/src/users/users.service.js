@@ -105,6 +105,9 @@ let UsersService = class UsersService {
             accessToken: await this.jwtService.signAsync(payload)
         };
     }
+    async deleteUser(userIdx) {
+        return await this.repo.delete({ userIdx });
+    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),

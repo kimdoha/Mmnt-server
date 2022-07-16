@@ -132,5 +132,9 @@ export class UsersService {
             accessToken: await this.jwtService.signAsync(payload) 
         };
     }
+
+    async deleteUser(userIdx: number): Promise<any> {
+        return await this.repo.delete({ userIdx });
+    }
 }
 

@@ -109,9 +109,32 @@ let MomentsService = class MomentsService {
             throw new common_1.BadRequestException('삭제 경로가 올바르지 않습니다.');
         }
     }
+    async deletePin(pinIdx, userIdx, type) {
+        if (type == 'pin') {
+            const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+            const exist = await this.getMomentCountAboutPin(pinIdx);
+            if (exist) {
+                throw new common_1.BadRequestException('해당 핀은 삭제할 수 없습니다.');
+            }
+            else
+                await this.pinsService.deletePin(pinIdx);
+        }
+        else if (type == 'user') {
+            return await this.repo.delete(userIdx);
+        }
+        else {
+            throw new common_1.BadRequestException('삭제 경로가 올바르지 않습니다.');
+        }
+    }
+    async getMomentCountAboutPin(pinIdx) {
+        const count = await this.repo.findAndCountBy({ pinIdx });
+        return count;
+    }
     async deleteUserInfo(userIdx) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         await this.deleteMoment(userIdx, 0, 'user');
+        await this.deletePin(userIdx, 0, 'user');
+        await this.usersService.deleteUser(userIdx);
     }
 };
 MomentsService = __decorate([

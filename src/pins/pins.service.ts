@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -46,9 +46,10 @@ export class PinsService {
         }
         return pin;
     }
-
-    async deletePin(pinIdx: number, userIdx: number, type: string){
-        
+    
+    async deletePin(pinIdx: number) {
+        const pin = await this.findActivePinByPinIdx(pinIdx);
+        return await this.repo.delete({ pinIdx });
     }
 
 }

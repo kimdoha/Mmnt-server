@@ -23,4 +23,5 @@ export declare class UsersService {
         email: string;
     }>;
     login(payload: any): Promise<SignInResponseDto>;
+    deleteUser(userIdx: number): Promise<any>;
 }
