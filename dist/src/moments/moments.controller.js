@@ -40,7 +40,7 @@ let MomentsController = class MomentsController {
     }
     async deleteUserInfo(user, res) {
         await this.momentsService.deleteUserInfo(user.userIdx);
-        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 삭제 성공'));
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '회원 탈퇴 성공'));
     }
 };
 __decorate([
@@ -93,8 +93,11 @@ __decorate([
 ], MomentsController.prototype, "deleteMoment", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
-    (0, swagger_1.ApiOperation)({ summary: '유저 삭제 API' }),
-    (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 삭제 성공' }),
+    (0, swagger_1.ApiOperation)({ summary: '회원 탈퇴 API' }),
+    (0, swagger_1.ApiOkResponse)({ status: 200, description: '회원 탈퇴 성공' }),
+    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
+    (0, common_1.Delete)('/user/withdrawal'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

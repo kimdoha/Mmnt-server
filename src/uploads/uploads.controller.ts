@@ -45,4 +45,5 @@ export class UploadsController {
         const responseData = await this.uploadsService.uploadImageToStorage(file);     
         return res.json(new SuccessReponse(StatusCodes.CREATED, '이미지 URL 생성 성공', responseData));
     }
+
 }

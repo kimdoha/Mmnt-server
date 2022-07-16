@@ -1,6 +1,6 @@
 ### 10. 핀 및 모먼트 생성 API
 POST http://localhost:3001/moment
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3NzM2MzY5LCJleHAiOjE2NTc3Mzk5Njl9.hG7Oth7cbgbgDHc7WTbMqn5vbiXOiqozD7X0HzOa16k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYiLCJlbWFpbCI6ImtpbWRvaGE2QGdtYWlsLmNvbSIsImlhdCI6MTY1Nzk1NTIyNCwiZXhwIjoxNjU3OTU4ODI0fQ.PCeVoAwNPs9L5zXy-t-g8LYOyzAgzyF77WDg0Ef4XwQ
 Content-Type: application/json
 
 {
@@ -21,5 +21,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpb
 
 
 ### 12. 모먼트 삭제 API
-DELETE http://localhost:3001/moment/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3ODU2MTgwLCJleHAiOjE2NTc4NTk3ODB9.688JUS2fKNwYo_fm7huDQ3hdTJ6x_jTq8PYq_3sPDC4
+DELETE http://localhost:3001/moment/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImtpbWRvaGFAZ21haWwuY29tIiwiaWF0IjoxNjU3OTU0NDQzLCJleHAiOjE2NTc5NTgwNDN9.wLvwCa3fcUV4LcPV-a8zX44GildVzb4akZapoW4JYQM
+
+
+### 13. 유저 회원 탈퇴 API
+DELETE http://localhost:3001/moment/user/withdrawal
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwIiwiZW1haWwiOiJraW1kb2hhN0BnbWFpbC5jb20iLCJpYXQiOjE2NTc5NTYxMjMsImV4cCI6MTY1Nzk1OTcyM30.slxTd-Skw1_RHE4Qezr2ikzpzkhwI-ef7gvMSV8-pN8

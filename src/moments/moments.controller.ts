@@ -62,12 +62,13 @@ export class MomentsController {
     }
 
     @ApiBearerAuth('Authorization')
-    @ApiOperation({ summary: '유저 삭제 API' })
-    @ApiOkResponse({ status: 200, description: '유저 삭제 성공' })
-
+    @ApiOperation({ summary: '회원 탈퇴 API' })
+    @ApiOkResponse({ status: 200, description: '회원 탈퇴 성공' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.' })
+    @Delete('/user/withdrawal')
+    @UseGuards(JwtAuthGuard)
     async deleteUserInfo(@GetUser() user, @Res() res) {
         await this.momentsService.deleteUserInfo(user.userIdx);
-        return res.json(new SuccessReponse(StatusCodes.OK, '유저 삭제 성공'));
+        return res.json(new SuccessReponse(StatusCodes.OK, '회원 탈퇴 성공'));
     }
-
 }

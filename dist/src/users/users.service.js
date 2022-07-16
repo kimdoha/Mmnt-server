@@ -28,11 +28,12 @@ let UsersService = class UsersService {
         this.jwtService = jwtService;
     }
     async createUser(email, password) {
+        console.log(password);
         const user = await this.repo.findOneBy({ email });
         if (user) {
             throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
-        const hashedPassword = (0, create_hashed_password_1.createHashedPassword)(password);
+        const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
         const new_user = await this.repo.create({ email, password: hashedPassword });
         const { userIdx } = await this.repo.save(new_user);
         await this.repo.update(userIdx, { nickname: `${userIdx}번째 익명이` });

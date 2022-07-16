@@ -3,7 +3,7 @@ POST http://localhost:3001/user/sign-up
 Content-Type: application/json
 
 {
-    "email": "kimdoha6@gmail.com",
+    "email": "kimdoha7@gmail.com",
     "password": "kimdoha123"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:3001/user/sign-in
 Content-Type: application/json
 
 {
-    "email": "kimdoha@gmail.com",
+    "email": "kimdoha7@gmail.com",
     "password": "kimdoha123"
 }
 

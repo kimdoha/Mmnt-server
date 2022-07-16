@@ -26,13 +26,14 @@ export class UsersService {
 
 
     async createUser(email: string, password: string) {
+        console.log(password);
 
         const user: User = await this.repo.findOneBy({ email });
         if(user){
             throw new BadRequestException('중복된 이메일입니다.');
         }
         
-        const hashedPassword = createHashedPassword(password);
+        const hashedPassword = await createHashedPassword(password);
 
         const new_user = await this.repo.create({ email, password: hashedPassword });
 
