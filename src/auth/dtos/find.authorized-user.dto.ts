@@ -14,6 +14,6 @@ export class FindAuthorizedUserDto {
 
     @ApiProperty()
     @IsString()
-    @Length(6)
+    @Length(4)
     value: string;
 }

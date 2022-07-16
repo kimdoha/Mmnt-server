@@ -17,12 +17,13 @@ const user_entity_1 = require("./user.entity");
 const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
 const moment_entity_1 = require("../moments/moment.entity");
+const pin_entity_1 = require("../pins/pin.entity");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, moment_entity_1.Moment]),
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, pin_entity_1.Pin, moment_entity_1.Moment]),
             passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
             jwt_1.JwtModule.registerAsync(jwt_config_1.jwtConfig),
             common_1.CacheModule.register(),

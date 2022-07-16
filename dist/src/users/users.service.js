@@ -19,12 +19,14 @@ const typeorm_2 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
+const pin_entity_1 = require("../pins/pin.entity");
 const moment_entity_1 = require("../moments/moment.entity");
 const create_hashed_password_1 = require("../configs/functions/create.hashed-password");
 const change_case_1 = require("change-case");
 let UsersService = class UsersService {
-    constructor(repo, momentRepo, jwtService) {
+    constructor(repo, pinRepo, momentRepo, jwtService) {
         this.repo = repo;
+        this.pinRepo = pinRepo;
         this.momentRepo = momentRepo;
         this.jwtService = jwtService;
     }
@@ -109,8 +111,10 @@ let UsersService = class UsersService {
 UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
-    __param(1, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
+    __param(1, (0, typeorm_2.InjectRepository)(pin_entity_1.Pin)),
+    __param(2, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository,
         typeorm_1.Repository,
         jwt_1.JwtService])
 ], UsersService);

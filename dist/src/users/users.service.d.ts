@@ -3,13 +3,15 @@ import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateLocationDto } from './dtos/update-location.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
+import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 export declare class UsersService {
     private repo;
+    private pinRepo;
     private momentRepo;
     private jwtService;
-    constructor(repo: Repository<User>, momentRepo: Repository<Moment>, jwtService: JwtService);
+    constructor(repo: Repository<User>, pinRepo: Repository<Pin>, momentRepo: Repository<Moment>, jwtService: JwtService);
     createUser(email: string, password: string): Promise<{
         userIdx: number;
         email: string;

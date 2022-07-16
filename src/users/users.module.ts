@@ -16,11 +16,12 @@ import { PinsModule } from 'src/pins/pins.module';
 import { MomentsService } from 'src/moments/moments.service';
 import { MomentsModule } from 'src/moments/moments.module';
 import { Moment } from 'src/moments/moment.entity';
+import { Pin } from 'src/pins/pin.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Moment]),
+    TypeOrmModule.forFeature([User, Pin, Moment]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync(jwtConfig),
     CacheModule.register(),

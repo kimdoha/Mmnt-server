@@ -21,6 +21,7 @@ import { camelCase } from "change-case";
 export class UsersService {
     constructor(
         @InjectRepository(User) private repo: Repository<User>,
+        @InjectRepository(Pin) private pinRepo: Repository<Pin>,
         @InjectRepository(Moment) private momentRepo: Repository<Moment>,
         private jwtService: JwtService,
     ) {}
@@ -64,7 +65,7 @@ export class UsersService {
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
         const user = await this.findActiveUserByUserIdx(userIdx);
-
+        //this.pinRepo.
         return await this.repo.update(userIdx, location);
     }
     
