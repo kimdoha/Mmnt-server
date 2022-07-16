@@ -11,7 +11,6 @@ export class UploadsService {
     async uploadImageToStorage(file: any){
         try {
             const s3 = new AWS.S3();
-            AWS.config.update(AWSConfig);
             const fileName = Date.now() + file.originalname;
     
             const upload = await new AWS.S3().upload({

@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadsService = void 0;
 const common_1 = require("@nestjs/common");
-const aws_config_1 = require("../configs/aws.config");
 const AWS = require("aws-sdk");
 const BUCKET_NAME = 'mmntuploads';
 let UploadsService = class UploadsService {
@@ -19,7 +18,6 @@ let UploadsService = class UploadsService {
     async uploadImageToStorage(file) {
         try {
             const s3 = new AWS.S3();
-            AWS.config.update(aws_config_1.AWSConfig);
             const fileName = Date.now() + file.originalname;
             const upload = await new AWS.S3().upload({
                 Key: fileName,
