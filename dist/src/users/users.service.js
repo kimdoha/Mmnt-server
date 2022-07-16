@@ -19,12 +19,13 @@ const typeorm_2 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
-const pin_entity_1 = require("../pins/pin.entity");
 const moment_entity_1 = require("../moments/moment.entity");
 const create_hashed_password_1 = require("../configs/functions/create.hashed-password");
+const change_case_1 = require("change-case");
 let UsersService = class UsersService {
-    constructor(repo, jwtService) {
+    constructor(repo, momentRepo, jwtService) {
         this.repo = repo;
+        this.momentRepo = momentRepo;
         this.jwtService = jwtService;
     }
     async createUser(email, password) {
@@ -58,25 +59,20 @@ let UsersService = class UsersService {
     async getDetailUserInfo(userIdx) {
         const user = await this.repo.createQueryBuilder()
             .select(['user_idx, email, nickname, profile_url'])
-            .addSelect(sq => {
-            return sq
-                .select('Count(user_idx)')
-                .from(pin_entity_1.Pin, "pin")
-                .where('user_idx= :user_idx', { user_idx: userIdx });
-        }, 'finCount')
-            .addSelect(sq => {
-            return sq
-                .select('Count(user_idx)')
-                .from(moment_entity_1.Moment, "moment")
-                .where('user_idx= :user_idx', { user_idx: userIdx });
-        }, 'momentCount')
             .where({ userIdx })
-            .andWhere('is_deleted= :YN', { YN: 'N' })
+            .getRawOne();
+        const moment = await this.momentRepo.createQueryBuilder()
+            .select(['count(distinct pin_idx) as fin_count, count(moment_idx) as moment_count'])
+            .where({ userIdx })
             .getRawOne();
         if (!user) {
             throw new common_1.NotFoundException('해당 유저가 존재하지 않습니다.');
         }
-        return user;
+        let newProfileInfo = {};
+        for (let prop in Object.assign(user, moment)) {
+            newProfileInfo[(0, change_case_1.camelCase)(prop)] = user[prop];
+        }
+        return newProfileInfo;
     }
     async findActiveUserByUserIdx(userIdx) {
         const user = await this.repo.findOneBy({ userIdx });
@@ -113,7 +109,9 @@ let UsersService = class UsersService {
 UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
+    __param(1, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository,
         jwt_1.JwtService])
 ], UsersService);
 exports.UsersService = UsersService;

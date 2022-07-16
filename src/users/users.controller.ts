@@ -89,7 +89,7 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     async findProfileInfo(@GetUser() user, @Res() res): Promise<any>{
         
-        const responseData: User = await this.userService.getDetailUserInfo(user.userIdx);
+        const responseData = await this.userService.getDetailUserInfo(user.userIdx);
         return res.json(new SuccessReponse(StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
 

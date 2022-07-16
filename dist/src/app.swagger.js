@@ -5,7 +5,12 @@ const swagger_1 = require("@nestjs/swagger");
 const initSwagger = (app) => {
     const swaggerConfig = new swagger_1.DocumentBuilder()
         .setTitle('MMNT_API')
-        .addBearerAuth()
+        .addBearerAuth({
+        type: 'http',
+        scheme: 'bearer',
+        name: 'JWT',
+        in: 'header',
+    }, 'Authorization')
         .setDescription('MMNT API 명세서 입니다!')
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, swaggerConfig);

@@ -8,7 +8,13 @@ import { INestApplication } from '@nestjs/common';
 export const initSwagger = (app: INestApplication) => {
     const swaggerConfig = new DocumentBuilder()
     .setTitle('MMNT_API')
-    .addBearerAuth()
+    .addBearerAuth( {
+        type: 'http',
+        scheme: 'bearer',
+        name: 'JWT',
+        in: 'header',
+      },
+      'Authorization',)
     .setDescription('MMNT API 명세서 입니다!')
     .build();
 

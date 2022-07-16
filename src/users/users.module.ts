@@ -15,11 +15,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PinsModule } from 'src/pins/pins.module';
 import { MomentsService } from 'src/moments/moments.service';
 import { MomentsModule } from 'src/moments/moments.module';
+import { Moment } from 'src/moments/moment.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Moment]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync(jwtConfig),
     CacheModule.register(),

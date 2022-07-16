@@ -25,22 +25,21 @@ import { PinsService } from './pins.service';
 export class PinsController {
     constructor(private pinsService: PinsService) {}
 
-    // @ApiOperation({ 
-    //     summary: '핀 조회 API',
-    //     description: '내 위치 변경 시, [유저 위치 수정] 후 해당 API 이용'
-    // })
-    // @ApiOkResponse({ status: 200, description: '핀 조회 성공' })
-    // @Get('/:pinIdx')
-    // @UseGuards(JwtAuthGuard)
-    // async getPinInfo(
-    //     @GetUser() user,
-    //     @Param(ValidationPipe) param: PinParamDto, 
-    //     @Query(ValidationPipe) query: DistanceRequestDto, @Res() res
-    // ) {
-    //     const responseData = await this.pinsService.getPinInfo(user.userIdx, param.pinIdx, query.distance);
-    //     return res.json(new SuccessReponse(StatusCodes.OK, '핀 조회 성공', responseData));
-    // }
+    @ApiOperation({ 
+        summary: '핀 조회 API',
+        description: '내 위치 변경 시, [유저 위치 수정] 후 해당 API 이용'
+    })
+    @ApiOkResponse({ status: 200, description: '핀 조회 성공' })
+    @Get('/:pinIdx')
+    @UseGuards(JwtAuthGuard)
+    async getPinInfo(
+        @GetUser() user,
+        @Param(ValidationPipe) param: PinParamDto, 
+        @Query(ValidationPipe) query: DistanceRequestDto, @Res() res
+    ) {
+        const responseData = await this.pinsService.getPinInfo(user.userIdx, param.pinIdx, query.distance);
+        return res.json(new SuccessReponse(StatusCodes.OK, '핀 조회 성공', responseData));
+    }
 
     
-
 }

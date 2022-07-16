@@ -11,7 +11,7 @@ import { Moment } from 'src/moments/moment.entity';
 import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { MomentsService } from 'src/moments/moments.service';
-
+import { camelCase } from "change-case";
 
 
 
@@ -21,6 +21,7 @@ import { MomentsService } from 'src/moments/moments.service';
 export class UsersService {
     constructor(
         @InjectRepository(User) private repo: Repository<User>,
+        @InjectRepository(Moment) private momentRepo: Repository<Moment>,
         private jwtService: JwtService,
     ) {}
 
@@ -72,28 +73,25 @@ export class UsersService {
     async getDetailUserInfo(userIdx: number){
         const user = await this.repo.createQueryBuilder()
             .select(['user_idx, email, nickname, profile_url'])
-            .addSelect(sq => {
-                return sq
-                .select('Count(user_idx)')
-                .from(Pin, "pin")
-                .where( 'user_idx= :user_idx', { user_idx: userIdx });
-                
-            }, 'finCount')
-            .addSelect(sq => {
-                return sq
-                .select('Count(user_idx)')
-                .from(Moment, "moment")
-                .where('user_idx= :user_idx', { user_idx: userIdx });
-            }, 'momentCount')
             .where({ userIdx })
-            .andWhere('is_deleted= :YN', { YN: 'N' })
             .getRawOne();
 
+        const moment = await this.momentRepo.createQueryBuilder()
+        .select(['count(distinct pin_idx) as fin_count, count(moment_idx) as moment_count'])
+        .where({ userIdx })
+        .getRawOne();
+        
+        
         if(!user){
             throw new NotFoundException('해당 유저가 존재하지 않습니다.');
         }
-        
-        return user;
+
+        let newProfileInfo = {};
+        for (let prop in Object.assign(user, moment)) {
+            newProfileInfo[camelCase(prop)] = user[prop];
+        }
+
+        return newProfileInfo;
     }
 
     async findActiveUserByUserIdx(userIdx: number){
