@@ -26,14 +26,27 @@ let PinsService = class PinsService {
     async createPin(userIdx, pinX, pinY) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const pin = await this.repo.findOneBy({ pinX, pinY });
-        console.log(pin);
         if (pin) {
             return pin;
         }
         else {
-            const new_pin = await this.repo.create({ userIdx, pinX, pinY });
+            const new_pin = await this.repo.create({ pinX, pinY });
             return await this.repo.save(new_pin);
         }
+    }
+    async getPinInfo(userIdx, pinIdx, distance) {
+        const { locationX, locationY } = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const { pinX, pinY } = await this.findActivePinByPinIdx(pinIdx);
+        return;
+    }
+    async findActivePinByPinIdx(pinIdx) {
+        const pin = await this.repo.findOneBy({ pinIdx });
+        if (!pin) {
+            throw new common_1.NotFoundException('해당 핀을 찾을 수 없습니다.');
+        }
+        return pin;
+    }
+    async deletePin(pinIdx, userIdx, type) {
     }
 };
 PinsService = __decorate([

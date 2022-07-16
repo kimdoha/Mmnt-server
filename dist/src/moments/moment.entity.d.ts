@@ -6,7 +6,6 @@ export declare class Moment {
     youtubeUrl: string;
     music: string;
     artist: string;
-    isDeleted: string;
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;

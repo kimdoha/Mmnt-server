@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
-const pin_entity_1 = require("../pins/pin.entity");
 const moment_entity_1 = require("../moments/moment.entity");
 let User = class User {
     logInsert() {
@@ -34,7 +33,7 @@ __decorate([
 ], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 500, comment: '유저 비밀번호' }),
-    __metadata("design:type", Function)
+    __metadata("design:type", Object)
 ], User.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 45, comment: '유저 닉네임' }),
@@ -61,10 +60,6 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "alarm", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'char', length: 1, default: 'N', comment: '삭제 여부' }),
-    __metadata("design:type", String)
-], User.prototype, "isDeleted", void 0);
-__decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);
@@ -76,10 +71,6 @@ __decorate([
     (0, typeorm_1.DeleteDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], User.prototype, "deletedAt", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(type => pin_entity_1.Pin, (pin) => pin.userIdx, { eager: false }),
-    __metadata("design:type", Array)
-], User.prototype, "pins", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(type => moment_entity_1.Moment, (moment) => moment.userIdx, { eager: false }),
     __metadata("design:type", Array)

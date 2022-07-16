@@ -25,10 +25,11 @@ MomentsModule = __decorate([
             users_module_1.UsersModule,
             pins_module_1.PinsModule,
         ],
+        controllers: [moments_controller_1.MomentsController],
         providers: [
             moments_service_1.MomentsService,
         ],
-        controllers: [moments_controller_1.MomentsController]
+        exports: [moments_service_1.MomentsService]
     })
 ], MomentsModule);
 exports.MomentsModule = MomentsModule;

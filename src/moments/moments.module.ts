@@ -8,6 +8,7 @@ import { Moment } from './moment.entity';
 import { UploadsService } from 'src/uploads/uploads.service';
 import { UploadsModule } from 'src/uploads/uploads.module';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
+import { PinsService } from 'src/pins/pins.service';
 
 @Module({
   imports: [
@@ -16,9 +17,10 @@ import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
     UsersModule, 
     PinsModule,
   ],
+  controllers: [MomentsController],
   providers: [
     MomentsService,
   ],
-  controllers: [MomentsController]
+  exports: [ MomentsService ]
 })
 export class MomentsModule {}

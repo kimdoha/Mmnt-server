@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pin = void 0;
 const moment_entity_1 = require("../moments/moment.entity");
-const user_entity_1 = require("../users/user.entity");
 const typeorm_1 = require("typeorm");
 let Pin = class Pin {
     logInsert() {
@@ -37,10 +36,6 @@ __decorate([
     __metadata("design:type", Number)
 ], Pin.prototype, "pinY", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'char', length: 1, default: 'N', comment: '삭제 여부' }),
-    __metadata("design:type", String)
-], Pin.prototype, "isDeleted", void 0);
-__decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], Pin.prototype, "createdAt", void 0);
@@ -52,11 +47,6 @@ __decorate([
     (0, typeorm_1.DeleteDateColumn)({ type: "timestamp", nullable: true, }),
     __metadata("design:type", Date)
 ], Pin.prototype, "deletedAt", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.pins, { eager: false }),
-    (0, typeorm_1.JoinColumn)({ name: 'user_idx' }),
-    __metadata("design:type", Number)
-], Pin.prototype, "userIdx", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(type => moment_entity_1.Moment, (moment) => moment.pinIdx, { eager: false }),
     __metadata("design:type", Array)

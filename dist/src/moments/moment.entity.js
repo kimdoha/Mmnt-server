@@ -53,10 +53,6 @@ __decorate([
     __metadata("design:type", String)
 ], Moment.prototype, "artist", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'char', length: 1, default: 'N', comment: '삭제 여부' }),
-    __metadata("design:type", String)
-], Moment.prototype, "isDeleted", void 0);
-__decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: "CURRENT_TIMESTAMP" }),
     __metadata("design:type", Date)
 ], Moment.prototype, "createdAt", void 0);

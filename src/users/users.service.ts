@@ -22,7 +22,6 @@ export class UsersService {
     constructor(
         @InjectRepository(User) private repo: Repository<User>,
         private jwtService: JwtService,
-        private momentService: MomentsService,
     ) {}
 
 
@@ -115,14 +114,6 @@ export class UsersService {
     }
 
 
-    async deleteUserInfo(userIdx: number){
-        const user = await this.findActiveUserByUserIdx(userIdx);
-        
-        await this.momentService.deleteMoment(userIdx, 0, 'user');
-        // 핀 삭제 
-        await this.repo.delete({ userIdx });
-        
-    }
 
     async validateUser(email: string, password: string){
         const user = await this.findActiveUserByEmail(email);

@@ -35,8 +35,12 @@ let MomentsController = class MomentsController {
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData));
     }
     async deleteMoment(user, momentIdx, res) {
-        await this.momentsService.deleteMoment(user.userIdx, momentIdx);
+        await this.momentsService.deleteMoment(user.userIdx, momentIdx, 'moment');
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `모먼트 삭제 성공`));
+    }
+    async deleteUserInfo(user, res) {
+        await this.momentsService.deleteUserInfo(user.userIdx);
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 삭제 성공'));
     }
 };
 __decorate([
@@ -87,6 +91,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, Number, Object]),
     __metadata("design:returntype", Promise)
 ], MomentsController.prototype, "deleteMoment", null);
+__decorate([
+    (0, swagger_1.ApiBearerAuth)('Authorization'),
+    (0, swagger_1.ApiOperation)({ summary: '유저 삭제 API' }),
+    (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 삭제 성공' }),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], MomentsController.prototype, "deleteUserInfo", null);
 MomentsController = __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiTags)('moment'),

@@ -61,5 +61,13 @@ export class MomentsController {
         return res.json(new SuccessReponse(StatusCodes.OK, `모먼트 삭제 성공`));
     }
 
+    @ApiBearerAuth('Authorization')
+    @ApiOperation({ summary: '유저 삭제 API' })
+    @ApiOkResponse({ status: 200, description: '유저 삭제 성공' })
+
+    async deleteUserInfo(@GetUser() user, @Res() res) {
+        await this.momentsService.deleteUserInfo(user.userIdx);
+        return res.json(new SuccessReponse(StatusCodes.OK, '유저 삭제 성공'));
+    }
 
 }

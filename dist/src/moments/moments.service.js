@@ -93,13 +93,25 @@ let MomentsService = class MomentsService {
         }
         return moments;
     }
-    async deleteMoment(userIdx, momentIdx) {
-        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
-        const moment = await this.repo.findOneBy({ momentIdx, userIdx });
-        if (!moment) {
-            throw new common_1.NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');
+    async deleteMoment(userIdx, momentIdx, type) {
+        if (type == 'moment') {
+            const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+            const moment = await this.repo.findOneBy({ momentIdx, userIdx });
+            if (!moment) {
+                throw new common_1.NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');
+            }
+            return await this.repo.delete(momentIdx);
         }
-        return await this.repo.delete(momentIdx);
+        else if (type == 'user') {
+            return await this.repo.delete(userIdx);
+        }
+        else {
+            throw new common_1.BadRequestException('삭제 경로가 올바르지 않습니다.');
+        }
+    }
+    async deleteUserInfo(userIdx) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        await this.deleteMoment(userIdx, 0, 'user');
     }
 };
 MomentsService = __decorate([

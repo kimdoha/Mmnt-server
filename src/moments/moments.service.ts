@@ -105,4 +105,13 @@ export class MomentsService {
      
         
     }
+
+    async deleteUserInfo(userIdx: number){
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        
+        await this.deleteMoment(userIdx, 0, 'user');
+        // 핀 삭제 
+        // await this.userService.delete({ userIdx });
+        
+    }
 }

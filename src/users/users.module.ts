@@ -12,6 +12,9 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { AuthService } from 'src/auth/auth.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { PinsModule } from 'src/pins/pins.module';
+import { MomentsService } from 'src/moments/moments.service';
+import { MomentsModule } from 'src/moments/moments.module';
 
 
 @Module({
@@ -31,6 +34,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     JwtStrategy,
     PassportModule,
     JwtModule,
+    
   ]
 })
 export class UsersModule {}
