@@ -19,8 +19,7 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const pin_entity_1 = require("./pin.entity");
 let PinsService = class PinsService {
-    constructor(cacheManager, repo, usersService) {
-        this.cacheManager = cacheManager;
+    constructor(repo, usersService) {
         this.repo = repo;
         this.usersService = usersService;
     }
@@ -34,15 +33,6 @@ let PinsService = class PinsService {
             const new_pin = await this.repo.create({ pinX, pinY });
             return await this.repo.save(new_pin);
         }
-    }
-    async getPinLists(locationX, locationY) {
-        const distance_tb = await this.repo.createQueryBuilder()
-            .select(`ST_DistanceSphere(
-                                    ST_GeomFromText('POINT(' || ${locationX} || ' ' || ${locationY} || ')', 4326),
-                                    ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y } || ')', 4326 )`)
-            .getRawOne();
-        console.log(distance_tb);
-        return distance_tb;
     }
     async findActivePinByPinIdx(pinIdx) {
         const pin = await this.repo.findOneBy({ pinIdx });
@@ -58,9 +48,8 @@ let PinsService = class PinsService {
 };
 PinsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)(common_1.CACHE_MANAGER)),
-    __param(1, (0, typeorm_2.InjectRepository)(pin_entity_1.Pin)),
-    __metadata("design:paramtypes", [Object, typeorm_1.Repository,
+    __param(0, (0, typeorm_2.InjectRepository)(pin_entity_1.Pin)),
+    __metadata("design:paramtypes", [typeorm_1.Repository,
         users_service_1.UsersService])
 ], PinsService);
 exports.PinsService = PinsService;

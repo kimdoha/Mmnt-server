@@ -26,10 +26,22 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { GetProfileInfoResponse } from 'src/common/responses/users/get.profile-Info.response.dto';
 import { User } from './user.entity';
 import { UpdateLocationDto } from './dtos/update-location.dto';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { 
+    ApiBadRequestResponse, 
+    ApiBearerAuth, 
+    ApiBody, 
+    ApiCreatedResponse, 
+    ApiNotFoundResponse, 
+    ApiOkResponse, 
+    ApiOperation, 
+    ApiResponse, 
+    ApiTags, 
+    ApiUnauthorizedResponse 
+} from '@nestjs/swagger';
 import { SignUpResponseDto } from 'src/common/responses/users/sign-up.response.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
+import { DistanceRequestDto } from './dtos/distance-request.dto';
 
 
 @ApiTags('user')
@@ -94,7 +106,10 @@ export class UsersController {
     }
 
     @ApiBearerAuth('Authorization')
-    @ApiOperation({ summary: '유저 위치 수정 API' })
+    @ApiOperation({ 
+        summary: '유저 위치 수정 및 근처 핀 모먼트 조회 API',
+        description: 'radius(m) : 50m 일 경우 50 입력'
+    })
     @ApiBody({ type: UpdateLocationDto })
     @ApiOkResponse({ status: 200, description: '유저 위치 수정 성공' })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
@@ -104,10 +119,9 @@ export class UsersController {
         @GetUser() user, 
         @Body(ValidationPipe) body: UpdateLocationDto, 
         @Res() res) {
-        const responseData = await this.userService.updateUserLocation(user.userIdx, body);
+        const responseData = await this.userService.updateUserLocation(user.userIdx, { 'locationX': body.locationX, 'locationY': body.locationY } , body.radius);
         return res.json(new SuccessReponse(StatusCodes.OK, '유저 위치 수정 성공', responseData));
     }
-
 
 }
 

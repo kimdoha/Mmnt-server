@@ -30,5 +30,14 @@ __decorate([
     (0, class_validator_1.IsLatitude)(),
     __metadata("design:type", Number)
 ], UpdateLocationDto.prototype, "locationY", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: '위치 반경(m)',
+    }),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(10),
+    (0, class_validator_1.Max)(5000),
+    __metadata("design:type", Number)
+], UpdateLocationDto.prototype, "radius", void 0);
 exports.UpdateLocationDto = UpdateLocationDto;
 //# sourceMappingURL=update-location.dto.js.map

@@ -1,7 +1,6 @@
 import { Connection, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { UpdateLocationDto } from './dtos/update-location.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
 import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
@@ -21,12 +20,18 @@ export declare class UsersService {
     }>;
     signIn(email: string, password: string): Promise<SignInResponseDto>;
     updateUserInfo(userIdx: number, attrs: Partial<UpdateUserInfo>): Promise<User>;
-    updateUserLocation(userIdx: number, location: UpdateLocationDto): Promise<({
+    updateUserLocation(userIdx: number, location: any, radius: number): Promise<({
         pinLists: any[];
+        mainMoment?: undefined;
+        momentLists?: undefined;
+    } | {
+        mainMoment: any;
+        pinLists?: undefined;
         momentLists?: undefined;
     } | {
         momentLists: any[];
         pinLists?: undefined;
+        mainMoment?: undefined;
     })[]>;
     getDetailUserInfo(userIdx: number): Promise<{}>;
     findActiveUserByUserIdx(userIdx: number): Promise<User>;

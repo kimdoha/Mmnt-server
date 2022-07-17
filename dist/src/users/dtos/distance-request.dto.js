@@ -9,17 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PinsController = void 0;
-const common_1 = require("@nestjs/common");
-const pins_service_1 = require("./pins.service");
-let PinsController = class PinsController {
-    constructor(pinsService) {
-        this.pinsService = pinsService;
-    }
-};
-PinsController = __decorate([
-    (0, common_1.Controller)('pins'),
-    __metadata("design:paramtypes", [pins_service_1.PinsService])
-], PinsController);
-exports.PinsController = PinsController;
-//# sourceMappingURL=pins.controller.js.map
+exports.DistanceRequestDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
+class DistanceRequestDto {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], DistanceRequestDto.prototype, "radius", void 0);
+exports.DistanceRequestDto = DistanceRequestDto;
+//# sourceMappingURL=distance-request.dto.js.map

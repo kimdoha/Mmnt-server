@@ -47,7 +47,7 @@ let UsersController = class UsersController {
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
     async updateUserLocation(user, body, res) {
-        const responseData = await this.userService.updateUserLocation(user.userIdx, body);
+        const responseData = await this.userService.updateUserLocation(user.userIdx, { 'locationX': body.locationX, 'locationY': body.locationY }, body.radius);
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 위치 수정 성공', responseData));
     }
 };
@@ -112,7 +112,10 @@ __decorate([
 ], UsersController.prototype, "findProfileInfo", null);
 __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
-    (0, swagger_1.ApiOperation)({ summary: '유저 위치 수정 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '유저 위치 수정 및 근처 핀 모먼트 조회 API',
+        description: 'distance : 기본 단위 (m)'
+    }),
     (0, swagger_1.ApiBody)({ type: update_location_dto_1.UpdateLocationDto }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 위치 수정 성공' }),
     (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),

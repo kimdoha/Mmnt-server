@@ -9,7 +9,6 @@ import { Cache } from 'cache-manager';
 @Injectable()
 export class PinsService {
     constructor(
-        @Inject(CACHE_MANAGER) private cacheManager: Cache,
         @InjectRepository(Pin) private repo: Repository<Pin>,
         private usersService: UsersService) {}
 
@@ -26,19 +25,6 @@ export class PinsService {
         }
     }
 
-    async getPinLists(locationX: number, locationY: number){
-        
-        const distance_tb = await this.repo.createQueryBuilder()
-                            .select(`ST_DistanceSphere(
-                                    ST_GeomFromText('POINT(' || ${ locationX } || ' ' || ${ locationY } || ')', 4326),
-                                    ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y } || ')', 4326 )`)
-                            .getRawOne();
-
-
-        console.log(distance_tb);
-
-        return distance_tb;
-    }
     
     async findActivePinByPinIdx(pinIdx: number){
         const pin = await this.repo.findOneBy({ pinIdx });

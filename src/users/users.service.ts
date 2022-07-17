@@ -67,7 +67,7 @@ export class UsersService {
         return await this.repo.save(user);
     }
 
-    async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
+    async updateUserLocation(userIdx: number, location: any, radius: number) {
         const user = await this.findActiveUserByUserIdx(userIdx);
         await this.repo.update(userIdx, location);
 
@@ -76,31 +76,38 @@ export class UsersService {
         .where(`ST_DWithin(
             ST_GeomFromText(:point, 4326),
             ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
-            , 5000, false)`)
+            , :limit, false)`)
         .setParameters({ 
-            point: `POINT(${ location.locationX } ${ location.locationY })`
+            point: `POINT(${ location.locationX } ${ location.locationY })`,
+            limit: `${ radius }`
         })
         .getRawMany();
+
 
         let pins = [];
         pinLists.map(pin => pins.push(pin.pin_idx));
 
-
-        const momentLists = await this.momentRepo.createQueryBuilder('moment')
+        
+        const momentLists = pins.length ?
+        await this.momentRepo.createQueryBuilder('moment')
         .select([`moment_idx, moment.pin_idx, title,
                 youtube_url, music, artist,
                (ST_DistanceSphere(
                 ST_GeomFromText(:point, 4326),
                 ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
-        .leftJoinAndSelect(Pin, "pin", "pin.pin_idx = moment.pin_idx")
-        .where('moment.pin_idx in (:...pins)', { pins })
+        .leftJoin(Pin, "pin", "pin.pin_idx = moment.pin_idx")
+        .where('moment.pin_idx in (:...pins)', { pins  }) 
         .orderBy('distance')
         .setParameters({ 
-            point: `POINT(${ location.locationX } ${ location.locationY })`
+            point: `POINT(${ location.locationX } ${ location.locationY })`,
         })
-        .getRawMany();
+        .getRawMany() : [];
 
-        return [ { pinLists }, { momentLists } ]
+        return [ 
+            { pinLists }, 
+            { 'mainMoment': momentLists[0] ? momentLists[0] : {} }, 
+            { 'momentLists': momentLists?.slice(1, momentLists.length - 1 )} 
+        ];
     }
     
     

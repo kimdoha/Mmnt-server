@@ -2,7 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { 
     IsLongitude, 
     IsLatitude, 
-    IsNumber 
+    IsNumber, 
+    Min,
+    Max
 } from 'class-validator';
 
 export class UpdateLocationDto {
@@ -21,4 +23,11 @@ export class UpdateLocationDto {
     @IsLatitude()
     locationY: number;
 
+    @ApiProperty({
+        description: '위치 반경(m)',
+    })
+    @IsNumber()
+    @Min(10)
+    @Max(5000)
+    radius: number;
 }

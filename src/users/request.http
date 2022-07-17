@@ -30,7 +30,8 @@ Content-Type: application/json
 
 {
     "locationX" : 127.1655347,
-    "locationY": 37.6118924
+    "locationY": 37.6118924,
+    "radius": 5000
 }
 
 
