@@ -21,6 +21,7 @@ const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
 const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
 const create_moment_dto_1 = require("./dtos/create-moment.dto");
 const get_history_request_dto_1 = require("./dtos/get-history-request.dto");
+const get_moments_request_dto_1 = require("./dtos/get-moments-request.dto");
 const moments_service_1 = require("./moments.service");
 let MomentsController = class MomentsController {
     constructor(momentsService) {
@@ -33,6 +34,10 @@ let MomentsController = class MomentsController {
     async getMyMomentHistory(user, query, res) {
         const responseData = await this.momentsService.getMyMoments(user.userIdx, query);
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData));
+    }
+    async getMoments(user, res, pinIdx, query) {
+        const responseData = await this.momentsService.getMomentsByPin(user.userIdx, pinIdx, query);
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, `핀 별 모먼트 리스트 조회 성공`, responseData));
     }
     async deleteMoment(user, momentIdx, res) {
         await this.momentsService.deleteMoment(user.userIdx, momentIdx, 'moment');
@@ -78,6 +83,21 @@ __decorate([
     __metadata("design:paramtypes", [Object, get_history_request_dto_1.GetHistoryRequest, Object]),
     __metadata("design:returntype", Promise)
 ], MomentsController.prototype, "getMyMomentHistory", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: '핀 별 모먼트 리스트 조회 API' }),
+    (0, swagger_1.ApiOkResponse)({ status: 200, description: '핀 별 모먼트 리스트 조회 성공' }),
+    (0, swagger_1.ApiBadRequestResponse)({ status: 400, description: 'page, limit 이 올바르지 않습니다.' }),
+    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다. | 등록된 모먼트가 없습니다.' }),
+    (0, common_1.Get)('/pin/:pinIdx'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
+    __param(1, (0, common_1.Res)()),
+    __param(2, (0, common_1.Param)('pinIdx')),
+    __param(3, (0, common_1.Query)(common_1.ValidationPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Number, get_moments_request_dto_1.getMomentsRequestDto]),
+    __metadata("design:returntype", Promise)
+], MomentsController.prototype, "getMoments", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '모먼트 삭제 API' }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '모먼트 삭제 성공' }),

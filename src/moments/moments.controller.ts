@@ -8,6 +8,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { CreateMomentDto } from './dtos/create-moment.dto';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
+import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
 import { MomentsService } from './moments.service';
 
 @ApiBearerAuth('Authorization')
@@ -51,6 +52,22 @@ export class MomentsController {
         return res.json(new SuccessReponse(StatusCodes.OK, `나의 모먼트 피드 조회 성공`, responseData))
     }
 
+    @ApiOperation({ summary: '핀 별 모먼트 리스트 조회 API' })
+    @ApiOkResponse({ status: 200, description: '핀 별 모먼트 리스트 조회 성공' })
+    @ApiBadRequestResponse({ status: 400, description: 'page, limit 이 올바르지 않습니다.' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다. | 등록된 모먼트가 없습니다.' })
+    @Get('/pin/:pinIdx')
+    @UseGuards(JwtAuthGuard)
+    async getMoments( 
+        @GetUser() user, @Res() res,
+        @Param('pinIdx') pinIdx: number, 
+        @Query(ValidationPipe) query: getMomentsRequestDto, 
+    ){
+        const responseData = await this.momentsService.getMomentsByPin(user.userIdx, pinIdx, query);
+        return res.json(new SuccessReponse(StatusCodes.OK, `핀 별 모먼트 리스트 조회 성공`, responseData));
+    }
+
+    
     @ApiOperation({ summary: '모먼트 삭제 API'})
     @ApiOkResponse({ status: 200, description: '모먼트 삭제 성공' })
     @ApiNotFoundResponse({ status: 404, description: '해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.' })

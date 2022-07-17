@@ -9,6 +9,7 @@ import { query } from 'express';
 import { User } from 'src/users/user.entity';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { Page } from 'src/helpers/page/page';
+import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
 
 
 
@@ -52,7 +53,7 @@ export class MomentsService {
         const offset = Page.getOffset(query.page, query.limit);
         
         if(query.type === 'main') {
-            moments = this.repo.createQueryBuilder('users')
+            moments = await this.repo.createQueryBuilder('users')
             .select([ 'users.moment_idx, users.title, users.image_url, users.updated_at' ])
             .where('user_idx= :id', { id: userIdx })
             .orderBy('moment_idx', 'DESC')
@@ -82,6 +83,28 @@ export class MomentsService {
         return moments;
     }
 
+    
+    async getMomentsByPin(userIdx: number, pinIdx: number, query: getMomentsRequestDto) {
+        await this.usersService.findActiveUserByUserIdx(userIdx);
+        await this.pinsService.findActivePinByPinIdx(pinIdx);
+        
+        const limit = Page.getLimit(query.limit);
+        const offset = Page.getOffset(query.page, query.limit);
+
+        const moments = await this.repo.createQueryBuilder()
+                        .where('pin_idx = :id', { id: pinIdx })
+                        .orderBy("moment_idx", "DESC")
+                        .limit(limit)
+                        .offset(offset)
+                        .getRawMany();
+
+        
+        if(!moments.length){
+            throw new NotFoundException('등록된 모먼트가 없습니다.')
+        }
+        return moments;
+
+    }
 
     async deleteMoment(userIdx: number, momentIdx: number, type: string){
         

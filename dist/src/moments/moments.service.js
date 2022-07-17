@@ -65,7 +65,7 @@ let MomentsService = class MomentsService {
         const limit = page_1.Page.getLimit(query.limit);
         const offset = page_1.Page.getOffset(query.page, query.limit);
         if (query.type === 'main') {
-            moments = this.repo.createQueryBuilder('users')
+            moments = await this.repo.createQueryBuilder('users')
                 .select(['users.moment_idx, users.title, users.image_url, users.updated_at'])
                 .where('user_idx= :id', { id: userIdx })
                 .orderBy('moment_idx', 'DESC')
@@ -89,6 +89,22 @@ let MomentsService = class MomentsService {
                 .getRawMany();
         }
         if (!moments) {
+            throw new common_1.NotFoundException('등록된 모먼트가 없습니다.');
+        }
+        return moments;
+    }
+    async getMomentsByPin(userIdx, pinIdx, query) {
+        await this.usersService.findActiveUserByUserIdx(userIdx);
+        await this.pinsService.findActivePinByPinIdx(pinIdx);
+        const limit = page_1.Page.getLimit(query.limit);
+        const offset = page_1.Page.getOffset(query.page, query.limit);
+        const moments = await this.repo.createQueryBuilder()
+            .where('pin_idx = :id', { id: pinIdx })
+            .orderBy("moment_idx", "DESC")
+            .limit(limit)
+            .offset(offset)
+            .getRawMany();
+        if (!moments.length) {
             throw new common_1.NotFoundException('등록된 모먼트가 없습니다.');
         }
         return moments;
