@@ -69,10 +69,38 @@ export class UsersService {
 
     async updateUserLocation(userIdx: number, location: UpdateLocationDto) {
         const user = await this.findActiveUserByUserIdx(userIdx);
+        await this.repo.update(userIdx, location);
+
+        const pinLists = await this.pinRepo.createQueryBuilder()             
+        .select([ `pin_idx, pin_x, pin_y`])
+        .where(`ST_DWithin(
+            ST_GeomFromText(:point, 4326),
+            ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
+            , 5000, false)`)
+        .setParameters({ 
+            point: `POINT(${ location.locationX } ${ location.locationY })`
+        })
+        .getRawMany();
+
+        let pins = [];
         
-        const results = await this.cacheManager.get(String(userIdx));
-        console.log(results);
-        return await this.repo.update(userIdx, location);
+
+        const momentLists = await this.momentRepo.createQueryBuilder()
+        .select([`moment_idx, moments.pin_idx, title,
+                youtube_url, music, artist,
+               (ST_DistanceSphere(
+                ST_GeomFromText(:point, 4326),
+                ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
+        .leftJoinAndSelect(Pin, "pin", "pin.pin_idx = moments.pin_idx")
+        .where('pin_idx in (:...pins)', { pins: Object.values(pinLists[0].pin_idx) })
+        .orderBy('distance')
+        .setParameters({ 
+            point: `POINT(${ location.locationX } ${ location.locationY })`
+        })
+        .getRawMany();
+
+
+        return Object.assign({}, pinLists, momentLists);
     }
     
     
