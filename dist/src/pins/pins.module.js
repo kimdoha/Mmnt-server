@@ -11,7 +11,6 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const users_module_1 = require("../users/users.module");
 const pin_entity_1 = require("./pin.entity");
-const pins_controller_1 = require("./pins.controller");
 const pins_service_1 = require("./pins.service");
 const cache_config_1 = require("../configs/cache.config");
 let PinsModule = class PinsModule {
@@ -23,7 +22,6 @@ PinsModule = __decorate([
             users_module_1.UsersModule,
             common_1.CacheModule.registerAsync(cache_config_1.cacheConfig),
         ],
-        controllers: [pins_controller_1.PinsController],
         providers: [pins_service_1.PinsService],
         exports: [pins_service_1.PinsService]
     })

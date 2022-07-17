@@ -98,6 +98,7 @@ export class UsersService {
         .leftJoin(Pin, "pin", "pin.pin_idx = moment.pin_idx")
         .where('moment.pin_idx in (:...pins)', { pins  }) 
         .orderBy('distance')
+        .limit(50)
         .setParameters({ 
             point: `POINT(${ location.locationX } ${ location.locationY })`,
         })

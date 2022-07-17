@@ -41,7 +41,6 @@ import {
 import { SignUpResponseDto } from 'src/common/responses/users/sign-up.response.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
-import { DistanceRequestDto } from './dtos/distance-request.dto';
 
 
 @ApiTags('user')
