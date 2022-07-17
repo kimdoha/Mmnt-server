@@ -83,24 +83,24 @@ export class UsersService {
         .getRawMany();
 
         let pins = [];
-        
+        pinLists.map(pin => pins.push(pin.pin_idx));
 
-        const momentLists = await this.momentRepo.createQueryBuilder()
-        .select([`moment_idx, moments.pin_idx, title,
+
+        const momentLists = await this.momentRepo.createQueryBuilder('moment')
+        .select([`moment_idx, moment.pin_idx, title,
                 youtube_url, music, artist,
                (ST_DistanceSphere(
                 ST_GeomFromText(:point, 4326),
                 ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
-        .leftJoinAndSelect(Pin, "pin", "pin.pin_idx = moments.pin_idx")
-        .where('pin_idx in (:...pins)', { pins: Object.values(pinLists[0].pin_idx) })
+        .leftJoinAndSelect(Pin, "pin", "pin.pin_idx = moment.pin_idx")
+        .where('moment.pin_idx in (:...pins)', { pins })
         .orderBy('distance')
         .setParameters({ 
             point: `POINT(${ location.locationX } ${ location.locationY })`
         })
         .getRawMany();
 
-
-        return Object.assign({}, pinLists, momentLists);
+        return [ { pinLists }, { momentLists } ]
     }
     
     

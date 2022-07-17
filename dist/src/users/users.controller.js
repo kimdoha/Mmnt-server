@@ -47,8 +47,8 @@ let UsersController = class UsersController {
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
     async updateUserLocation(user, body, res) {
-        await this.userService.updateUserLocation(user.userIdx, body);
-        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 위치 수정 성공'));
+        const responseData = await this.userService.updateUserLocation(user.userIdx, body);
+        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 위치 수정 성공', responseData));
     }
 };
 __decorate([
