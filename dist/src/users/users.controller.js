@@ -114,7 +114,7 @@ __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiOperation)({
         summary: '유저 위치 수정 및 근처 핀 모먼트 조회 API',
-        description: 'distance : 기본 단위 (m)'
+        description: 'radius(m) : 50m 일 경우 50 입력'
     }),
     (0, swagger_1.ApiBody)({ type: update_location_dto_1.UpdateLocationDto }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '유저 위치 수정 성공' }),
