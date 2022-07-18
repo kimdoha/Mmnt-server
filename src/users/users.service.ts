@@ -84,10 +84,19 @@ export class UsersService {
         .getRawMany();
 
 
-        let pins = [];
+        let pins = [], moments = [];
         pinLists.map(pin => pins.push(pin.pin_idx));
 
-        
+        const momentIdxLists = pins.length ?
+        await this.momentRepo.createQueryBuilder('moment')
+        .select([ 'MAX(moment_idx) AS moment_idx '])
+        .where('moment.pin_idx in (:...pins)', { pins }) 
+        .groupBy('moment.pin_idx')
+        .getRawMany() : [];
+
+        console.log(momentIdxLists);
+        momentIdxLists.map(moment => moments.push(moment.moment_idx));
+
         const momentLists = pins.length ?
         await this.momentRepo.createQueryBuilder('moment')
         .select([`moment_idx, moment.pin_idx, title,
@@ -96,7 +105,7 @@ export class UsersService {
                 ST_GeomFromText(:point, 4326),
                 ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
         .leftJoin(Pin, "pin", "pin.pin_idx = moment.pin_idx")
-        .where('moment.pin_idx in (:...pins)', { pins  }) 
+        .where('moment.moment_idx in (:...moments)', { moments }) 
         .orderBy('distance')
         .limit(50)
         .setParameters({ 
@@ -107,7 +116,7 @@ export class UsersService {
         return [ 
             { pinLists }, 
             { 'mainMoment': momentLists[0] ? momentLists[0] : {} }, 
-            { 'momentLists': momentLists?.slice(1, momentLists.length - 1 )} 
+            { 'momentLists': momentLists?.slice(1, momentLists.length )} 
         ];
     }
     
