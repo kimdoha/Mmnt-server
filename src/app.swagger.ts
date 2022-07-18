@@ -1,9 +1,15 @@
 import { 
     DocumentBuilder, 
+    SwaggerCustomOptions, 
     SwaggerModule 
 } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
 
+const swaggerCustomOptions: SwaggerCustomOptions = {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  };
 
 export const initSwagger = (app: INestApplication) => {
     const swaggerConfig = new DocumentBuilder()
@@ -19,5 +25,5 @@ export const initSwagger = (app: INestApplication) => {
     .build();
 
     const document = SwaggerModule.createDocument(app, swaggerConfig);
-    SwaggerModule.setup('/docs', app, document);
+    SwaggerModule.setup('/docs', app, document, swaggerCustomOptions);
 }
