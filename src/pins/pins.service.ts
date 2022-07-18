@@ -1,4 +1,12 @@
-import { BadRequestException, CACHE_MANAGER, ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { 
+    BadRequestException, 
+    CACHE_MANAGER, 
+    ConflictException, 
+    Inject, 
+    Injectable,
+    NotFoundException, 
+    UnauthorizedException 
+} from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
