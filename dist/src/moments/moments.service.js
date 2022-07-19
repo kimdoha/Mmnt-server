@@ -25,9 +25,9 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MomentsService = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("typeorm");
 const pins_service_1 = require("../pins/pins.service");
 const users_service_1 = require("../users/users.service");
-const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const moment_entity_1 = require("./moment.entity");
 const user_entity_1 = require("../users/user.entity");

@@ -1,6 +1,6 @@
+import { Connection, Repository } from 'typeorm';
 import { PinsService } from 'src/pins/pins.service';
 import { UsersService } from 'src/users/users.service';
-import { Connection, Repository } from 'typeorm';
 import { Moment } from './moment.entity';
 import { CreateMomentDto } from './dtos/create-moment.dto';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';

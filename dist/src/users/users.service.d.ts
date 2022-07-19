@@ -8,12 +8,12 @@ import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { Cache } from 'cache-manager';
 export declare class UsersService {
     private cacheManager;
-    private repo;
-    private pinRepo;
-    private momentRepo;
+    private userRepository;
+    private pinRepository;
+    private momentRepository;
     private jwtService;
     private connection;
-    constructor(cacheManager: Cache, repo: Repository<User>, pinRepo: Repository<Pin>, momentRepo: Repository<Moment>, jwtService: JwtService, connection: Connection);
+    constructor(cacheManager: Cache, userRepository: Repository<User>, pinRepository: Repository<Pin>, momentRepository: Repository<Moment>, jwtService: JwtService, connection: Connection);
     createUser(email: string, password: string): Promise<{
         userIdx: number;
         email: string;

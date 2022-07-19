@@ -15,7 +15,6 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create.user.dto';
 import { UsersService } from './users.service';
-
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { StatusCodes } from 'http-status-codes';
 import { SuccessReponse } from 'src/helpers/success-reponse.helper';
@@ -150,7 +149,8 @@ export class UsersController {
     async updateUserLocation(
         @GetUser() user, 
         @Body(ValidationPipe) body: UpdateLocationDto, 
-        @Res() res) {
+        @Res() res
+    ) {
         const responseData = await this.userService.updateUserLocation(user.userIdx, { 'locationX': body.locationX, 'locationY': body.locationY } , body.radius);
         return res.json(new SuccessReponse(StatusCodes.OK, '유저 위치 수정 성공', responseData));
     }

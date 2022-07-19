@@ -41,7 +41,7 @@ export class UsersService {
 
 
     async createUser(email: string, password: string) {
-
+        try
         const user: User = await this.userRepository.findOneBy({ email });
         if(user){
             throw new BadRequestException('중복된 이메일입니다.');
@@ -91,7 +91,7 @@ export class UsersService {
         .getRawMany();
 
         console.log(pinLists);
-        if(!pinLists){
+        if(!pinLists.length){
             throw new NotFoundException('근처 핀을 찾을 수 없습니다.');
         }
 
@@ -105,8 +105,9 @@ export class UsersService {
         .getRawMany();
 
         console.log(momentIdxLists);
-        momentIdxLists.map(moment => moments.push(moment.moment_idx));
+        await momentIdxLists.map(moment => moments.push(parseInt(moment.moment_idx)));
 
+        console.log(moments);
         const momentLists = await this.momentRepository.createQueryBuilder('moment')
         .select([`moment_idx, moment.pin_idx, 
                 title, youtube_url, music, artist,
@@ -114,7 +115,7 @@ export class UsersService {
                 ST_GeomFromText(:point, 4326),
                 ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
         .leftJoin(Pin, "pin", "pin.pin_idx = moment.pin_idx")
-        .whereInIds({ moments }) 
+        .whereInIds(moments) 
         .orderBy('distance')
         .limit(50)
         .setParameters({ 

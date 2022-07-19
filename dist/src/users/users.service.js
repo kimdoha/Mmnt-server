@@ -23,26 +23,24 @@ const pin_entity_1 = require("../pins/pin.entity");
 const moment_entity_1 = require("../moments/moment.entity");
 const create_hashed_password_1 = require("../configs/functions/create.hashed-password");
 const change_case_1 = require("change-case");
-let wkx = require('wkx');
 let UsersService = class UsersService {
-    constructor(cacheManager, repo, pinRepo, momentRepo, jwtService, connection) {
+    constructor(cacheManager, userRepository, pinRepository, momentRepository, jwtService, connection) {
         this.cacheManager = cacheManager;
-        this.repo = repo;
-        this.pinRepo = pinRepo;
-        this.momentRepo = momentRepo;
+        this.userRepository = userRepository;
+        this.pinRepository = pinRepository;
+        this.momentRepository = momentRepository;
         this.jwtService = jwtService;
         this.connection = connection;
     }
     async createUser(email, password) {
-        const user = await this.repo.findOneBy({ email });
+        const user = await this.userRepository.findOneBy({ email });
         if (user) {
             throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
         const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
-        const profileUrl = 'https://mmntuploads.s3.ap-northeast-2.amazonaws.com/1657956807175version%3Dprofile.png';
-        const new_user = await this.repo.create({ email, password: hashedPassword, profileUrl });
-        const { userIdx } = await this.repo.save(new_user);
-        await this.repo.update(userIdx, { nickname: `${userIdx}번째 익명이` });
+        const new_user = await this.userRepository.create({ email, password: hashedPassword });
+        const { userIdx } = await this.userRepository.save(new_user);
+        await this.userRepository.update(userIdx, { nickname: `${userIdx}번째 익명이` });
         return { userIdx, email };
     }
     async signIn(email, password) {
@@ -55,13 +53,13 @@ let UsersService = class UsersService {
             Object.assign(attrs, { password: await (0, create_hashed_password_1.createHashedPassword)(attrs.password) });
         }
         Object.assign(user, attrs);
-        return await this.repo.save(user);
+        return await this.userRepository.save(user);
     }
     async updateUserLocation(userIdx, location, radius) {
         const user = await this.findActiveUserByUserIdx(userIdx);
-        await this.repo.update(userIdx, location);
-        const pinLists = await this.pinRepo.createQueryBuilder()
-            .select([`pin_idx, pin_x, pin_y`])
+        await this.userRepository.update(userIdx, location);
+        const pinLists = await this.pinRepository.createQueryBuilder()
+            .select(['pin_idx, pin_x, pin_y'])
             .where(`ST_DWithin(
             ST_GeomFromText(:point, 4326),
             ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
@@ -71,43 +69,46 @@ let UsersService = class UsersService {
             limit: `${radius}`
         })
             .getRawMany();
+        console.log(pinLists);
+        if (!pinLists.length) {
+            throw new common_1.NotFoundException('근처 핀을 찾을 수 없습니다.');
+        }
         let pins = [], moments = [];
         pinLists.map(pin => pins.push(pin.pin_idx));
-        const momentIdxLists = pins.length ?
-            await this.momentRepo.createQueryBuilder('moment')
-                .select(['MAX(moment_idx) AS moment_idx '])
-                .where('moment.pin_idx in (:...pins)', { pins })
-                .groupBy('moment.pin_idx')
-                .getRawMany() : [];
+        const momentIdxLists = await this.momentRepository.createQueryBuilder('moment')
+            .select(['MAX(moment_idx) AS moment_idx '])
+            .where('moment.pin_idx in (:...pins)', { pins })
+            .groupBy('moment.pin_idx')
+            .getRawMany();
         console.log(momentIdxLists);
-        momentIdxLists.map(moment => moments.push(moment.moment_idx));
-        const momentLists = pins.length ?
-            await this.momentRepo.createQueryBuilder('moment')
-                .select([`moment_idx, moment.pin_idx, title,
-                youtube_url, music, artist,
+        await momentIdxLists.map(moment => moments.push(parseInt(moment.moment_idx)));
+        console.log(moments);
+        const momentLists = await this.momentRepository.createQueryBuilder('moment')
+            .select([`moment_idx, moment.pin_idx, 
+                title, youtube_url, music, artist,
                (ST_DistanceSphere(
                 ST_GeomFromText(:point, 4326),
                 ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
-                .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = moment.pin_idx")
-                .where('moment.moment_idx in (:...moments)', { moments })
-                .orderBy('distance')
-                .limit(50)
-                .setParameters({
-                point: `POINT(${location.locationX} ${location.locationY})`,
-            })
-                .getRawMany() : [];
+            .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = moment.pin_idx")
+            .whereInIds(moments)
+            .orderBy('distance')
+            .limit(50)
+            .setParameters({
+            point: `POINT(${location.locationX} ${location.locationY})`,
+        })
+            .getRawMany();
         return [
             { pinLists },
             { 'mainMoment': momentLists[0] ? momentLists[0] : {} },
-            { 'momentLists': momentLists === null || momentLists === void 0 ? void 0 : momentLists.slice(1, momentLists.length) }
+            { 'momentLists': momentLists[1] ? momentLists.slice(1, momentLists.length) : [] }
         ];
     }
     async getDetailUserInfo(userIdx) {
-        const user = await this.repo.createQueryBuilder()
+        const user = await this.userRepository.createQueryBuilder()
             .select(['user_idx, email, nickname, profile_url'])
             .where({ userIdx })
             .getRawOne();
-        const moment = await this.momentRepo.createQueryBuilder()
+        const moment = await this.momentRepository.createQueryBuilder()
             .select(['count(distinct pin_idx) as fin_count, count(moment_idx) as moment_count'])
             .where({ userIdx })
             .getRawOne();
@@ -121,14 +122,14 @@ let UsersService = class UsersService {
         return newProfileInfo;
     }
     async findActiveUserByUserIdx(userIdx) {
-        const user = await this.repo.findOneBy({ userIdx });
+        const user = await this.userRepository.findOneBy({ userIdx });
         if (!user) {
             throw new common_1.NotFoundException('해당 유저가 존재하지 않습니다.');
         }
         return user;
     }
     async findActiveUserByEmail(email) {
-        const user = await this.repo.findOneBy({ email });
+        const user = await this.userRepository.findOneBy({ email });
         if (!user) {
             throw new common_1.NotFoundException('해당 유저가 존재하지 않습니다.');
         }
@@ -139,7 +140,10 @@ let UsersService = class UsersService {
         if (!(await bcrypt.compare(password, user.password))) {
             throw new common_1.UnauthorizedException('유저 정보가 올바르지 않습니다.');
         }
-        return { id: user.userIdx, email };
+        return {
+            id: user.userIdx,
+            email
+        };
     }
     async login(payload) {
         const { id, email } = payload;
@@ -149,7 +153,7 @@ let UsersService = class UsersService {
         };
     }
     async deleteUser(userIdx) {
-        return await this.repo.delete({ userIdx });
+        return await this.userRepository.delete({ userIdx });
     }
 };
 UsersService = __decorate([
