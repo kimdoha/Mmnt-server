@@ -27,7 +27,6 @@ import { MomentsModule } from 'src/moments/moments.module';
 import { Moment } from 'src/moments/moment.entity';
 import { Pin } from 'src/pins/pin.entity';
 import { cacheConfig } from 'src/configs/cache.config';
-import { Logger } from 'winston';
 
 @Module({
   imports: [

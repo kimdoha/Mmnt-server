@@ -26,7 +26,6 @@ import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { MomentsService } from 'src/moments/moments.service';
 import { camelCase } from "change-case";
 import { Cache } from 'cache-manager';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 
 
