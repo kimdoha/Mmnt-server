@@ -1,4 +1,7 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { 
+  CacheModule, 
+  Module 
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -7,9 +10,11 @@ import { PinsModule } from './pins/pins.module';
 import { MomentsModule } from './moments/moments.module';
 import { typeORMConfig } from './configs/typeorm.config';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { 
+  ConfigModule, 
+  ConfigService 
+} from '@nestjs/config';
 import { UploadsModule } from './uploads/uploads.module';
-import { NestjsFormDataModule } from 'nestjs-form-data';
 import * as AWS from 'aws-sdk';
 
 
@@ -30,8 +35,6 @@ AWS.config.update({
     PinsModule, 
     MomentsModule, 
     UploadsModule,
-    NestjsFormDataModule,
-    
   ],
   controllers: [AppController],
   providers: [AppService],

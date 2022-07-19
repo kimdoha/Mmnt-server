@@ -50,8 +50,15 @@ export class UsersController {
 
     @ApiOperation({ summary: '회원 가입 API' })
     @ApiBody({ type: CreateUserDto })
-    @ApiCreatedResponse({ status: 201, description: '회원 가입 성공', type: SignUpResponseDto })
-    @ApiBadRequestResponse({ status: 400, description: '중복된 이메일 외 Bad Request' })
+    @ApiCreatedResponse({ 
+        status: 201, 
+        description: '회원 가입 성공', 
+        type: SignUpResponseDto 
+    })
+    @ApiBadRequestResponse({ 
+        status: 400, 
+        description: 'Bad Request' 
+    })
     @Post('/sign-up')
     async signup(@Body(ValidationPipe) body: CreateUserDto, @Res() res) : Promise<any>{
         
@@ -61,9 +68,19 @@ export class UsersController {
 
     @ApiOperation({ summary: '로그인 API' })
     @ApiBody({ type: CreateUserDto })
-    @ApiCreatedResponse({ status: 201, description: '로그인 성공', type: SignInResponseDto })
-    @ApiUnauthorizedResponse({ status: 401, description: '유저 정보가 올바르지 않습니다.' })
-    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
+    @ApiCreatedResponse({ 
+        status: 201, 
+        description: '로그인 성공', 
+        type: SignInResponseDto 
+    })
+    @ApiUnauthorizedResponse({ 
+        status: 401, 
+        description: '유저 정보가 올바르지 않습니다.' 
+    })
+    @ApiNotFoundResponse({ 
+        status: 404, 
+        description: '해당 유저가 존재하지 않습니다.'
+    })
     @Post('/sign-in')
     async signin(@Body(ValidationPipe) body: CreateUserDto, @Res() res) {
         
@@ -78,8 +95,14 @@ export class UsersController {
         `이메일, 비밀번호, 닉네임 변경 가능. 
         이메일 변경 시, [인증 번호 발송] API를 먼저 사용해주세요.`
     })
-    @ApiOkResponse({ status: 200, description: '유저 정보 변경 성공' })
-    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
+    @ApiOkResponse({ 
+        status: 200, 
+        description: '유저 정보 변경 성공' 
+    })
+    @ApiNotFoundResponse({ 
+        status: 404, 
+        description: '해당 유저가 존재하지 않습니다.'
+    })
     @Patch('')
     @UseGuards(JwtAuthGuard)
     async updateUserInfo(@GetUser() user, @Body(ValidationPipe) body: UpdateUserInfo, @Res() res): Promise<any> {
@@ -94,7 +117,11 @@ export class UsersController {
         summary: '유저 프로필 조회 API', 
         description: '유저 핀 | 모먼트 개수 확인 가능합니다.'
     })
-    @ApiOkResponse({ status: 200, description: '유저 프로필 조회 성공', type: GetProfileInfoResponse })
+    @ApiOkResponse({ 
+        status: 200, 
+        description: '유저 프로필 조회 성공', 
+        type: GetProfileInfoResponse 
+    })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
     @Get('/profile-info')
     @UseGuards(JwtAuthGuard)
@@ -110,8 +137,14 @@ export class UsersController {
         description: 'radius(m) : 50m 일 경우 50 입력'
     })
     @ApiBody({ type: UpdateLocationDto })
-    @ApiOkResponse({ status: 200, description: '유저 위치 수정 성공' })
-    @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.'})
+    @ApiOkResponse({ 
+        status: 200, 
+        description: '유저 위치 수정 성공' 
+    })
+    @ApiNotFoundResponse({ 
+        status: 404, 
+        description: '해당 유저가 존재하지 않습니다.'
+    })
     @Patch('/location')
     @UseGuards(JwtAuthGuard)
     async updateUserLocation(

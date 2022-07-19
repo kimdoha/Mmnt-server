@@ -28,7 +28,6 @@ export class Pin {
     @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' })
     pinY: number
 
-
     @CreateDateColumn({ type: "timestamp", default: "CURRENT_TIMESTAMP" })
     createdAt : Date
 
@@ -38,10 +37,6 @@ export class Pin {
     @DeleteDateColumn({ type: "timestamp", nullable: true, })
     deletedAt: Date | null
     
-
-    // @ManyToOne(type => User, user => user.pins, { eager: false })
-    // @JoinColumn({ name: 'user_idx'})
-    // userIdx: number;
 
     @OneToMany(type => Moment, (moment: Moment) => moment.pinIdx, { eager: false })
     moments: Moment[];

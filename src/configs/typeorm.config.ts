@@ -17,14 +17,8 @@ export const typeORMConfig: TypeOrmModuleOptions = {
       database: process.env.NODE_ENV === 'prod' ? process.env.PROD_NAME : process.env.DEV_NAME,
       entities: [join(__dirname, '../**/*entity{.ts,.js}')],
       autoLoadEntities: true,
-      //entities: [User, Pin, Moment],
       synchronize: false,
       logging: true,
       namingStrategy: new SnakeNamingStrategy(),
 };    
 
-
-// type: 'sqlite',
-// database: 'db.sqlite',
-// entities: [User, Pin, Moment],
-// synchronize: true,

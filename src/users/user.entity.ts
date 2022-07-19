@@ -46,7 +46,6 @@ export class User {
     @Column({ type: 'char', length: 1, default: 'Y', comment: '알림 여부'})
     alarm: string
 
-
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     createdAt : Date
 
@@ -55,9 +54,6 @@ export class User {
 
     @DeleteDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     deletedAt: Date | null
-
-    // @OneToMany(type => Pin, (pin: Pin) => pin.userIdx, { eager: false })
-    // pins: Pin[];
 
 
     @OneToMany(type => Moment, (moment: Moment) => moment.userIdx, { eager: false })
