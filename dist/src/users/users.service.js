@@ -33,27 +33,42 @@ let UsersService = class UsersService {
         this.connection = connection;
     }
     async createUser(email, password) {
-        const user = await this.userRepository.findOneBy({ email });
-        if (user) {
-            throw new common_1.BadRequestException('중복된 이메일입니다.');
+        try {
+            const user = await this.userRepository.findOneBy({ email });
+            if (user) {
+                throw new common_1.BadRequestException('중복된 이메일입니다.');
+            }
+            const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
+            const new_user = await this.userRepository.create({ email, password: hashedPassword });
+            const { userIdx } = await this.userRepository.save(new_user);
+            await this.userRepository.update(userIdx, { nickname: `${userIdx}번째 익명이` });
+            return { userIdx, email };
         }
-        const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
-        const new_user = await this.userRepository.create({ email, password: hashedPassword });
-        const { userIdx } = await this.userRepository.save(new_user);
-        await this.userRepository.update(userIdx, { nickname: `${userIdx}번째 익명이` });
-        return { userIdx, email };
+        catch (e) {
+            throw new common_1.InternalServerErrorException('Database Error');
+        }
     }
     async signIn(email, password) {
-        const payload = await this.validateUser(email, password);
-        return await this.login(payload);
+        try {
+            const payload = await this.validateUser(email, password);
+            return await this.login(payload);
+        }
+        catch (e) {
+            throw new common_1.InternalServerErrorException('Database Error');
+        }
     }
     async updateUserInfo(userIdx, attrs) {
-        const user = await this.findActiveUserByUserIdx(userIdx);
-        if (attrs === null || attrs === void 0 ? void 0 : attrs.password) {
-            Object.assign(attrs, { password: await (0, create_hashed_password_1.createHashedPassword)(attrs.password) });
+        try {
+            const user = await this.findActiveUserByUserIdx(userIdx);
+            if (attrs === null || attrs === void 0 ? void 0 : attrs.password) {
+                Object.assign(attrs, { password: await (0, create_hashed_password_1.createHashedPassword)(attrs.password) });
+            }
+            Object.assign(user, attrs);
+            return await this.userRepository.save(user);
         }
-        Object.assign(user, attrs);
-        return await this.userRepository.save(user);
+        catch (e) {
+            throw new common_1.InternalServerErrorException('Database Error');
+        }
     }
     async updateUserLocation(userIdx, location, radius) {
         const user = await this.findActiveUserByUserIdx(userIdx);
@@ -146,14 +161,24 @@ let UsersService = class UsersService {
         };
     }
     async login(payload) {
-        const { id, email } = payload;
-        return {
-            userIdx: id,
-            accessToken: await this.jwtService.signAsync(payload)
-        };
+        try {
+            const { id, email } = payload;
+            return {
+                userIdx: id,
+                accessToken: await this.jwtService.signAsync(payload)
+            };
+        }
+        catch (e) {
+            throw new common_1.InternalServerErrorException('Database Error');
+        }
     }
     async deleteUser(userIdx) {
-        return await this.userRepository.delete({ userIdx });
+        try {
+            return await this.userRepository.delete({ userIdx });
+        }
+        catch (e) {
+            throw new common_1.InternalServerErrorException('Database Error');
+        }
     }
 };
 UsersService = __decorate([

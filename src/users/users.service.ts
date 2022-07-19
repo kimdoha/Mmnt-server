@@ -6,6 +6,8 @@ import {
     NotFoundException, 
     UnauthorizedException,
     Logger,
+    InternalServerErrorException,
+    LoggerService,
 } from '@nestjs/common';
 import { 
     Connection, 
@@ -24,6 +26,7 @@ import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { MomentsService } from 'src/moments/moments.service';
 import { camelCase } from "change-case";
 import { Cache } from 'cache-manager';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 
 
@@ -35,43 +38,55 @@ export class UsersService {
         @InjectRepository(User) private userRepository: Repository<User>,
         @InjectRepository(Pin) private pinRepository: Repository<Pin>,
         @InjectRepository(Moment) private momentRepository: Repository<Moment>,
+
         private jwtService: JwtService,
         private connection: Connection,
     ) {}
 
 
     async createUser(email: string, password: string) {
-        try
-        const user: User = await this.userRepository.findOneBy({ email });
-        if(user){
-            throw new BadRequestException('중복된 이메일입니다.');
+        try {
+            const user: User = await this.userRepository.findOneBy({ email });
+            if(user){
+                throw new BadRequestException('중복된 이메일입니다.');
+            }
+            
+            const hashedPassword = await createHashedPassword(password);
+
+            const new_user = await this.userRepository.create({ email, password: hashedPassword });
+
+            const { userIdx } = await this.userRepository.save(new_user);
+            await this.userRepository.update(userIdx, { nickname:`${userIdx}번째 익명이` } );
+
+            return { userIdx, email };
+        } catch (e) {
+            // this.logger.log('log: ' + e);
+            throw new InternalServerErrorException('Database Error');
         }
-        
-        const hashedPassword = await createHashedPassword(password);
-
-        const new_user = await this.userRepository.create({ email, password: hashedPassword });
-
-        const { userIdx } = await this.userRepository.save(new_user);
-        await this.userRepository.update(userIdx, { nickname:`${userIdx}번째 익명이` } );
-
-        return { userIdx, email };
-    
     }
 
     async signIn(email: string, password: string){
-        const payload = await this.validateUser(email, password);
+        try {
+            const payload = await this.validateUser(email, password);
+            return await this.login(payload);
 
-        return await this.login(payload);
+        } catch(e) {
+            throw new InternalServerErrorException('Database Error');
+        }
     }
 
     async updateUserInfo(userIdx: number, attrs: Partial<UpdateUserInfo>) {
-        const user = await this.findActiveUserByUserIdx(userIdx);
-        if(attrs?.password){
-            Object.assign(attrs, { password: await createHashedPassword(attrs.password) });
-        }
+        try {
+            const user = await this.findActiveUserByUserIdx(userIdx);
+            if(attrs?.password){
+                Object.assign(attrs, { password: await createHashedPassword(attrs.password) });
+            }
 
-        Object.assign(user, attrs);
-        return await this.userRepository.save(user);
+            Object.assign(user, attrs);
+            return await this.userRepository.save(user);
+        } catch(e) {
+            throw new InternalServerErrorException('Database Error');
+        }
     }
 
     async updateUserLocation(userIdx: number, location: any, radius: number) {
@@ -189,15 +204,24 @@ export class UsersService {
     }
 
     async login(payload): Promise<SignInResponseDto>{
-        const { id, email } = payload;
-        return { 
-            userIdx: id, 
-            accessToken: await this.jwtService.signAsync(payload) 
-        };
+       try {
+            const { id, email } = payload;
+            return { 
+                userIdx: id, 
+                accessToken: await this.jwtService.signAsync(payload) 
+            };
+        } catch(e) {
+            throw new InternalServerErrorException('Database Error');
+        }
     }
 
     async deleteUser(userIdx: number): Promise<any> {
-        return await this.userRepository.delete({ userIdx });
+        try {
+            return await this.userRepository.delete({ userIdx });
+        
+        } catch(e) {
+            throw new InternalServerErrorException('Database Error');
+        }
     }
 }
 

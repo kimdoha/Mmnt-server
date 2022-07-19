@@ -5,14 +5,13 @@ import {
 } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
 
-const swaggerCustomOptions: SwaggerCustomOptions = {
+export const swaggerCustomOptions: SwaggerCustomOptions = {
     swaggerOptions: {
       persistAuthorization: true,
     },
   };
 
-export const initSwagger = (app: INestApplication) => {
-    const swaggerConfig = new DocumentBuilder()
+export const swaggerConfig = new DocumentBuilder()
     .setTitle('MMNT_API')
     .addBearerAuth( {
         type: 'http',
@@ -23,7 +22,3 @@ export const initSwagger = (app: INestApplication) => {
       'Authorization',)
     .setDescription('MMNT API 명세서 입니다!')
     .build();
-
-    const document = SwaggerModule.createDocument(app, swaggerConfig);
-    SwaggerModule.setup('/docs', app, document, swaggerCustomOptions);
-}
