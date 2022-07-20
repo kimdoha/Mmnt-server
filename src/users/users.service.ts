@@ -75,17 +75,14 @@ export class UsersService {
     }
 
     async updateUserInfo(userIdx: number, attrs: Partial<UpdateUserInfo>) {
-        try {
-            const user = await this.findActiveUserByUserIdx(userIdx);
-            if(attrs?.password){
-                Object.assign(attrs, { password: await createHashedPassword(attrs.password) });
-            }
 
-            Object.assign(user, attrs);
-            return await this.userRepository.save(user);
-        } catch(e) {
-            throw new InternalServerErrorException('Database Error');
+        const user = await this.findActiveUserByUserIdx(userIdx);
+        if(attrs?.password){
+            Object.assign(attrs, { password: await createHashedPassword(attrs.password) });
         }
+
+        Object.assign(user, attrs);
+        return await this.userRepository.save(user);
     }
 
     async updateUserLocation(userIdx: number, location: any, radius: number) {

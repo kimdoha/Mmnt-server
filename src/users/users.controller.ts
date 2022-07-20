@@ -87,9 +87,11 @@ export class UsersController {
         return res.json(new SuccessReponse(StatusCodes.CREATED, '로그인 성공', responseData));
     }
 
+
+
     @ApiBearerAuth('Authorization')
     @ApiOperation({ 
-        summary: '유저 정보 변경 API',
+        summary: '유저 정보 변경 | 비밀 번호 찾기 API',
         description: 
         `이메일, 비밀번호, 닉네임 변경 가능. 
         이메일 변경 시, [인증 번호 발송] API를 먼저 사용해주세요.`

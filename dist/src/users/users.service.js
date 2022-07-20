@@ -58,17 +58,12 @@ let UsersService = class UsersService {
         }
     }
     async updateUserInfo(userIdx, attrs) {
-        try {
-            const user = await this.findActiveUserByUserIdx(userIdx);
-            if (attrs === null || attrs === void 0 ? void 0 : attrs.password) {
-                Object.assign(attrs, { password: await (0, create_hashed_password_1.createHashedPassword)(attrs.password) });
-            }
-            Object.assign(user, attrs);
-            return await this.userRepository.save(user);
+        const user = await this.findActiveUserByUserIdx(userIdx);
+        if (attrs === null || attrs === void 0 ? void 0 : attrs.password) {
+            Object.assign(attrs, { password: await (0, create_hashed_password_1.createHashedPassword)(attrs.password) });
         }
-        catch (e) {
-            throw new common_1.InternalServerErrorException('Database Error');
-        }
+        Object.assign(user, attrs);
+        return await this.userRepository.save(user);
     }
     async updateUserLocation(userIdx, location, radius) {
         const user = await this.findActiveUserByUserIdx(userIdx);
