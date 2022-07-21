@@ -102,24 +102,23 @@ export class UsersService {
         .getRawMany();
 
         console.log(pinLists);
-        if(!pinLists.length){
-            throw new NotFoundException('근처 핀을 찾을 수 없습니다.');
-        }
 
         let pins = [], moments = [];
         pinLists.map(pin => pins.push(pin.pin_idx));
 
-        const momentIdxLists = await this.momentRepository.createQueryBuilder('moment')
+        const momentIdxLists = pins.length ?
+        await this.momentRepository.createQueryBuilder('moment')
         .select([ 'MAX(moment_idx) AS moment_idx '])
         .where('moment.pin_idx in (:...pins)', { pins }) 
         .groupBy('moment.pin_idx')
-        .getRawMany();
+        .getRawMany() : []
 
         console.log(momentIdxLists);
         await momentIdxLists.map(moment => moments.push(parseInt(moment.moment_idx)));
 
         console.log(moments);
-        const momentLists = await this.momentRepository.createQueryBuilder('moment')
+        const momentLists = moments.length ?
+        await this.momentRepository.createQueryBuilder('moment')
         .select([`moment_idx, moment.pin_idx, 
                 title, youtube_url, music, artist,
                (ST_DistanceSphere(
@@ -132,10 +131,10 @@ export class UsersService {
         .setParameters({ 
             point: `POINT(${ location.locationX } ${ location.locationY })`,
         })
-        .getRawMany();
+        .getRawMany() : [];
 
         return [ 
-            { pinLists }, 
+            {  pinLists }, 
             { 'mainMoment': momentLists[0] ? momentLists[0] : {} }, 
             { 'momentLists': momentLists[1] ? momentLists.slice(1, momentLists.length ) : [] } 
         ];

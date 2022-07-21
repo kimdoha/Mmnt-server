@@ -80,33 +80,32 @@ let UsersService = class UsersService {
         })
             .getRawMany();
         console.log(pinLists);
-        if (!pinLists.length) {
-            throw new common_1.NotFoundException('근처 핀을 찾을 수 없습니다.');
-        }
         let pins = [], moments = [];
         pinLists.map(pin => pins.push(pin.pin_idx));
-        const momentIdxLists = await this.momentRepository.createQueryBuilder('moment')
-            .select(['MAX(moment_idx) AS moment_idx '])
-            .where('moment.pin_idx in (:...pins)', { pins })
-            .groupBy('moment.pin_idx')
-            .getRawMany();
+        const momentIdxLists = pins.length ?
+            await this.momentRepository.createQueryBuilder('moment')
+                .select(['MAX(moment_idx) AS moment_idx '])
+                .where('moment.pin_idx in (:...pins)', { pins })
+                .groupBy('moment.pin_idx')
+                .getRawMany() : [];
         console.log(momentIdxLists);
         await momentIdxLists.map(moment => moments.push(parseInt(moment.moment_idx)));
         console.log(moments);
-        const momentLists = await this.momentRepository.createQueryBuilder('moment')
-            .select([`moment_idx, moment.pin_idx, 
+        const momentLists = moments.length ?
+            await this.momentRepository.createQueryBuilder('moment')
+                .select([`moment_idx, moment.pin_idx, 
                 title, youtube_url, music, artist,
                (ST_DistanceSphere(
                 ST_GeomFromText(:point, 4326),
                 ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
-            .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = moment.pin_idx")
-            .whereInIds(moments)
-            .orderBy('distance')
-            .limit(50)
-            .setParameters({
-            point: `POINT(${location.locationX} ${location.locationY})`,
-        })
-            .getRawMany();
+                .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = moment.pin_idx")
+                .whereInIds(moments)
+                .orderBy('distance')
+                .limit(50)
+                .setParameters({
+                point: `POINT(${location.locationX} ${location.locationY})`,
+            })
+                .getRawMany() : [];
         return [
             { pinLists },
             { 'mainMoment': momentLists[0] ? momentLists[0] : {} },
