@@ -118,7 +118,7 @@ let UsersService = class UsersService {
         return [
             { pinLists },
             { 'mainPin': momentLists[0] ? momentLists[0] : {} },
-            { 'pinLists': momentLists[1] ? momentLists.slice(1, momentLists.length) : [] }
+            { 'nearByPinLists': momentLists[1] ? momentLists.slice(1, momentLists.length) : [] }
         ];
     }
     async getDetailUserInfo(userIdx) {

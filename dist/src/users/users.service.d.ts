@@ -23,9 +23,15 @@ export declare class UsersService {
     updateUserLocation(userIdx: number, location: any, radius: number): Promise<({
         pinLists: any[];
         mainPin?: undefined;
+        nearByPinLists?: undefined;
     } | {
         mainPin: any;
         pinLists?: undefined;
+        nearByPinLists?: undefined;
+    } | {
+        nearByPinLists: any[];
+        pinLists?: undefined;
+        mainPin?: undefined;
     })[]>;
     getDetailUserInfo(userIdx: number): Promise<{}>;
     findActiveUserByUserIdx(userIdx: number): Promise<User>;
