@@ -104,9 +104,6 @@ let MomentsService = class MomentsService {
             .limit(limit)
             .offset(offset)
             .getRawMany();
-        if (!moments.length) {
-            throw new common_1.NotFoundException('등록된 모먼트가 없습니다.');
-        }
         return moments;
     }
     async deleteMoment(userIdx, momentIdx, type) {

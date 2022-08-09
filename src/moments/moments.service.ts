@@ -106,9 +106,7 @@ export class MomentsService {
                         .getRawMany();
 
         
-        if(!moments.length){
-            throw new NotFoundException('등록된 모먼트가 없습니다.')
-        }
+
         return moments;
 
     }
