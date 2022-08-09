@@ -5,7 +5,7 @@ exports.jwtConfig = {
     useFactory: async () => ({
         secret: process.env.JWT_SECRET_KEY,
         signOptions: {
-            expiresIn: 60 * 60,
+            expiresIn: '14d'
         },
     })
 };
