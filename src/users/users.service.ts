@@ -106,18 +106,18 @@ export class UsersService {
         let pins = [], moments = [];
         pinLists.map(pin => pins.push(pin.pin_idx));
 
-        const momentIdxLists = pins.length ?
+        const latestMomentIdxLists = pins.length ?
         await this.momentRepository.createQueryBuilder('moment')
         .select([ 'MAX(moment_idx) AS moment_idx '])
         .where('moment.pin_idx in (:...pins)', { pins }) 
         .groupBy('moment.pin_idx')
         .getRawMany() : []
 
-        console.log(momentIdxLists);
-        await momentIdxLists.map(moment => moments.push(parseInt(moment.moment_idx)));
+        console.log(latestMomentIdxLists);
+        await latestMomentIdxLists.map(moment => moments.push(parseInt(moment.moment_idx)));
 
         console.log(moments);
-        const momentLists = moments.length ?
+        let momentLists = moments.length ?
         await this.momentRepository.createQueryBuilder('moment')
         .select([`moment_idx, moment.pin_idx, 
                 title, youtube_url, music, artist,
@@ -133,10 +133,24 @@ export class UsersService {
         })
         .getRawMany() : [];
 
+        const momentCount = await this.momentRepository.createQueryBuilder('moment')
+        .select([ `count('moment_idx') as momentcount, pin_idx`])
+        .where('moment.pin_idx in (:...pins)', { pins }) 
+        .groupBy('moment.pin_idx')
+        .getRawMany();
+
+        // console.log(momentCount);
+        momentLists.map(moment => {
+            const count = momentCount.find(count => count.pin_idx == moment.pin_idx).momentcount;
+            moment.momentCount = count ? count : 0;
+        });
+
+        // console.log(momentLists);
+
         return [ 
             {  pinLists }, 
-            { 'mainMoment': momentLists[0] ? momentLists[0] : {} }, 
-            { 'momentLists': momentLists[1] ? momentLists.slice(1, momentLists.length ) : [] } 
+            { 'mainPin': momentLists[0] ? momentLists[0] : {} }, 
+            { 'pinLists': momentLists[1] ? momentLists.slice(1, momentLists.length ) : [] } 
         ];
     }
     
