@@ -121,6 +121,7 @@ export class MomentsService {
                 throw new NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');
             }
 
+
             return await this.repo.delete(momentIdx);
 
         } else if(type == 'user') {
