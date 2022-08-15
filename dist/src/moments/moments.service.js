@@ -32,9 +32,11 @@ const typeorm_2 = require("@nestjs/typeorm");
 const moment_entity_1 = require("./moment.entity");
 const user_entity_1 = require("../users/user.entity");
 const page_1 = require("../helpers/page/page");
+const report_entity_1 = require("./report.entity");
 let MomentsService = class MomentsService {
-    constructor(repo, pinsService, usersService, connection) {
+    constructor(repo, reportRepository, pinsService, usersService, connection) {
         this.repo = repo;
+        this.reportRepository = reportRepository;
         this.pinsService = pinsService;
         this.usersService = usersService;
         this.connection = connection;
@@ -122,6 +124,20 @@ let MomentsService = class MomentsService {
             throw new common_1.BadRequestException('삭제 경로가 올바르지 않습니다.');
         }
     }
+    async reportMoment(userIdx, momentIdx, reason) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const moment = await this.findActiveMomentByMomentIdx(momentIdx);
+        console.log(moment);
+        const report = await this.reportRepository.create({ userIdx, momentIdx, reason });
+        return await this.reportRepository.save(report);
+    }
+    async findActiveMomentByMomentIdx(momentIdx) {
+        const moment = await this.repo.findOneBy({ momentIdx });
+        if (!moment) {
+            throw new common_1.NotFoundException('해당 모먼트는 삭제 되었습니다.');
+        }
+        return moment;
+    }
     async deletePin(pinIdx, userIdx) {
         const exist = await this.getMomentCountAboutPin(pinIdx);
         if (exist) {
@@ -144,7 +160,9 @@ let MomentsService = class MomentsService {
 MomentsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
+    __param(1, (0, typeorm_2.InjectRepository)(report_entity_1.Report)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository,
         pins_service_1.PinsService,
         users_service_1.UsersService,
         typeorm_1.Connection])

@@ -17,6 +17,7 @@ import { User } from 'src/users/user.entity';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { Page } from 'src/helpers/page/page';
 import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
+import { Report } from './report.entity';
 
 
 
@@ -24,6 +25,7 @@ import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
 export class MomentsService {
     constructor(
         @InjectRepository(Moment) private repo: Repository<Moment>,
+        @InjectRepository(Report) private reportRepository: Repository<Report>,
         private pinsService: PinsService,
         private usersService: UsersService,
         private connection: Connection,
@@ -132,7 +134,26 @@ export class MomentsService {
         }
         
     }
+
+    async reportMoment(userIdx: number, momentIdx: number, reason: string) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const moment = await this.findActiveMomentByMomentIdx(momentIdx);
+        
+        console.log(moment);
+
+        const report = await this.reportRepository.create({ userIdx, momentIdx, reason });
+        return await this.reportRepository.save(report);
+    }
     
+    async findActiveMomentByMomentIdx(momentIdx: number) {
+        const moment = await this.repo.findOneBy({ momentIdx });
+        if(!moment){
+            throw new NotFoundException('해당 모먼트는 삭제 되었습니다.');
+        }
+
+        return moment;
+    }
+
     // 추후에 스케줄러
     async deletePin(pinIdx: number, userIdx: number){
 
@@ -160,4 +181,5 @@ export class MomentsService {
         
     }
 
+    
 }

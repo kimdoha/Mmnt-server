@@ -13,6 +13,7 @@ exports.Moment = void 0;
 const pin_entity_1 = require("../pins/pin.entity");
 const user_entity_1 = require("../users/user.entity");
 const typeorm_1 = require("typeorm");
+const report_entity_1 = require("./report.entity");
 let Moment = class Moment {
     logInsert() {
         console.log('Inserted User with id', this.momentIdx);
@@ -74,6 +75,10 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'user_idx' }),
     __metadata("design:type", Number)
 ], Moment.prototype, "userIdx", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(type => report_entity_1.Report, (report) => report.momentIdx, { eager: false }),
+    __metadata("design:type", Array)
+], Moment.prototype, "reports", void 0);
 __decorate([
     (0, typeorm_1.AfterInsert)(),
     __metadata("design:type", Function),

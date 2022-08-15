@@ -29,6 +29,7 @@ import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { CreateMomentDto } from './dtos/create-moment.dto';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
+import { ReportRequestDto } from './dtos/report-request.dto';
 import { MomentsService } from './moments.service';
 
 @ApiBearerAuth('Authorization')
@@ -98,7 +99,7 @@ export class MomentsController {
         return res.json(new SuccessReponse(StatusCodes.OK, `모먼트 삭제 성공`));
     }
 
-    @ApiBearerAuth('Authorization')
+
     @ApiOperation({ summary: '회원 탈퇴 API' })
     @ApiOkResponse({ status: 200, description: '회원 탈퇴 성공' })
     @ApiNotFoundResponse({ status: 404, description: '해당 유저가 존재하지 않습니다.' })
@@ -116,7 +117,7 @@ export class MomentsController {
     @UseGuards(JwtAuthGuard)
     async reportMoment(@GetUser() user, @Body(ValidationPipe) body: ReportRequestDto, @Res() res) {
         await this.momentsService.reportMoment(user.userIdx, body.momentIdx, body.reason);
-        return res.json(new SuccessResponse(StstusCodes.OK, '모먼트 신고 성공'));
+        return res.json(new SuccessReponse(StatusCodes.OK, '모먼트 신고 성공'));
     }
 
 }

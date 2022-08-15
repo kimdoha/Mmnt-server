@@ -9,10 +9,11 @@ import { UploadsService } from 'src/uploads/uploads.service';
 import { UploadsModule } from 'src/uploads/uploads.module';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 import { PinsService } from 'src/pins/pins.service';
+import { Report } from './report.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Moment]),
+    TypeOrmModule.forFeature([Moment, Report]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
     UsersModule, 
     PinsModule,
