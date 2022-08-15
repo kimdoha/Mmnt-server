@@ -108,4 +108,15 @@ export class MomentsController {
         await this.momentsService.deleteUserInfo(user.userIdx);
         return res.json(new SuccessReponse(StatusCodes.OK, '회원 탈퇴 성공'));
     }
+
+    @ApiOperation({ summary: '모먼트 신고하기 API'})
+    @ApiOkResponse({ status: 200, description: '모먼트 신고 성공' })
+    @ApiNotFoundResponse({ status: 404, description: '해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.' })
+    @Post('/report')
+    @UseGuards(JwtAuthGuard)
+    async reportMoment(@GetUser() user, @Body(ValidationPipe) body: ReportRequestDto, @Res() res) {
+        await this.momentsService.reportMoment(user.userIdx, body.momentIdx, body.reason);
+        return res.json(new SuccessResponse(StstusCodes.OK, '모먼트 신고 성공'));
+    }
+
 }

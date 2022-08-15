@@ -15,6 +15,7 @@ import {
   ConfigService 
 } from '@nestjs/config';
 import { UploadsModule } from './uploads/uploads.module';
+import { ReportsModule } from './reports/reports.module';
 import * as AWS from 'aws-sdk';
 
 
@@ -34,7 +35,7 @@ AWS.config.update({
     UsersModule, 
     PinsModule, 
     MomentsModule, 
-    UploadsModule,
+    UploadsModule, ReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

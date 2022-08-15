@@ -55,5 +55,4 @@
 
 ### License
 ---
-Copyright © 2022 Kimdoha.
-This project is MIT licensed.
+Copyright © 2022 Kimdoha.<br>This project is MIT licensed.

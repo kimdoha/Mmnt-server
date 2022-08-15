@@ -12,7 +12,9 @@ import {
     UpdateDateColumn,
     JoinColumn,
     ManyToOne,
+    OneToMany,
 } from 'typeorm';
+import { Report } from './report.entity';
 
 @Entity("mmnt.moments")
 export class Moment {
@@ -56,6 +58,9 @@ export class Moment {
     @ManyToOne(type => User, user => user.moments, { eager: false })
     @JoinColumn({ name: 'user_idx'})
     userIdx: number
+
+    @OneToMany(type => Report, (report: Report) => report.momentIdx, { eager: false })
+    reports: Report[]
 
     @AfterInsert()
     logInsert() {
