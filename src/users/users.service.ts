@@ -62,13 +62,9 @@ export class UsersService {
     }
 
     async signIn(email: string, password: string){
-        try {
-            const payload = await this.validateUser(email, password);
-            return await this.login(payload);
+        const payload = await this.validateUser(email, password);
+        return await this.login(payload);
 
-        } catch(e) {
-            throw new InternalServerErrorException('Database Error');
-        }
     }
 
     async updateUserInfo(userIdx: number, attrs: Partial<UpdateUserInfo>) {

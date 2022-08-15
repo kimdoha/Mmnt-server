@@ -44,13 +44,8 @@ let UsersService = class UsersService {
         return { userIdx, email };
     }
     async signIn(email, password) {
-        try {
-            const payload = await this.validateUser(email, password);
-            return await this.login(payload);
-        }
-        catch (e) {
-            throw new common_1.InternalServerErrorException('Database Error');
-        }
+        const payload = await this.validateUser(email, password);
+        return await this.login(payload);
     }
     async updateUserInfo(userIdx, attrs) {
         const user = await this.findActiveUserByUserIdx(userIdx);
