@@ -138,15 +138,27 @@ export class MomentsService {
     async reportMoment(userIdx: number, momentIdx: number, reason: string) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const moment = await this.findActiveMomentByMomentIdx(momentIdx);
-        
-        console.log(moment);
+        const checkIfReportExists = await this.reportRepository.findOneBy({ momentIdx, userIdx });
+        if(checkIfReportExists) {
+            throw new ConflictException('이미 신고한 모먼트입니다.');
+        }
+        if(moment.userIdx == userIdx) {
+            throw new ConflictException('자신의 모먼트는 신고할 수 없습니다.');
+        }
+
+        // const 상대방 = moment.userIdx;
 
         const report = await this.reportRepository.create({ userIdx, momentIdx, reason });
         return await this.reportRepository.save(report);
     }
     
     async findActiveMomentByMomentIdx(momentIdx: number) {
-        const moment = await this.repo.findOneBy({ momentIdx });
+        const moment = await this.repo.createQueryBuilder('moment')
+        .select(['moment.moment_idx, moment.user_idx'])
+        .whereInIds(momentIdx)
+        .getRawOne();
+        console.log(moment);
+
         if(!moment){
             throw new NotFoundException('해당 모먼트는 삭제 되었습니다.');
         }

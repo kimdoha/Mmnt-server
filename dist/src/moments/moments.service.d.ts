@@ -18,7 +18,7 @@ export declare class MomentsService {
     getMomentsByPin(userIdx: number, pinIdx: number, query: getMomentsRequestDto): Promise<any[]>;
     deleteMoment(userIdx: number, momentIdx: number, type: string): Promise<import("typeorm").DeleteResult>;
     reportMoment(userIdx: number, momentIdx: number, reason: string): Promise<Report>;
-    findActiveMomentByMomentIdx(momentIdx: number): Promise<Moment>;
+    findActiveMomentByMomentIdx(momentIdx: number): Promise<any>;
     deletePin(pinIdx: number, userIdx: number): Promise<void>;
     getMomentCountAboutPin(pinIdx: number): Promise<[Moment[], number]>;
     deleteUserInfo(userIdx: number): Promise<void>;

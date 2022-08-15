@@ -131,7 +131,8 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '모먼트 신고하기 API' }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '모먼트 신고 성공' }),
-    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.' }),
+    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 모먼트는 삭제 되었습니다.' }),
+    (0, swagger_1.ApiConflictResponse)({ status: 409, description: '이미 신고한 모먼트입니다.' }),
     (0, common_1.Post)('/report'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),

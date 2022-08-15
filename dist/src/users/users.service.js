@@ -33,20 +33,15 @@ let UsersService = class UsersService {
         this.connection = connection;
     }
     async createUser(email, password) {
-        try {
-            const user = await this.userRepository.findOneBy({ email });
-            if (user) {
-                throw new common_1.BadRequestException('중복된 이메일입니다.');
-            }
-            const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
-            const new_user = await this.userRepository.create({ email, password: hashedPassword });
-            const { userIdx } = await this.userRepository.save(new_user);
-            await this.userRepository.update(userIdx, { nickname: `${userIdx}번째 익명이` });
-            return { userIdx, email };
+        const user = await this.userRepository.findOneBy({ email });
+        if (user) {
+            throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
-        catch (e) {
-            throw new common_1.InternalServerErrorException('Database Error');
-        }
+        const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
+        const new_user = await this.userRepository.create({ email, password: hashedPassword });
+        const { userIdx } = await this.userRepository.save(new_user);
+        await this.userRepository.update(userIdx, { nickname: `${userIdx}번째 익명이` });
+        return { userIdx, email };
     }
     async signIn(email, password) {
         try {

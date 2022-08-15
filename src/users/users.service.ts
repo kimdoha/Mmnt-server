@@ -44,7 +44,7 @@ export class UsersService {
 
 
     async createUser(email: string, password: string) {
-        try {
+
             const user: User = await this.userRepository.findOneBy({ email });
             if(user){
                 throw new BadRequestException('중복된 이메일입니다.');
@@ -58,10 +58,7 @@ export class UsersService {
             await this.userRepository.update(userIdx, { nickname:`${userIdx}번째 익명이` } );
 
             return { userIdx, email };
-        } catch (e) {
-            // this.logger.log('log: ' + e);
-            throw new InternalServerErrorException('Database Error');
-        }
+
     }
 
     async signIn(email: string, password: string){
