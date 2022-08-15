@@ -142,13 +142,13 @@ export class MomentsService {
         if(checkIfReportExists) {
             throw new ConflictException('이미 신고한 모먼트입니다.');
         }
-        if(moment.userIdx == userIdx) {
+        if(moment.user_idx == userIdx) {
             throw new ConflictException('자신의 모먼트는 신고할 수 없습니다.');
         }
 
-        // const 상대방 = moment.userIdx;
+        const receivedUserIdx = moment.user_idx;
 
-        const report = await this.reportRepository.create({ userIdx, momentIdx, reason });
+        const report = await this.reportRepository.create({ userIdx, momentIdx, reason, receivedUserIdx });
         return await this.reportRepository.save(report);
     }
     

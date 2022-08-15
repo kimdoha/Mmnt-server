@@ -31,6 +31,10 @@ export class Report {
     @JoinColumn({ name: 'user_idx'})
     userIdx: number
 
+    @ManyToOne(type => User, user => user.reports, { eager: false })
+    @JoinColumn({ name: 'received_user_idx'})
+    receivedUserIdx: number
+
     @AfterInsert()
     logInsert() {
         console.log('Inserted Report with id', this.reportIdx);

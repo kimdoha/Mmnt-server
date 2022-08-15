@@ -4,6 +4,7 @@ export declare class Report {
     createdAt: Date;
     momentIdx: number;
     userIdx: number;
+    receivedUserIdx: number;
     logInsert(): void;
     logRemove(): void;
 }

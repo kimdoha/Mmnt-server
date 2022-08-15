@@ -131,10 +131,11 @@ let MomentsService = class MomentsService {
         if (checkIfReportExists) {
             throw new common_1.ConflictException('이미 신고한 모먼트입니다.');
         }
-        if (moment.userIdx == userIdx) {
+        if (moment.user_idx == userIdx) {
             throw new common_1.ConflictException('자신의 모먼트는 신고할 수 없습니다.');
         }
-        const report = await this.reportRepository.create({ userIdx, momentIdx, reason });
+        const receivedUserIdx = moment.user_idx;
+        const report = await this.reportRepository.create({ userIdx, momentIdx, reason, receivedUserIdx });
         return await this.reportRepository.save(report);
     }
     async findActiveMomentByMomentIdx(momentIdx) {

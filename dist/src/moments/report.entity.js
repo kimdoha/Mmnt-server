@@ -44,6 +44,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Report.prototype, "userIdx", void 0);
 __decorate([
+    (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.reports, { eager: false }),
+    (0, typeorm_1.JoinColumn)({ name: 'received_user_idx' }),
+    __metadata("design:type", Number)
+], Report.prototype, "receivedUserIdx", void 0);
+__decorate([
     (0, typeorm_1.AfterInsert)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
