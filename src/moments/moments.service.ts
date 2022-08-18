@@ -19,6 +19,7 @@ import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { Page } from 'src/helpers/page/page';
 import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
 import { Report } from './report.entity';
+import { Pin } from 'src/pins/pin.entity';
 
 
 
@@ -72,16 +73,17 @@ export class MomentsService {
         
         if(query.type === 'main') {
             moments = await this.repo.createQueryBuilder('users')
-            .select([ 'users.moment_idx, users.title, users.image_url, users.updated_at' ])
+            .select([ 'users.moment_idx, users.title, users.image_url, users.updated_at, pin_x, pin_y' ])
             .where('user_idx= :id', { id: userIdx })
+            .leftJoin(Pin, "pin", "pin.pin_idx = users.pin_idx")
             .orderBy('moment_idx', 'DESC')
             .limit(limit)
             .offset(offset)
             .getRawMany();
 
         } else if(query.type === 'detail') {
-            moments = await this.repo.createQueryBuilder()
-            .select(['moment_idx, title, description, image_url, youtube_url, music, artist, updated_at' ])
+            moments = await this.repo.createQueryBuilder('moment')
+            .select(['moment_idx, title, description, image_url, youtube_url, music, artist, moment.updated_at, pin_x, pin_y' ])
             .addSelect(sq => {
                 return sq
                 .select(['nickname'])
@@ -89,6 +91,7 @@ export class MomentsService {
                 .where('user_idx= :id', { id: userIdx });
             })
             .where("user_idx= :id", { id: userIdx })
+            .leftJoin(Pin, "pin", "pin.pin_idx = moment.pin_idx")
             .orderBy("moment_idx", "DESC")
             .limit(limit)
             .offset(offset)

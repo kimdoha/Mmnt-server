@@ -33,6 +33,7 @@ const moment_entity_1 = require("./moment.entity");
 const user_entity_1 = require("../users/user.entity");
 const page_1 = require("../helpers/page/page");
 const report_entity_1 = require("./report.entity");
+const pin_entity_1 = require("../pins/pin.entity");
 let MomentsService = class MomentsService {
     constructor(repo, reportRepository, pinsService, usersService, connection) {
         this.repo = repo;
@@ -68,16 +69,17 @@ let MomentsService = class MomentsService {
         const offset = page_1.Page.getOffset(query.page, query.limit);
         if (query.type === 'main') {
             moments = await this.repo.createQueryBuilder('users')
-                .select(['users.moment_idx, users.title, users.image_url, users.updated_at'])
+                .select(['users.moment_idx, users.title, users.image_url, users.updated_at, pin_x, pin_y'])
                 .where('user_idx= :id', { id: userIdx })
+                .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = users.pin_idx")
                 .orderBy('moment_idx', 'DESC')
                 .limit(limit)
                 .offset(offset)
                 .getRawMany();
         }
         else if (query.type === 'detail') {
-            moments = await this.repo.createQueryBuilder()
-                .select(['moment_idx, title, description, image_url, youtube_url, music, artist, updated_at'])
+            moments = await this.repo.createQueryBuilder('moment')
+                .select(['moment_idx, title, description, image_url, youtube_url, music, artist, moment.updated_at, pin_x, pin_y'])
                 .addSelect(sq => {
                 return sq
                     .select(['nickname'])
@@ -85,6 +87,7 @@ let MomentsService = class MomentsService {
                     .where('user_idx= :id', { id: userIdx });
             })
                 .where("user_idx= :id", { id: userIdx })
+                .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = moment.pin_idx")
                 .orderBy("moment_idx", "DESC")
                 .limit(limit)
                 .offset(offset)
