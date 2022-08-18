@@ -84,7 +84,8 @@ let UsersService = class UsersService {
         let momentLists = moments.length ?
             await this.momentRepository.createQueryBuilder('moment')
                 .select([`moment_idx, moment.pin_idx, 
-                title, youtube_url, music, artist,
+                title, youtube_url, music, artist, 
+                pin_x, pin_y,
                (ST_DistanceSphere(
                 ST_GeomFromText(:point, 4326),
                 ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
@@ -96,11 +97,11 @@ let UsersService = class UsersService {
                 point: `POINT(${location.locationX} ${location.locationY})`,
             })
                 .getRawMany() : [];
-        const momentCount = await this.momentRepository.createQueryBuilder('moment')
+        const momentCount = pins.length ? await this.momentRepository.createQueryBuilder('moment')
             .select([`count('moment_idx') as momentcount, pin_idx`])
             .where('moment.pin_idx in (:...pins)', { pins })
             .groupBy('moment.pin_idx')
-            .getRawMany();
+            .getRawMany() : [];
         momentLists.map(moment => {
             const count = momentCount.find(count => count.pin_idx == moment.pin_idx).momentcount;
             moment.momentCount = count ? count : 0;

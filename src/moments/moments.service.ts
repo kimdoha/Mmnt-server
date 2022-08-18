@@ -2,7 +2,8 @@ import {
     BadRequestException, 
     ConflictException, 
     Injectable, 
-    NotFoundException 
+    NotFoundException, 
+    UnauthorizedException
 } from '@nestjs/common';
 import {  
     Connection, 
@@ -35,6 +36,14 @@ export class MomentsService {
     async createMoment(userIdx: number, body: CreateMomentDto){
         const { pinX, pinY, ... momentInfo } = body;
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+
+       
+        // const reportCount = await this.reportRepository.countBy({ receivedUserIdx: userIdx });
+        // console.log(reportCount);
+
+        // if(reportCount >= 3) {
+        //     throw new UnauthorizedException('접근 권한이 없습니다.');
+        // }
 
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
