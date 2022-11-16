@@ -30,16 +30,8 @@ UsersModule = __decorate([
             common_1.CacheModule.registerAsync(cache_config_1.cacheConfig),
         ],
         controllers: [users_controller_1.UsersController],
-        providers: [
-            users_service_1.UsersService,
-            jwt_strategy_1.JwtStrategy,
-        ],
-        exports: [
-            users_service_1.UsersService,
-            jwt_strategy_1.JwtStrategy,
-            passport_1.PassportModule,
-            jwt_1.JwtModule,
-        ]
+        providers: [users_service_1.UsersService, jwt_strategy_1.JwtStrategy],
+        exports: [users_service_1.UsersService, jwt_strategy_1.JwtStrategy, passport_1.PassportModule, jwt_1.JwtModule],
     })
 ], UsersModule);
 exports.UsersModule = UsersModule;

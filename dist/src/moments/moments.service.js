@@ -11,17 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MomentsService = void 0;
 const common_1 = require("@nestjs/common");
@@ -43,20 +32,19 @@ let MomentsService = class MomentsService {
         this.connection = connection;
     }
     async createMoment(userIdx, body) {
-        var _a;
-        const { pinX, pinY } = body, momentInfo = __rest(body, ["pinX", "pinY"]);
+        const { pinX, pinY, ...momentInfo } = body;
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
             const { pinIdx } = await this.pinsService.createPin(userIdx, pinX, pinY);
-            const moment = await this.repo.create(Object.assign({ userIdx, pinIdx }, momentInfo));
+            const moment = await this.repo.create({ userIdx, pinIdx, ...momentInfo });
             return await this.repo.save(moment);
         }
         catch (e) {
             await queryRunner.rollbackTransaction();
-            throw new common_1.ConflictException((_a = e.response) === null || _a === void 0 ? void 0 : _a.message);
+            throw new common_1.ConflictException(e.response?.message);
         }
         finally {
             await queryRunner.release();
@@ -68,27 +56,33 @@ let MomentsService = class MomentsService {
         const limit = page_1.Page.getLimit(query.limit);
         const offset = page_1.Page.getOffset(query.page, query.limit);
         if (query.type === 'main') {
-            moments = await this.repo.createQueryBuilder('users')
-                .select(['users.moment_idx, users.title, users.image_url, users.updated_at, pin_x, pin_y'])
+            moments = await this.repo
+                .createQueryBuilder('users')
+                .select([
+                'users.moment_idx, users.title, users.image_url, users.updated_at, pin_x, pin_y',
+            ])
                 .where('user_idx= :id', { id: userIdx })
-                .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = users.pin_idx")
+                .leftJoin(pin_entity_1.Pin, 'pin', 'pin.pin_idx = users.pin_idx')
                 .orderBy('moment_idx', 'DESC')
                 .limit(limit)
                 .offset(offset)
                 .getRawMany();
         }
         else if (query.type === 'detail') {
-            moments = await this.repo.createQueryBuilder('moment')
-                .select(['moment_idx, title, description, image_url, youtube_url, music, artist, moment.updated_at, pin_x, pin_y'])
-                .addSelect(sq => {
+            moments = await this.repo
+                .createQueryBuilder('moment')
+                .select([
+                'moment_idx, title, description, image_url, youtube_url, music, artist, moment.updated_at, pin_x, pin_y',
+            ])
+                .addSelect((sq) => {
                 return sq
                     .select(['nickname'])
-                    .from(user_entity_1.User, "user")
+                    .from(user_entity_1.User, 'user')
                     .where('user_idx= :id', { id: userIdx });
             })
-                .where("user_idx= :id", { id: userIdx })
-                .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = moment.pin_idx")
-                .orderBy("moment_idx", "DESC")
+                .where('user_idx= :id', { id: userIdx })
+                .leftJoin(pin_entity_1.Pin, 'pin', 'pin.pin_idx = moment.pin_idx')
+                .orderBy('moment_idx', 'DESC')
                 .limit(limit)
                 .offset(offset)
                 .getRawMany();
@@ -103,9 +97,10 @@ let MomentsService = class MomentsService {
         await this.pinsService.findActivePinByPinIdx(pinIdx);
         const limit = page_1.Page.getLimit(query.limit);
         const offset = page_1.Page.getOffset(query.page, query.limit);
-        const moments = await this.repo.createQueryBuilder()
+        const moments = await this.repo
+            .createQueryBuilder()
             .where('pin_idx = :id', { id: pinIdx })
-            .orderBy("moment_idx", "DESC")
+            .orderBy('moment_idx', 'DESC')
             .limit(limit)
             .offset(offset)
             .getRawMany();
@@ -130,7 +125,10 @@ let MomentsService = class MomentsService {
     async reportMoment(userIdx, momentIdx, reason) {
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
         const moment = await this.findActiveMomentByMomentIdx(momentIdx);
-        const checkIfReportExists = await this.reportRepository.findOneBy({ momentIdx, userIdx });
+        const checkIfReportExists = await this.reportRepository.findOneBy({
+            momentIdx,
+            userIdx,
+        });
         if (checkIfReportExists) {
             throw new common_1.ConflictException('이미 신고한 모먼트입니다.');
         }
@@ -138,11 +136,17 @@ let MomentsService = class MomentsService {
             throw new common_1.ConflictException('자신의 모먼트는 신고할 수 없습니다.');
         }
         const receivedUserIdx = moment.user_idx;
-        const report = await this.reportRepository.create({ userIdx, momentIdx, reason, receivedUserIdx });
+        const report = await this.reportRepository.create({
+            userIdx,
+            momentIdx,
+            reason,
+            receivedUserIdx,
+        });
         return await this.reportRepository.save(report);
     }
     async findActiveMomentByMomentIdx(momentIdx) {
-        const moment = await this.repo.createQueryBuilder('moment')
+        const moment = await this.repo
+            .createQueryBuilder('moment')
             .select(['moment.moment_idx, moment.user_idx'])
             .whereInIds(momentIdx)
             .getRawOne();

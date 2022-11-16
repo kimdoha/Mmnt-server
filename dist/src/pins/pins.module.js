@@ -23,7 +23,7 @@ PinsModule = __decorate([
             common_1.CacheModule.registerAsync(cache_config_1.cacheConfig),
         ],
         providers: [pins_service_1.PinsService],
-        exports: [pins_service_1.PinsService]
+        exports: [pins_service_1.PinsService],
     })
 ], PinsModule);
 exports.PinsModule = PinsModule;

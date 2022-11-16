@@ -11,20 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
 class CreateUserDto {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsEmail)(),
-    (0, class_validator_1.MaxLength)(50),
+    (0, swagger_1.ApiProperty)({
+        maxLength: 50,
+        description: '유저 이메일',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "email", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Matches)('[A-Za-z\\d!@#$%^&*()]{10,30}'),
+    (0, swagger_1.ApiProperty)({
+        pattern: '[A-Za-z\\d!@#$%^&*()]{10,30}',
+        description: '유저 비밀번호',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 exports.CreateUserDto = CreateUserDto;

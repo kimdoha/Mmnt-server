@@ -1,6 +1,3 @@
-import { SqsModule } from '@ssut/nestjs-sqs';
-require('dotenv/config');
-
 export const sqsConfig = {
   consumers: [],
   producers: [

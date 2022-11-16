@@ -1,2 +1,2 @@
-import { CacheModuleOptions } from "@nestjs/common";
+import { CacheModuleOptions } from '@nestjs/common';
 export declare const cacheConfig: CacheModuleOptions;

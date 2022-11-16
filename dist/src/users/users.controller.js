@@ -47,7 +47,7 @@ let UsersController = class UsersController {
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '내 프로필 조회 성공', responseData));
     }
     async updateUserLocation(user, body, res) {
-        const responseData = await this.userService.updateUserLocation(user.userIdx, { 'locationX': body.locationX, 'locationY': body.locationY }, body.radius);
+        const responseData = await this.userService.updateUserLocation(user.userIdx, { locationX: body.locationX, locationY: body.locationY }, body.radius);
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 위치 수정 성공', responseData));
     }
 };
@@ -57,11 +57,11 @@ __decorate([
     (0, swagger_1.ApiCreatedResponse)({
         status: 201,
         description: '회원 가입 성공',
-        type: sign_up_response_dto_1.SignUpResponseDto
+        type: sign_up_response_dto_1.SignUpResponseDto,
     }),
     (0, swagger_1.ApiBadRequestResponse)({
         status: 400,
-        description: 'Bad Request'
+        description: 'Bad Request',
     }),
     (0, common_1.Post)('/sign-up'),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
@@ -76,15 +76,15 @@ __decorate([
     (0, swagger_1.ApiCreatedResponse)({
         status: 201,
         description: '로그인 성공',
-        type: sign_in_response_dto_1.SignInResponseDto
+        type: sign_in_response_dto_1.SignInResponseDto,
     }),
     (0, swagger_1.ApiUnauthorizedResponse)({
         status: 401,
-        description: '유저 정보가 올바르지 않습니다.'
+        description: '유저 정보가 올바르지 않습니다.',
     }),
     (0, swagger_1.ApiNotFoundResponse)({
         status: 404,
-        description: '해당 유저가 존재하지 않습니다.'
+        description: '해당 유저가 존재하지 않습니다.',
     }),
     (0, common_1.Post)('/sign-in'),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
@@ -98,15 +98,15 @@ __decorate([
     (0, swagger_1.ApiOperation)({
         summary: '유저 정보 변경 | 비밀 번호 찾기 API',
         description: `이메일, 비밀번호, 닉네임 변경 가능. 
-        이메일 변경 시, [인증 번호 발송] API를 먼저 사용해주세요.`
+        이메일 변경 시, [인증 번호 발송] API를 먼저 사용해주세요.`,
     }),
     (0, swagger_1.ApiOkResponse)({
         status: 200,
-        description: '유저 정보 변경 성공'
+        description: '유저 정보 변경 성공',
     }),
     (0, swagger_1.ApiNotFoundResponse)({
         status: 404,
-        description: '해당 유저가 존재하지 않습니다.'
+        description: '해당 유저가 존재하지 않습니다.',
     }),
     (0, common_1.Patch)(''),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
@@ -121,14 +121,17 @@ __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiOperation)({
         summary: '유저 프로필 조회 API',
-        description: '유저 핀 | 모먼트 개수 확인 가능합니다.'
+        description: '유저 핀 | 모먼트 개수 확인 가능합니다.',
     }),
     (0, swagger_1.ApiOkResponse)({
         status: 200,
         description: '유저 프로필 조회 성공',
-        type: get_profile_Info_response_dto_1.GetProfileInfoResponse
+        type: get_profile_Info_response_dto_1.GetProfileInfoResponse,
     }),
-    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
+    (0, swagger_1.ApiNotFoundResponse)({
+        status: 404,
+        description: '해당 유저가 존재하지 않습니다.',
+    }),
     (0, common_1.Get)('/profile-info'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -141,16 +144,16 @@ __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiOperation)({
         summary: '유저 위치 수정 및 근처 핀 모먼트 조회 API',
-        description: 'radius(m) : 50m 일 경우 50 입력'
+        description: 'radius(m) : 50m 일 경우 50 입력',
     }),
     (0, swagger_1.ApiBody)({ type: update_location_dto_1.UpdateLocationDto }),
     (0, swagger_1.ApiOkResponse)({
         status: 200,
-        description: '유저 위치 수정 성공'
+        description: '유저 위치 수정 성공',
     }),
     (0, swagger_1.ApiNotFoundResponse)({
         status: 404,
-        description: '해당 유저가 존재하지 않습니다.'
+        description: '해당 유저가 존재하지 않습니다.',
     }),
     (0, common_1.Patch)('/location'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),

@@ -20,13 +20,15 @@ let UploadsService = class UploadsService {
             console.log(file);
             const s3 = new AWS.S3();
             const fileName = Date.now() + file.originalname ? file.originalname : file.filename;
-            const upload = await new AWS.S3().upload({
+            const upload = await new AWS.S3()
+                .upload({
                 Key: fileName,
                 Body: file.buffer,
                 Bucket: BUCKET_NAME,
                 ACL: 'public-read',
-            }).promise();
-            return { "imageUrl": upload.Location };
+            })
+                .promise();
+            return { imageUrl: upload.Location };
         }
         catch (e) {
             console.log(e);

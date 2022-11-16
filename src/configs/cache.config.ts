@@ -1,6 +1,5 @@
 import { CacheModuleOptions } from '@nestjs/common';
 import * as redisStore from 'cache-manager-ioredis';
-require('dotenv/config');
 
 export const cacheConfig: CacheModuleOptions = {
   useFactory: async () => ({

@@ -22,7 +22,11 @@ let Report = class Report {
     }
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: 'bigint', unsigned: true, comment: '신고 아이디' }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({
+        type: 'bigint',
+        unsigned: true,
+        comment: '신고 아이디',
+    }),
     __metadata("design:type", Number)
 ], Report.prototype, "reportIdx", void 0);
 __decorate([
@@ -34,17 +38,17 @@ __decorate([
     __metadata("design:type", Date)
 ], Report.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(type => moment_entity_1.Moment, moment => moment.reports, { eager: false }),
+    (0, typeorm_1.ManyToOne)((type) => moment_entity_1.Moment, (moment) => moment.reports, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'moment_idx' }),
     __metadata("design:type", Number)
 ], Report.prototype, "momentIdx", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.reports, { eager: false }),
+    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.reports, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'user_idx' }),
     __metadata("design:type", Number)
 ], Report.prototype, "userIdx", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.reports, { eager: false }),
+    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.reports, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'received_user_idx' }),
     __metadata("design:type", Number)
 ], Report.prototype, "receivedUserIdx", void 0);

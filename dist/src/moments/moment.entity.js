@@ -26,7 +26,11 @@ let Moment = class Moment {
     }
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "bigint", unsigned: true, comment: "모먼트 아이디" }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({
+        type: 'bigint',
+        unsigned: true,
+        comment: '모먼트 아이디',
+    }),
     __metadata("design:type", Number)
 ], Moment.prototype, "momentIdx", void 0);
 __decorate([
@@ -54,29 +58,35 @@ __decorate([
     __metadata("design:type", String)
 ], Moment.prototype, "artist", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: "CURRENT_TIMESTAMP" }),
+    (0, typeorm_1.CreateDateColumn)({ type: 'timestamp', default: 'CURRENT_TIMESTAMP' }),
     __metadata("design:type", Date)
 ], Moment.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)({ type: "timestamp", nullable: true, default: "CURRENT_TIMESTAMP" }),
+    (0, typeorm_1.UpdateDateColumn)({
+        type: 'timestamp',
+        nullable: true,
+        default: 'CURRENT_TIMESTAMP',
+    }),
     __metadata("design:type", Date)
 ], Moment.prototype, "updatedAt", void 0);
 __decorate([
-    (0, typeorm_1.DeleteDateColumn)({ type: "timestamp", nullable: true }),
+    (0, typeorm_1.DeleteDateColumn)({ type: 'timestamp', nullable: true }),
     __metadata("design:type", Date)
 ], Moment.prototype, "deletedAt", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(type => pin_entity_1.Pin, pin => pin.moments, { eager: false }),
+    (0, typeorm_1.ManyToOne)((type) => pin_entity_1.Pin, (pin) => pin.moments, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'pin_idx' }),
     __metadata("design:type", Number)
 ], Moment.prototype, "pinIdx", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(type => user_entity_1.User, user => user.moments, { eager: false }),
+    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.moments, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'user_idx' }),
     __metadata("design:type", Number)
 ], Moment.prototype, "userIdx", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(type => report_entity_1.Report, (report) => report.momentIdx, { eager: false }),
+    (0, typeorm_1.OneToMany)((type) => report_entity_1.Report, (report) => report.momentIdx, {
+        eager: false,
+    }),
     __metadata("design:type", Array)
 ], Moment.prototype, "reports", void 0);
 __decorate([
@@ -98,7 +108,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], Moment.prototype, "logRemove", null);
 Moment = __decorate([
-    (0, typeorm_1.Entity)("mmnt.moments")
+    (0, typeorm_1.Entity)('mmnt.moments')
 ], Moment);
 exports.Moment = Moment;
 //# sourceMappingURL=moment.entity.js.map

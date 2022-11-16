@@ -56,11 +56,14 @@ let MomentsController = class MomentsController {
 __decorate([
     (0, swagger_1.ApiOperation)({
         summary: '핀 및 모먼트 생성 API',
-        description: '이미지 파일은 "이미지 URL 생성 API"로 변환 후 URL 을 입력해주시면 됩니다.'
+        description: '이미지 파일은 "이미지 URL 생성 API"로 변환 후 URL 을 입력해주시면 됩니다.',
     }),
     (0, swagger_1.ApiBody)({ type: create_moment_dto_1.CreateMomentDto }),
     (0, swagger_1.ApiCreatedResponse)({ status: 201, description: '핀 및 모먼트 생성 성공' }),
-    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
+    (0, swagger_1.ApiNotFoundResponse)({
+        status: 404,
+        description: '해당 유저가 존재하지 않습니다.',
+    }),
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -74,11 +77,17 @@ __decorate([
     (0, swagger_1.ApiOperation)({
         summary: '나의 모먼트 히스토리 조회 API',
         description: `[type] main : 나의 모먼트 피드 전체 조회,  detail : 나의 모먼트 상세 조회 </br>
-         [page] page 는 1부터 시작합니다.`
+         [page] page 는 1부터 시작합니다.`,
     }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '나의 모먼트 피드 조회 성공' }),
-    (0, swagger_1.ApiBadRequestResponse)({ status: 400, description: 'type, page, limit 이 올바르지 않습니다.' }),
-    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다. | 등록된 모먼트가 없습니다.' }),
+    (0, swagger_1.ApiBadRequestResponse)({
+        status: 400,
+        description: 'type, page, limit 이 올바르지 않습니다.',
+    }),
+    (0, swagger_1.ApiNotFoundResponse)({
+        status: 404,
+        description: '해당 유저가 존재하지 않습니다. | 등록된 모먼트가 없습니다.',
+    }),
     (0, common_1.Get)('/my-history'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -91,8 +100,14 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '핀 별 모먼트 리스트 조회 API' }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '핀 별 모먼트 리스트 조회 성공' }),
-    (0, swagger_1.ApiBadRequestResponse)({ status: 400, description: 'page, limit 이 올바르지 않습니다.' }),
-    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다. | 등록된 모먼트가 없습니다.' }),
+    (0, swagger_1.ApiBadRequestResponse)({
+        status: 400,
+        description: 'page, limit 이 올바르지 않습니다.',
+    }),
+    (0, swagger_1.ApiNotFoundResponse)({
+        status: 404,
+        description: '해당 유저가 존재하지 않습니다. | 등록된 모먼트가 없습니다.',
+    }),
     (0, common_1.Get)('/pin/:pinIdx'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -106,7 +121,10 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '모먼트 삭제 API' }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '모먼트 삭제 성공' }),
-    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.' }),
+    (0, swagger_1.ApiNotFoundResponse)({
+        status: 404,
+        description: '해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.',
+    }),
     (0, common_1.Delete)('/:momentIdx'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -119,7 +137,10 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '회원 탈퇴 API' }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '회원 탈퇴 성공' }),
-    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 유저가 존재하지 않습니다.' }),
+    (0, swagger_1.ApiNotFoundResponse)({
+        status: 404,
+        description: '해당 유저가 존재하지 않습니다.',
+    }),
     (0, common_1.Delete)('/user/withdrawal'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
@@ -131,8 +152,14 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: '모먼트 신고하기 API' }),
     (0, swagger_1.ApiOkResponse)({ status: 200, description: '모먼트 신고 성공' }),
-    (0, swagger_1.ApiNotFoundResponse)({ status: 404, description: '해당 모먼트는 삭제 되었습니다.' }),
-    (0, swagger_1.ApiConflictResponse)({ status: 409, description: '이미 신고한 모먼트입니다.' }),
+    (0, swagger_1.ApiNotFoundResponse)({
+        status: 404,
+        description: '해당 모먼트는 삭제 되었습니다.',
+    }),
+    (0, swagger_1.ApiConflictResponse)({
+        status: 409,
+        description: '이미 신고한 모먼트입니다.',
+    }),
     (0, common_1.Post)('/report'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),

@@ -24,7 +24,11 @@ let Pin = class Pin {
     }
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "bigint", unsigned: true, comment: "핀 아이디" }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({
+        type: 'bigint',
+        unsigned: true,
+        comment: '핀 아이디',
+    }),
     __metadata("design:type", Number)
 ], Pin.prototype, "pinIdx", void 0);
 __decorate([
@@ -36,19 +40,25 @@ __decorate([
     __metadata("design:type", Number)
 ], Pin.prototype, "pinY", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: "CURRENT_TIMESTAMP" }),
+    (0, typeorm_1.CreateDateColumn)({ type: 'timestamp', default: 'CURRENT_TIMESTAMP' }),
     __metadata("design:type", Date)
 ], Pin.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)({ type: "timestamp", nullable: true, default: "CURRENT_TIMESTAMP" }),
+    (0, typeorm_1.UpdateDateColumn)({
+        type: 'timestamp',
+        nullable: true,
+        default: 'CURRENT_TIMESTAMP',
+    }),
     __metadata("design:type", Date)
 ], Pin.prototype, "updatedAt", void 0);
 __decorate([
-    (0, typeorm_1.DeleteDateColumn)({ type: "timestamp", nullable: true, }),
+    (0, typeorm_1.DeleteDateColumn)({ type: 'timestamp', nullable: true }),
     __metadata("design:type", Date)
 ], Pin.prototype, "deletedAt", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(type => moment_entity_1.Moment, (moment) => moment.pinIdx, { eager: false }),
+    (0, typeorm_1.OneToMany)((type) => moment_entity_1.Moment, (moment) => moment.pinIdx, {
+        eager: false,
+    }),
     __metadata("design:type", Array)
 ], Pin.prototype, "moments", void 0);
 __decorate([
@@ -70,7 +80,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], Pin.prototype, "logRemove", null);
 Pin = __decorate([
-    (0, typeorm_1.Entity)("mmnt.pins")
+    (0, typeorm_1.Entity)('mmnt.pins')
 ], Pin);
 exports.Pin = Pin;
 //# sourceMappingURL=pin.entity.js.map

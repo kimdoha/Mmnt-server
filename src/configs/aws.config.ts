@@ -1,5 +1,3 @@
-require('dotenv/config');
-
 export const AWSConfig = {
   region: process.env.AWS_REGION,
   credentials: {

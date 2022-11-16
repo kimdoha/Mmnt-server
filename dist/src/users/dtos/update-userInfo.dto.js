@@ -11,28 +11,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUserInfo = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
 class UpdateUserInfo {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsEmail)(),
-    (0, class_validator_1.MaxLength)(50),
-    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({
+        description: '유저 이메일(선택 사항)',
+        maxLength: 50,
+    }),
     __metadata("design:type", String)
 ], UpdateUserInfo.prototype, "email", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Matches)('[A-Za-z\\d!@#$%^&*()]{10,30}'),
-    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({
+        description: '유저 비밀번호(선택 사항)',
+        pattern: '[A-Za-z\\d!@#$%^&*()]{10,30}',
+    }),
     __metadata("design:type", String)
 ], UpdateUserInfo.prototype, "password", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MaxLength)(45),
-    (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({
+        description: '유저 닉네임(선택 사항)',
+        maxLength: 45,
+    }),
     __metadata("design:type", String)
 ], UpdateUserInfo.prototype, "nickname", void 0);
 exports.UpdateUserInfo = UpdateUserInfo;

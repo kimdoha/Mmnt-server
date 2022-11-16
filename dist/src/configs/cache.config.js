@@ -6,8 +6,10 @@ require('dotenv/config');
 exports.cacheConfig = {
     useFactory: async () => ({
         store: redisStore,
-        host: process.env.NODE_ENV === 'prod' ? process.env.ELEASTICACHE_HOST : 'localhost',
-        port: process.env.CACHE_PORT
-    })
+        host: process.env.NODE_ENV === 'prod'
+            ? process.env.ELEASTICACHE_HOST
+            : 'localhost',
+        port: process.env.CACHE_PORT,
+    }),
 };
 //# sourceMappingURL=cache.config.js.map

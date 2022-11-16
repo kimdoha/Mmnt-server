@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 import { CreateAuthorizedCodeDto } from 'src/auth/dtos/create.authorized-code.dto';
 import { CreateAuthorizedCodeResponseDto } from '../common/responses/auth/create.authorized-code.response.dto';
 import { FindAuthorizedUserDto } from './dtos/find.authorized-user.dto';
-import { CreateUserDto } from '../users/dtos/create.user.dto';
+
 import {
   ApiBody,
   ApiConflictResponse,
