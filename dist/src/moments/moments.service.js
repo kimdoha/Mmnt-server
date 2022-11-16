@@ -32,9 +32,12 @@ const typeorm_2 = require("@nestjs/typeorm");
 const moment_entity_1 = require("./moment.entity");
 const user_entity_1 = require("../users/user.entity");
 const page_1 = require("../helpers/page/page");
+const report_entity_1 = require("./report.entity");
+const pin_entity_1 = require("../pins/pin.entity");
 let MomentsService = class MomentsService {
-    constructor(repo, pinsService, usersService, connection) {
+    constructor(repo, reportRepository, pinsService, usersService, connection) {
         this.repo = repo;
+        this.reportRepository = reportRepository;
         this.pinsService = pinsService;
         this.usersService = usersService;
         this.connection = connection;
@@ -66,16 +69,17 @@ let MomentsService = class MomentsService {
         const offset = page_1.Page.getOffset(query.page, query.limit);
         if (query.type === 'main') {
             moments = await this.repo.createQueryBuilder('users')
-                .select(['users.moment_idx, users.title, users.image_url, users.updated_at'])
+                .select(['users.moment_idx, users.title, users.image_url, users.updated_at, pin_x, pin_y'])
                 .where('user_idx= :id', { id: userIdx })
+                .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = users.pin_idx")
                 .orderBy('moment_idx', 'DESC')
                 .limit(limit)
                 .offset(offset)
                 .getRawMany();
         }
         else if (query.type === 'detail') {
-            moments = await this.repo.createQueryBuilder()
-                .select(['moment_idx, title, description, image_url, youtube_url, music, artist, updated_at'])
+            moments = await this.repo.createQueryBuilder('moment')
+                .select(['moment_idx, title, description, image_url, youtube_url, music, artist, moment.updated_at, pin_x, pin_y'])
                 .addSelect(sq => {
                 return sq
                     .select(['nickname'])
@@ -83,6 +87,7 @@ let MomentsService = class MomentsService {
                     .where('user_idx= :id', { id: userIdx });
             })
                 .where("user_idx= :id", { id: userIdx })
+                .leftJoin(pin_entity_1.Pin, "pin", "pin.pin_idx = moment.pin_idx")
                 .orderBy("moment_idx", "DESC")
                 .limit(limit)
                 .offset(offset)
@@ -104,9 +109,6 @@ let MomentsService = class MomentsService {
             .limit(limit)
             .offset(offset)
             .getRawMany();
-        if (!moments.length) {
-            throw new common_1.NotFoundException('등록된 모먼트가 없습니다.');
-        }
         return moments;
     }
     async deleteMoment(userIdx, momentIdx, type) {
@@ -124,6 +126,31 @@ let MomentsService = class MomentsService {
         else {
             throw new common_1.BadRequestException('삭제 경로가 올바르지 않습니다.');
         }
+    }
+    async reportMoment(userIdx, momentIdx, reason) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const moment = await this.findActiveMomentByMomentIdx(momentIdx);
+        const checkIfReportExists = await this.reportRepository.findOneBy({ momentIdx, userIdx });
+        if (checkIfReportExists) {
+            throw new common_1.ConflictException('이미 신고한 모먼트입니다.');
+        }
+        if (moment.user_idx == userIdx) {
+            throw new common_1.ConflictException('자신의 모먼트는 신고할 수 없습니다.');
+        }
+        const receivedUserIdx = moment.user_idx;
+        const report = await this.reportRepository.create({ userIdx, momentIdx, reason, receivedUserIdx });
+        return await this.reportRepository.save(report);
+    }
+    async findActiveMomentByMomentIdx(momentIdx) {
+        const moment = await this.repo.createQueryBuilder('moment')
+            .select(['moment.moment_idx, moment.user_idx'])
+            .whereInIds(momentIdx)
+            .getRawOne();
+        console.log(moment);
+        if (!moment) {
+            throw new common_1.NotFoundException('해당 모먼트는 삭제 되었습니다.');
+        }
+        return moment;
     }
     async deletePin(pinIdx, userIdx) {
         const exist = await this.getMomentCountAboutPin(pinIdx);
@@ -147,7 +174,9 @@ let MomentsService = class MomentsService {
 MomentsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
+    __param(1, (0, typeorm_2.InjectRepository)(report_entity_1.Report)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository,
         pins_service_1.PinsService,
         users_service_1.UsersService,
         typeorm_1.Connection])

@@ -1,3 +1,4 @@
+import { Report } from './report.entity';
 export declare class Moment {
     momentIdx: number;
     title: string;
@@ -11,6 +12,7 @@ export declare class Moment {
     deletedAt: Date | null;
     pinIdx: number;
     userIdx: number;
+    reports: Report[];
     logInsert(): void;
     logUpdate(): void;
     logRemove(): void;

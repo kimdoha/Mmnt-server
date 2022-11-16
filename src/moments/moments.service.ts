@@ -2,7 +2,8 @@ import {
     BadRequestException, 
     ConflictException, 
     Injectable, 
-    NotFoundException 
+    NotFoundException, 
+    UnauthorizedException
 } from '@nestjs/common';
 import {  
     Connection, 
@@ -17,6 +18,8 @@ import { User } from 'src/users/user.entity';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { Page } from 'src/helpers/page/page';
 import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
+import { Report } from './report.entity';
+import { Pin } from 'src/pins/pin.entity';
 
 
 
@@ -24,6 +27,7 @@ import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
 export class MomentsService {
     constructor(
         @InjectRepository(Moment) private repo: Repository<Moment>,
+        @InjectRepository(Report) private reportRepository: Repository<Report>,
         private pinsService: PinsService,
         private usersService: UsersService,
         private connection: Connection,
@@ -33,6 +37,14 @@ export class MomentsService {
     async createMoment(userIdx: number, body: CreateMomentDto){
         const { pinX, pinY, ... momentInfo } = body;
         const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+
+       
+        // const reportCount = await this.reportRepository.countBy({ receivedUserIdx: userIdx });
+        // console.log(reportCount);
+
+        // if(reportCount >= 3) {
+        //     throw new UnauthorizedException('접근 권한이 없습니다.');
+        // }
 
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
@@ -61,16 +73,17 @@ export class MomentsService {
         
         if(query.type === 'main') {
             moments = await this.repo.createQueryBuilder('users')
-            .select([ 'users.moment_idx, users.title, users.image_url, users.updated_at' ])
+            .select([ 'users.moment_idx, users.title, users.image_url, users.updated_at, pin_x, pin_y' ])
             .where('user_idx= :id', { id: userIdx })
+            .leftJoin(Pin, "pin", "pin.pin_idx = users.pin_idx")
             .orderBy('moment_idx', 'DESC')
             .limit(limit)
             .offset(offset)
             .getRawMany();
 
         } else if(query.type === 'detail') {
-            moments = await this.repo.createQueryBuilder()
-            .select(['moment_idx, title, description, image_url, youtube_url, music, artist, updated_at' ])
+            moments = await this.repo.createQueryBuilder('moment')
+            .select(['moment_idx, title, description, image_url, youtube_url, music, artist, moment.updated_at, pin_x, pin_y' ])
             .addSelect(sq => {
                 return sq
                 .select(['nickname'])
@@ -78,6 +91,7 @@ export class MomentsService {
                 .where('user_idx= :id', { id: userIdx });
             })
             .where("user_idx= :id", { id: userIdx })
+            .leftJoin(Pin, "pin", "pin.pin_idx = moment.pin_idx")
             .orderBy("moment_idx", "DESC")
             .limit(limit)
             .offset(offset)
@@ -106,9 +120,7 @@ export class MomentsService {
                         .getRawMany();
 
         
-        if(!moments.length){
-            throw new NotFoundException('등록된 모먼트가 없습니다.')
-        }
+
         return moments;
 
     }
@@ -123,6 +135,7 @@ export class MomentsService {
                 throw new NotFoundException('해당 모먼트는 삭제 되었거나 접근 권한이 없습니다.');
             }
 
+
             return await this.repo.delete(momentIdx);
 
         } else if(type == 'user') {
@@ -133,7 +146,38 @@ export class MomentsService {
         }
         
     }
+
+    async reportMoment(userIdx: number, momentIdx: number, reason: string) {
+        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
+        const moment = await this.findActiveMomentByMomentIdx(momentIdx);
+        const checkIfReportExists = await this.reportRepository.findOneBy({ momentIdx, userIdx });
+        if(checkIfReportExists) {
+            throw new ConflictException('이미 신고한 모먼트입니다.');
+        }
+        if(moment.user_idx == userIdx) {
+            throw new ConflictException('자신의 모먼트는 신고할 수 없습니다.');
+        }
+
+        const receivedUserIdx = moment.user_idx;
+
+        const report = await this.reportRepository.create({ userIdx, momentIdx, reason, receivedUserIdx });
+        return await this.reportRepository.save(report);
+    }
     
+    async findActiveMomentByMomentIdx(momentIdx: number) {
+        const moment = await this.repo.createQueryBuilder('moment')
+        .select(['moment.moment_idx, moment.user_idx'])
+        .whereInIds(momentIdx)
+        .getRawOne();
+        console.log(moment);
+
+        if(!moment){
+            throw new NotFoundException('해당 모먼트는 삭제 되었습니다.');
+        }
+
+        return moment;
+    }
+
     // 추후에 스케줄러
     async deletePin(pinIdx: number, userIdx: number){
 
@@ -161,4 +205,5 @@ export class MomentsService {
         
     }
 
+    
 }

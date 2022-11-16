@@ -22,16 +22,16 @@ export declare class UsersService {
     updateUserInfo(userIdx: number, attrs: Partial<UpdateUserInfo>): Promise<User>;
     updateUserLocation(userIdx: number, location: any, radius: number): Promise<({
         pinLists: any[];
-        mainMoment?: undefined;
-        momentLists?: undefined;
+        mainPin?: undefined;
+        nearByPinLists?: undefined;
     } | {
-        mainMoment: any;
+        mainPin: any;
         pinLists?: undefined;
-        momentLists?: undefined;
+        nearByPinLists?: undefined;
     } | {
-        momentLists: any[];
+        nearByPinLists: any[];
         pinLists?: undefined;
-        mainMoment?: undefined;
+        mainPin?: undefined;
     })[]>;
     getDetailUserInfo(userIdx: number): Promise<{}>;
     findActiveUserByUserIdx(userIdx: number): Promise<User>;

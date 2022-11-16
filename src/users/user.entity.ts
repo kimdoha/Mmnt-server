@@ -15,6 +15,7 @@ import {
 
 import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
+import { Report } from 'src/moments/report.entity';
 
 @Entity("mmnt.users")
 export class User {
@@ -59,6 +60,9 @@ export class User {
     @OneToMany(type => Moment, (moment: Moment) => moment.userIdx, { eager: false })
     moments: Moment[];
 
+    @OneToMany(type => Report, (report: Report) => report.userIdx, { eager: false })
+    reports: Report[];
+    
     @AfterInsert()
     logInsert() {
         console.log('Inserted User with id', this.userIdx);

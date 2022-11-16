@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const moment_entity_1 = require("../moments/moment.entity");
+const report_entity_1 = require("../moments/report.entity");
 let User = class User {
     logInsert() {
         console.log('Inserted User with id', this.userIdx);
@@ -75,6 +76,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(type => moment_entity_1.Moment, (moment) => moment.userIdx, { eager: false }),
     __metadata("design:type", Array)
 ], User.prototype, "moments", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(type => report_entity_1.Report, (report) => report.userIdx, { eager: false }),
+    __metadata("design:type", Array)
+], User.prototype, "reports", void 0);
 __decorate([
     (0, typeorm_1.AfterInsert)(),
     __metadata("design:type", Function),

@@ -1,4 +1,5 @@
 import { Moment } from 'src/moments/moment.entity';
+import { Report } from 'src/moments/report.entity';
 export declare class User {
     userIdx: number;
     email: string;
@@ -13,6 +14,7 @@ export declare class User {
     updatedAt: Date;
     deletedAt: Date | null;
     moments: Moment[];
+    reports: Report[];
     logInsert(): void;
     logUpdate(): void;
     logRemove(): void;

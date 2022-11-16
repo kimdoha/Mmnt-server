@@ -1,26 +1,26 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsOptional, IsString, Matches, MaxLength } from "class-validator";
+
 
 export class UpdateUserInfo {
 
-    @ApiProperty()
-    @IsEmail()
-    @MaxLength(50)
-    @IsOptional()
+    @ApiProperty({
+        description: '유저 이메일(선택 사항)',
+        maxLength: 50,
+    })
     email: string;
 
 
-    @ApiProperty()
-    @IsString()
-    @Matches('[A-Za-z\\d!@#$%^&*()]{10,30}')
-    @IsOptional()
+    @ApiProperty({
+        description: '유저 비밀번호(선택 사항)',
+        pattern: '[A-Za-z\\d!@#$%^&*()]{10,30}',
+    })
     password: string;
 
 
-    @ApiProperty()
-    @IsString()
-    @MaxLength(45)
-    @IsOptional()
+    @ApiProperty({
+        description: '유저 닉네임(선택 사항)',
+        maxLength: 45,
+    })
     nickname: string;
 
 }

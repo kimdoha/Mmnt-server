@@ -33,29 +33,19 @@ let UsersService = class UsersService {
         this.connection = connection;
     }
     async createUser(email, password) {
-        try {
-            const user = await this.userRepository.findOneBy({ email });
-            if (user) {
-                throw new common_1.BadRequestException('중복된 이메일입니다.');
-            }
-            const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
-            const new_user = await this.userRepository.create({ email, password: hashedPassword });
-            const { userIdx } = await this.userRepository.save(new_user);
-            await this.userRepository.update(userIdx, { nickname: `${userIdx}번째 익명이` });
-            return { userIdx, email };
+        const user = await this.userRepository.findOneBy({ email });
+        if (user) {
+            throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
-        catch (e) {
-            throw new common_1.InternalServerErrorException('Database Error');
-        }
+        const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
+        const new_user = await this.userRepository.create({ email, password: hashedPassword });
+        const { userIdx } = await this.userRepository.save(new_user);
+        await this.userRepository.update(userIdx, { nickname: `${userIdx}번째 익명이` });
+        return { userIdx, email };
     }
     async signIn(email, password) {
-        try {
-            const payload = await this.validateUser(email, password);
-            return await this.login(payload);
-        }
-        catch (e) {
-            throw new common_1.InternalServerErrorException('Database Error');
-        }
+        const payload = await this.validateUser(email, password);
+        return await this.login(payload);
     }
     async updateUserInfo(userIdx, attrs) {
         const user = await this.findActiveUserByUserIdx(userIdx);
@@ -82,19 +72,20 @@ let UsersService = class UsersService {
         console.log(pinLists);
         let pins = [], moments = [];
         pinLists.map(pin => pins.push(pin.pin_idx));
-        const momentIdxLists = pins.length ?
+        const latestMomentIdxLists = pins.length ?
             await this.momentRepository.createQueryBuilder('moment')
                 .select(['MAX(moment_idx) AS moment_idx '])
                 .where('moment.pin_idx in (:...pins)', { pins })
                 .groupBy('moment.pin_idx')
                 .getRawMany() : [];
-        console.log(momentIdxLists);
-        await momentIdxLists.map(moment => moments.push(parseInt(moment.moment_idx)));
+        console.log(latestMomentIdxLists);
+        await latestMomentIdxLists.map(moment => moments.push(parseInt(moment.moment_idx)));
         console.log(moments);
-        const momentLists = moments.length ?
+        let momentLists = moments.length ?
             await this.momentRepository.createQueryBuilder('moment')
                 .select([`moment_idx, moment.pin_idx, 
-                title, youtube_url, music, artist,
+                title, youtube_url, music, artist, 
+                pin_x, pin_y,
                (ST_DistanceSphere(
                 ST_GeomFromText(:point, 4326),
                 ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`])
@@ -106,10 +97,19 @@ let UsersService = class UsersService {
                 point: `POINT(${location.locationX} ${location.locationY})`,
             })
                 .getRawMany() : [];
+        const momentCount = pins.length ? await this.momentRepository.createQueryBuilder('moment')
+            .select([`count('moment_idx') as momentcount, pin_idx`])
+            .where('moment.pin_idx in (:...pins)', { pins })
+            .groupBy('moment.pin_idx')
+            .getRawMany() : [];
+        momentLists.map(moment => {
+            const count = momentCount.find(count => count.pin_idx == moment.pin_idx).momentcount;
+            moment.momentCount = count ? count : 0;
+        });
         return [
             { pinLists },
-            { 'mainMoment': momentLists[0] ? momentLists[0] : {} },
-            { 'momentLists': momentLists[1] ? momentLists.slice(1, momentLists.length) : [] }
+            { 'mainPin': momentLists[0] ? momentLists[0] : {} },
+            { 'nearByPinLists': momentLists[1] ? momentLists.slice(1, momentLists.length) : [] }
         ];
     }
     async getDetailUserInfo(userIdx) {
