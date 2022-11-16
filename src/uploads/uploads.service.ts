@@ -1,10 +1,5 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-} from '@nestjs/common';
-import { MemoryStoredFile } from 'nestjs-form-data';
-import { AWSConfig } from 'src/configs/aws.config';
+import { ConflictException, Injectable } from '@nestjs/common';
+
 import * as AWS from 'aws-sdk';
 
 const BUCKET_NAME = 'mmntuploads';

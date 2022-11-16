@@ -1,18 +1,8 @@
-import {
-  BadRequestException,
-  CACHE_MANAGER,
-  ConflictException,
-  Inject,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pin } from './pin.entity';
-import { NotFoundError } from 'rxjs';
-import { Cache } from 'cache-manager';
 
 @Injectable()
 export class PinsService {

@@ -8,22 +8,16 @@ import {
   Res,
   ValidationPipe,
   UseGuards,
-  UseInterceptors,
-  NotFoundException,
   Patch,
   Delete,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create.user.dto';
 import { UsersService } from './users.service';
-import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { StatusCodes } from 'http-status-codes';
 import { SuccessReponse } from 'src/helpers/success-reponse.helper';
-import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
-import { CommonResponseInterceptor } from 'src/common/interceptors/common.response.interceptor';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { GetProfileInfoResponse } from 'src/common/responses/users/get.profile-Info.response.dto';
-import { User } from './user.entity';
 import { UpdateLocationDto } from './dtos/update-location.dto';
 import {
   ApiBadRequestResponse,

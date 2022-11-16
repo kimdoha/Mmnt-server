@@ -1,5 +1,5 @@
 import { Moment } from 'src/moments/moment.entity';
-import { User } from 'src/users/user.entity';
+
 import {
   Entity,
   Column,
