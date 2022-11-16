@@ -1,10 +1,9 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
 
 export class CreateAuthorizedCodeResponseDto {
+  @Expose()
+  email: string;
 
-    @Expose()
-    email: string;
-
-    @Expose()
-    value: string;
+  @Expose()
+  value: string;
 }

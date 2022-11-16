@@ -7,11 +7,11 @@ import { cacheConfig } from 'src/configs/cache.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Pin]), 
+    TypeOrmModule.forFeature([Pin]),
     UsersModule,
     CacheModule.registerAsync(cacheConfig),
   ],
   providers: [PinsService],
-  exports: [PinsService]
+  exports: [PinsService],
 })
 export class PinsModule {}

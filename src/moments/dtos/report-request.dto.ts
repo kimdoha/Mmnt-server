@@ -1,13 +1,13 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class ReportRequestDto {
-    @ApiProperty()
-    @IsNumber()
-    momentIdx: number
+  @ApiProperty()
+  @IsNumber()
+  momentIdx: number;
 
-    @ApiProperty()
-    @IsString()
-    @IsNotEmpty()
-    reason: string
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  reason: string;
 }

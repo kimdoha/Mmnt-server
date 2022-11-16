@@ -1,28 +1,27 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 
 export class GetProfileInfoResponse {
+  @ApiProperty()
+  @Expose()
+  userIdx: string;
 
-    @ApiProperty()
-    @Expose()
-    userIdx: string;
+  @ApiProperty()
+  @Expose()
+  email: string;
 
-    @ApiProperty()
-    @Expose()
-    email: string;
+  @ApiProperty()
+  @Expose()
+  nickname: string;
 
-    @ApiProperty()
-    @Expose()
-    nickname: string;
+  @ApiProperty()
+  @Expose()
+  profileImgUrl: string;
 
-    @ApiProperty()
-    @Expose()
-    profileImgUrl: string;
+  @ApiProperty()
+  @Expose()
+  pinCount: string;
 
-    @ApiProperty()
-    @Expose()
-    pinCount: string;
-
-    @ApiProperty()
-    momentCount: string;
+  @ApiProperty()
+  momentCount: string;
 }

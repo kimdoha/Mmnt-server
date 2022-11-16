@@ -1,7 +1,4 @@
-import { 
-  CacheModule, 
-  Module 
-} from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,18 +7,14 @@ import { PinsModule } from './pins/pins.module';
 import { MomentsModule } from './moments/moments.module';
 import { typeORMConfig } from './configs/typeorm.config';
 import { AuthModule } from './auth/auth.module';
-import { 
-  ConfigModule, 
-  ConfigService 
-} from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UploadsModule } from './uploads/uploads.module';
 import * as AWS from 'aws-sdk';
 
-
 AWS.config.update({
-    region: process.env.AWS_REGION,
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
 @Module({
@@ -31,9 +24,9 @@ AWS.config.update({
       isGlobal: true,
     }),
     AuthModule,
-    UsersModule, 
-    PinsModule, 
-    MomentsModule, 
+    UsersModule,
+    PinsModule,
+    MomentsModule,
     UploadsModule,
   ],
   controllers: [AppController],

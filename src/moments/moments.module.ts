@@ -15,13 +15,11 @@ import { Report } from './report.entity';
   imports: [
     TypeOrmModule.forFeature([Moment, Report]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
-    UsersModule, 
+    UsersModule,
     PinsModule,
   ],
   controllers: [MomentsController],
-  providers: [
-    MomentsService,
-  ],
-  exports: [ MomentsService ]
+  providers: [MomentsService],
+  exports: [MomentsService],
 })
 export class MomentsModule {}

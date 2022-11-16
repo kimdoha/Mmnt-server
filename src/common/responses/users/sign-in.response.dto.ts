@@ -1,11 +1,9 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
 
 export class SignInResponseDto {
+  @Expose()
+  userIdx: number;
 
-    @Expose()
-    userIdx: number;
-
-    @Expose()
-    accessToken: string;
-
+  @Expose()
+  accessToken: string;
 }

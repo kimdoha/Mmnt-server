@@ -14,18 +14,15 @@ import { SqsModule } from '@ssut/nestjs-sqs';
 import { sqsConfig } from 'src/configs/sqs.config';
 import { SqsService } from '@ssut/nestjs-sqs';
 
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     CacheModule.registerAsync(cacheConfig),
     SqsModule.register(sqsConfig),
-    UsersModule, 
+    UsersModule,
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-  ],
-  exports: [AuthService]
+  providers: [AuthService],
+  exports: [AuthService],
 })
 export class AuthModule {}

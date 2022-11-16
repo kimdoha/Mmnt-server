@@ -1,45 +1,44 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { 
-    IsLatitude, 
-    IsLongitude, 
-    IsNumber, 
-    IsString, 
-    IsUrl 
+import {
+  IsLatitude,
+  IsLongitude,
+  IsNumber,
+  IsString,
+  IsUrl,
 } from 'class-validator';
 
 export class CreateMomentDto {
-    
-    @ApiProperty()
-    @IsNumber()
-    @IsLongitude()
-    pinX: number;
+  @ApiProperty()
+  @IsNumber()
+  @IsLongitude()
+  pinX: number;
 
-    @ApiProperty()
-    @IsNumber()
-    @IsLatitude()
-    pinY: number;
-    
-    @ApiProperty()
-    @IsString()
-    title: string;
+  @ApiProperty()
+  @IsNumber()
+  @IsLatitude()
+  pinY: number;
 
-    @ApiProperty()
-    @IsString()
-    description: string;
+  @ApiProperty()
+  @IsString()
+  title: string;
 
-    @ApiProperty()
-    @IsUrl()
-    imageUrl: string
+  @ApiProperty()
+  @IsString()
+  description: string;
 
-    @ApiProperty()
-    @IsUrl()
-    youtubeUrl: string;
+  @ApiProperty()
+  @IsUrl()
+  imageUrl: string;
 
-    @ApiProperty()
-    @IsString()
-    music: string;
+  @ApiProperty()
+  @IsUrl()
+  youtubeUrl: string;
 
-    @ApiProperty()
-    @IsString()
-    artist: string;    
+  @ApiProperty()
+  @IsString()
+  music: string;
+
+  @ApiProperty()
+  @IsString()
+  artist: string;
 }
