@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeORMConfig = void 0;
-require('dotenv/config');
 const path_1 = require("path");
 const typeorm_naming_strategies_1 = require("typeorm-naming-strategies");
+require('dotenv/config');
 exports.typeORMConfig = {
     type: 'postgres',
     host: process.env.MASTER_DB_HOST,

@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Report = void 0;
 const user_entity_1 = require("../users/user.entity");
-const moment_entity_1 = require("./moment.entity");
 const typeorm_1 = require("typeorm");
+const moment_entity_1 = require("./moment.entity");
 let Report = class Report {
     logInsert() {
         console.log('Inserted Report with id', this.reportIdx);
@@ -38,17 +38,17 @@ __decorate([
     __metadata("design:type", Date)
 ], Report.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => moment_entity_1.Moment, (moment) => moment.reports, { eager: false }),
+    (0, typeorm_1.ManyToOne)(() => moment_entity_1.Moment, (moment) => moment.reports, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'moment_idx' }),
     __metadata("design:type", Number)
 ], Report.prototype, "momentIdx", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.reports, { eager: false }),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.reports, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'user_idx' }),
     __metadata("design:type", Number)
 ], Report.prototype, "userIdx", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.reports, { eager: false }),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.reports, { eager: false }),
     (0, typeorm_1.JoinColumn)({ name: 'received_user_idx' }),
     __metadata("design:type", Number)
 ], Report.prototype, "receivedUserIdx", void 0);

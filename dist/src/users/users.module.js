@@ -13,12 +13,12 @@ const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
 const jwt_strategy_1 = require("./strategy/jwt.strategy");
 const jwt_config_1 = require("../configs/jwt.config");
-const user_entity_1 = require("./user.entity");
-const users_controller_1 = require("./users.controller");
-const users_service_1 = require("./users.service");
 const moment_entity_1 = require("../moments/moment.entity");
 const pin_entity_1 = require("../pins/pin.entity");
 const cache_config_1 = require("../configs/cache.config");
+const user_entity_1 = require("./user.entity");
+const users_controller_1 = require("./users.controller");
+const users_service_1 = require("./users.service");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([

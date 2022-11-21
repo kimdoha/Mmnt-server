@@ -17,7 +17,6 @@ let UploadsService = class UploadsService {
     constructor() { }
     async uploadImageToStorage(file) {
         try {
-            console.log(file);
             const s3 = new AWS.S3();
             const fileName = Date.now() + file.originalname ? file.originalname : file.filename;
             const upload = await new AWS.S3()
@@ -31,7 +30,6 @@ let UploadsService = class UploadsService {
             return { imageUrl: upload.Location };
         }
         catch (e) {
-            console.log(e);
             throw new common_1.ConflictException('이미지 생성 실패');
         }
     }

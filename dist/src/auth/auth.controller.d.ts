@@ -1,5 +1,5 @@
-import { AuthService } from './auth.service';
 import { CreateAuthorizedCodeDto } from 'src/auth/dtos/create.authorized-code.dto';
+import { AuthService } from './auth.service';
 import { FindAuthorizedUserDto } from './dtos/find.authorized-user.dto';
 export declare class AuthController {
     private authService;

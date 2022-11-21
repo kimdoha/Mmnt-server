@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AWSConfig = void 0;
-require('dotenv/config');
 exports.AWSConfig = {
     region: process.env.AWS_REGION,
     credentials: {

@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const config_1 = require("@nestjs/config");
+const AWS = require("aws-sdk");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const users_module_1 = require("./users/users.module");
@@ -16,9 +18,7 @@ const pins_module_1 = require("./pins/pins.module");
 const moments_module_1 = require("./moments/moments.module");
 const typeorm_config_1 = require("./configs/typeorm.config");
 const auth_module_1 = require("./auth/auth.module");
-const config_1 = require("@nestjs/config");
 const uploads_module_1 = require("./uploads/uploads.module");
-const AWS = require("aws-sdk");
 AWS.config.update({
     region: process.env.AWS_REGION,
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,

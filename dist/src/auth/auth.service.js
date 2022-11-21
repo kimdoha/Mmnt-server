@@ -39,7 +39,7 @@ let AuthService = class AuthService {
     }
     async verifyAuthorizedCode(email, value) {
         const code = await this.cacheManager.get(email);
-        if (value != code) {
+        if (value !== code) {
             throw new common_1.NotFoundException('인증 번호가 올바르지 않습니다.');
         }
         return { email, value };

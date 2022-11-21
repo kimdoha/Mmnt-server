@@ -16,13 +16,13 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
-const user_entity_1 = require("./user.entity");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
 const pin_entity_1 = require("../pins/pin.entity");
 const moment_entity_1 = require("../moments/moment.entity");
 const create_hashed_password_1 = require("../configs/functions/create.hashed-password");
 const change_case_1 = require("change-case");
+const user_entity_1 = require("./user.entity");
 let UsersService = class UsersService {
     constructor(cacheManager, userRepository, pinRepository, momentRepository, jwtService, connection) {
         this.cacheManager = cacheManager;
@@ -38,11 +38,11 @@ let UsersService = class UsersService {
             throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
         const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
-        const new_user = await this.userRepository.create({
+        const newUser = await this.userRepository.create({
             email,
             password: hashedPassword,
         });
-        const { userIdx } = await this.userRepository.save(new_user);
+        const { userIdx } = await this.userRepository.save(newUser);
         await this.userRepository.update(userIdx, {
             nickname: `${userIdx}번째 익명이`,
         });
@@ -78,7 +78,8 @@ let UsersService = class UsersService {
         })
             .getRawMany();
         console.log(pinLists);
-        const pins = [], moments = [];
+        const pins = [];
+        const moments = [];
         pinLists.map((pin) => pins.push(pin.pin_idx));
         const latestMomentIdxLists = pins.length
             ? await this.momentRepository
@@ -120,8 +121,8 @@ let UsersService = class UsersService {
                 .getRawMany()
             : [];
         momentLists.map((moment) => {
-            const count = momentCount.find((count) => count.pin_idx == moment.pin_idx).momentcount;
-            moment.momentCount = count ? count : 0;
+            const count = momentCount.find((count) => count.pin_idx === moment.pin_idx).momentcount;
+            moment.momentCount = count || 0;
         });
         return [
             { pinLists },

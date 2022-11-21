@@ -2,23 +2,17 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
-  Query,
   Res,
   ValidationPipe,
   UseGuards,
   Patch,
-  Delete,
 } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create.user.dto';
-import { UsersService } from './users.service';
 import { StatusCodes } from 'http-status-codes';
 import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { GetUser } from 'src/common/decorators/get.user.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { GetProfileInfoResponse } from 'src/common/responses/users/get.profile-Info.response.dto';
-import { UpdateLocationDto } from './dtos/update-location.dto';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -27,12 +21,14 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { SignUpResponseDto } from 'src/common/responses/users/sign-up.response.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
+import { UpdateLocationDto } from './dtos/update-location.dto';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dtos/create.user.dto';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 
 @ApiTags('user')

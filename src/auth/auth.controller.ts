@@ -1,24 +1,21 @@
-import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 
 import { StatusCodes } from 'http-status-codes';
 import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
-import { AuthService } from './auth.service';
-
 import { CreateAuthorizedCodeDto } from 'src/auth/dtos/create.authorized-code.dto';
-import { CreateAuthorizedCodeResponseDto } from '../common/responses/auth/create.authorized-code.response.dto';
-import { FindAuthorizedUserDto } from './dtos/find.authorized-user.dto';
-
 import {
   ApiBody,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
-  ApiOkResponse,
   ApiOperation,
-  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthService } from './auth.service';
+
+import { CreateAuthorizedCodeResponseDto } from '../common/responses/auth/create.authorized-code.response.dto';
+import { FindAuthorizedUserDto } from './dtos/find.authorized-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')

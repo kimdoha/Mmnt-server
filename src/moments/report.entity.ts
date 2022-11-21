@@ -1,16 +1,14 @@
 import { User } from 'src/users/user.entity';
-import { Moment } from './moment.entity';
-
 import {
   AfterInsert,
   AfterRemove,
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Moment } from './moment.entity';
 
 @Entity('mmnt.reports')
 export class Report {
@@ -27,15 +25,15 @@ export class Report {
   @Column({ type: 'timestamp', default: 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @ManyToOne((type) => Moment, (moment) => moment.reports, { eager: false })
+  @ManyToOne(() => Moment, (moment) => moment.reports, { eager: false })
   @JoinColumn({ name: 'moment_idx' })
   momentIdx: number;
 
-  @ManyToOne((type) => User, (user) => user.reports, { eager: false })
+  @ManyToOne(() => User, (user) => user.reports, { eager: false })
   @JoinColumn({ name: 'user_idx' })
   userIdx: number;
 
-  @ManyToOne((type) => User, (user) => user.reports, { eager: false })
+  @ManyToOne(() => User, (user) => user.reports, { eager: false })
   @JoinColumn({ name: 'received_user_idx' })
   receivedUserIdx: number;
 

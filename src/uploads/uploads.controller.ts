@@ -19,8 +19,6 @@ import { SuccessReponse } from 'src/helpers/success-reponse.helper';
 import { FileUploadDto } from './dtos/file-upload.dto';
 import { UploadsService } from './uploads.service';
 
-const BUCKET_NAME = 'mmntuploads';
-
 @ApiTags('upload')
 @Controller('upload')
 export class UploadsController {

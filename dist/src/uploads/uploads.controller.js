@@ -20,7 +20,6 @@ const http_status_codes_1 = require("http-status-codes");
 const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
 const file_upload_dto_1 = require("./dtos/file-upload.dto");
 const uploads_service_1 = require("./uploads.service");
-const BUCKET_NAME = 'mmntuploads';
 let UploadsController = class UploadsController {
     constructor(uploadsService) {
         this.uploadsService = uploadsService;

@@ -1,10 +1,8 @@
 import {
   CACHE_MANAGER,
-  ConflictException,
   Inject,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { createAuthorizedCode } from 'src/configs/functions/create.authorized-code';
 
@@ -40,7 +38,7 @@ export class AuthService {
 
   async verifyAuthorizedCode(email: string, value: string) {
     const code = await this.cacheManager.get(email);
-    if (value != code) {
+    if (value !== code) {
       throw new NotFoundException('인증 번호가 올바르지 않습니다.');
     }
 

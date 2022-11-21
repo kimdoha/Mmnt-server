@@ -5,12 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtStrategy } from 'src/users/strategy/jwt.strategy';
 import { jwtConfig } from 'src/configs/jwt.config';
 
-import { User } from './user.entity';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
 import { Moment } from 'src/moments/moment.entity';
 import { Pin } from 'src/pins/pin.entity';
 import { cacheConfig } from 'src/configs/cache.config';
+import { User } from './user.entity';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
 
 @Module({
   imports: [

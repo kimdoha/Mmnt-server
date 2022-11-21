@@ -5,24 +5,20 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
-  Logger,
   InternalServerErrorException,
-  LoggerService,
 } from '@nestjs/common';
 import { Connection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UpdateLocationDto } from './dtos/update-location.dto';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
 import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
 import { createHashedPassword } from 'src/configs/functions/create.hashed-password';
-import { UpdateUserInfo } from './dtos/update-userInfo.dto';
-import { MomentsService } from 'src/moments/moments.service';
 import { camelCase } from 'change-case';
 import { Cache } from 'cache-manager';
+import { UpdateUserInfo } from './dtos/update-userInfo.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
@@ -44,12 +40,12 @@ export class UsersService {
 
     const hashedPassword = await createHashedPassword(password);
 
-    const new_user = await this.userRepository.create({
+    const newUser = await this.userRepository.create({
       email,
       password: hashedPassword,
     });
 
-    const { userIdx } = await this.userRepository.save(new_user);
+    const { userIdx } = await this.userRepository.save(newUser);
     await this.userRepository.update(userIdx, {
       nickname: `${userIdx}번째 익명이`,
     });
@@ -95,8 +91,8 @@ export class UsersService {
 
     console.log(pinLists);
 
-    const pins = [],
-      moments = [];
+    const pins = [];
+    const moments = [];
     pinLists.map((pin) => pins.push(pin.pin_idx));
 
     const latestMomentIdxLists = pins.length
@@ -147,9 +143,9 @@ export class UsersService {
     // console.log(momentCount);
     momentLists.map((moment) => {
       const count = momentCount.find(
-        (count) => count.pin_idx == moment.pin_idx,
+        (count) => count.pin_idx === moment.pin_idx,
       ).momentcount;
-      moment.momentCount = count ? count : 0;
+      moment.momentCount = count || 0;
     });
 
     // console.log(momentLists);

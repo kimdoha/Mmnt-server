@@ -29,10 +29,8 @@ let PinsService = class PinsService {
         if (pin) {
             return pin;
         }
-        else {
-            const new_pin = await this.repo.create({ pinX, pinY });
-            return await this.repo.save(new_pin);
-        }
+        const newPin = await this.repo.create({ pinX, pinY });
+        return await this.repo.save(newPin);
     }
     async findActivePinByPinIdx(pinIdx) {
         const pin = await this.repo.findOneBy({ pinIdx });

@@ -17,11 +17,10 @@ export class PinsService {
 
     if (pin) {
       return pin;
-    } else {
-      // await this.cacheManager.set(email, value, { ttl: 180 });
-      const new_pin = await this.repo.create({ pinX, pinY });
-      return await this.repo.save(new_pin);
     }
+    // await this.cacheManager.set(email, value, { ttl: 180 });
+    const newPin = await this.repo.create({ pinX, pinY });
+    return await this.repo.save(newPin);
   }
 
   async findActivePinByPinIdx(pinIdx: number) {

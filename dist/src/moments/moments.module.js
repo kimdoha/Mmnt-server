@@ -9,12 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MomentsModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const moments_service_1 = require("./moments.service");
-const moments_controller_1 = require("./moments.controller");
 const users_module_1 = require("../users/users.module");
 const pins_module_1 = require("../pins/pins.module");
-const moment_entity_1 = require("./moment.entity");
 const nestjs_form_data_1 = require("nestjs-form-data");
+const moment_entity_1 = require("./moment.entity");
+const moments_controller_1 = require("./moments.controller");
+const moments_service_1 = require("./moments.service");
 const report_entity_1 = require("./report.entity");
 let MomentsModule = class MomentsModule {
 };

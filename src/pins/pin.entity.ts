@@ -10,9 +10,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-  Double,
-  JoinColumn,
   OneToMany,
 } from 'typeorm';
 

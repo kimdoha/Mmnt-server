@@ -9,13 +9,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
 const users_module_1 = require("../users/users.module");
-const auth_controller_1 = require("./auth.controller");
-const auth_service_1 = require("./auth.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("../users/user.entity");
 const cache_config_1 = require("../configs/cache.config");
 const nestjs_sqs_1 = require("@ssut/nestjs-sqs");
 const sqs_config_1 = require("../configs/sqs.config");
+const auth_service_1 = require("./auth.service");
+const auth_controller_1 = require("./auth.controller");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([

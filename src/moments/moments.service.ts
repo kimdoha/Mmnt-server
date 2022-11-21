@@ -3,20 +3,19 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Connection, Repository } from 'typeorm';
 import { PinsService } from 'src/pins/pins.service';
 import { UsersService } from 'src/users/users.service';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/users/user.entity';
+import { Page } from 'src/helpers/page/page';
+import { Pin } from 'src/pins/pin.entity';
 import { Moment } from './moment.entity';
 import { CreateMomentDto } from './dtos/create-moment.dto';
-import { User } from 'src/users/user.entity';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
-import { Page } from 'src/helpers/page/page';
 import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
 import { Report } from './report.entity';
-import { Pin } from 'src/pins/pin.entity';
 
 @Injectable()
 export class MomentsService {
@@ -123,7 +122,7 @@ export class MomentsService {
   }
 
   async deleteMoment(userIdx: number, momentIdx: number, type: string) {
-    if (type == 'moment') {
+    if (type === 'moment') {
       const user = await this.usersService.findActiveUserByUserIdx(userIdx);
       const moment = await this.repo.findOneBy({ momentIdx, userIdx });
       if (!moment) {
@@ -133,11 +132,11 @@ export class MomentsService {
       }
 
       return await this.repo.delete(momentIdx);
-    } else if (type == 'user') {
-      return await this.repo.delete({ userIdx });
-    } else {
-      throw new BadRequestException('삭제 경로가 올바르지 않습니다.');
     }
+    if (type === 'user') {
+      return await this.repo.delete({ userIdx });
+    }
+    throw new BadRequestException('삭제 경로가 올바르지 않습니다.');
   }
 
   async reportMoment(userIdx: number, momentIdx: number, reason: string) {
@@ -150,7 +149,7 @@ export class MomentsService {
     if (checkIfReportExists) {
       throw new ConflictException('이미 신고한 모먼트입니다.');
     }
-    if (moment.user_idx == userIdx) {
+    if (moment.user_idx === userIdx) {
       throw new ConflictException('자신의 모먼트는 신고할 수 없습니다.');
     }
 

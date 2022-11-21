@@ -1,11 +1,11 @@
 import { Connection, Repository } from 'typeorm';
-import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { SignInResponseDto } from 'src/common/responses/users/sign-in.response.dto';
 import { Pin } from 'src/pins/pin.entity';
 import { Moment } from 'src/moments/moment.entity';
-import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { Cache } from 'cache-manager';
+import { UpdateUserInfo } from './dtos/update-userInfo.dto';
+import { User } from './user.entity';
 export declare class UsersService {
     private cacheManager;
     private userRepository;

@@ -25,7 +25,11 @@ let User = class User {
     }
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "bigint", unsigned: true, comment: "유저 아이디" }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({
+        type: 'bigint',
+        unsigned: true,
+        comment: '유저 아이디',
+    }),
     __metadata("design:type", Number)
 ], User.prototype, "userIdx", void 0);
 __decorate([
@@ -45,11 +49,23 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "profileUrl", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 경도' }),
+    (0, typeorm_1.Column)({
+        type: 'decimal',
+        precision: 10,
+        scale: 7,
+        nullable: true,
+        comment: '유저 경도',
+    }),
     __metadata("design:type", Number)
 ], User.prototype, "locationX", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 7, nullable: true, comment: '유저 위도' }),
+    (0, typeorm_1.Column)({
+        type: 'decimal',
+        precision: 10,
+        scale: 7,
+        nullable: true,
+        comment: '유저 위도',
+    }),
     __metadata("design:type", Number)
 ], User.prototype, "locationY", void 0);
 __decorate([
@@ -61,23 +77,27 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "alarm", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" }),
+    (0, typeorm_1.CreateDateColumn)({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" }),
+    (0, typeorm_1.UpdateDateColumn)({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
     __metadata("design:type", Date)
 ], User.prototype, "updatedAt", void 0);
 __decorate([
-    (0, typeorm_1.DeleteDateColumn)({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" }),
+    (0, typeorm_1.DeleteDateColumn)({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
     __metadata("design:type", Date)
 ], User.prototype, "deletedAt", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(type => moment_entity_1.Moment, (moment) => moment.userIdx, { eager: false }),
+    (0, typeorm_1.OneToMany)(() => moment_entity_1.Moment, (moment) => moment.userIdx, {
+        eager: false,
+    }),
     __metadata("design:type", Array)
 ], User.prototype, "moments", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(type => report_entity_1.Report, (report) => report.userIdx, { eager: false }),
+    (0, typeorm_1.OneToMany)(() => report_entity_1.Report, (report) => report.userIdx, {
+        eager: false,
+    }),
     __metadata("design:type", Array)
 ], User.prototype, "reports", void 0);
 __decorate([
@@ -99,7 +119,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], User.prototype, "logRemove", null);
 User = __decorate([
-    (0, typeorm_1.Entity)("mmnt.users")
+    (0, typeorm_1.Entity)('mmnt.users')
 ], User);
 exports.User = User;
 //# sourceMappingURL=user.entity.js.map

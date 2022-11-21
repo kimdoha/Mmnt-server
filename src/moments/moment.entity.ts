@@ -56,15 +56,15 @@ export class Moment {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt: Date | null;
 
-  @ManyToOne((type) => Pin, (pin) => pin.moments, { eager: false })
+  @ManyToOne(() => Pin, (pin) => pin.moments, { eager: false })
   @JoinColumn({ name: 'pin_idx' })
   pinIdx: number;
 
-  @ManyToOne((type) => User, (user) => user.moments, { eager: false })
+  @ManyToOne(() => User, (user) => user.moments, { eager: false })
   @JoinColumn({ name: 'user_idx' })
   userIdx: number;
 
-  @OneToMany((type) => Report, (report: Report) => report.momentIdx, {
+  @OneToMany(() => Report, (report: Report) => report.momentIdx, {
     eager: false,
   })
   reports: Report[];

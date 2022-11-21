@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cacheConfig = void 0;
 const redisStore = require("cache-manager-ioredis");
-require('dotenv/config');
 exports.cacheConfig = {
     useFactory: async () => ({
         store: redisStore,
