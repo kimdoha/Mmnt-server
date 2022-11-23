@@ -105,7 +105,7 @@ export class UsersService {
       : [];
 
     console.log(latestMomentIdxLists);
-    await latestMomentIdxLists.map((moment) =>
+    latestMomentIdxLists.map((moment) =>
       moments.push(parseInt(moment.moment_idx)),
     );
 
