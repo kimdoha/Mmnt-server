@@ -10,10 +10,7 @@ import { MomentsModule } from './moments/moments.module';
 import { typeORMConfig } from './configs/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { UploadsModule } from './uploads/uploads.module';
-import { BlocksController } from './blocks/blocks.controller';
-import { BlocksService } from './blocks/blocks.service';
-import { BlocksModule } from './blocks/blocks.module';
-import { BlocksModule } from './blocks/blocks.module';
+import { ReportsModule } from './reports/reports.module';
 
 AWS.config.update({
   region: process.env.AWS_REGION,
@@ -32,9 +29,9 @@ AWS.config.update({
     PinsModule,
     MomentsModule,
     UploadsModule,
-    BlocksModule,
+    ReportsModule,
   ],
-  controllers: [AppController, BlocksController],
-  providers: [AppService, BlocksService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
