@@ -8,7 +8,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Moment } from './moment.entity';
+import { Moment } from '../moments/moment.entity';
 
 @Entity('mmnt.reports')
 export class Report {
