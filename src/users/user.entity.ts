@@ -12,7 +12,6 @@ import {
 } from 'typeorm';
 
 import { Moment } from 'src/moments/moment.entity';
-import { Report } from 'src/moments/report.entity';
 
 @Entity('mmnt.users')
 export class User {
@@ -73,10 +72,10 @@ export class User {
   })
   moments: Moment[];
 
-  @OneToMany(() => Report, (report: Report) => report.userIdx, {
-    eager: false,
-  })
-  reports: Report[];
+  // @OneToMany(() => Report, (report: Report) => report.userIdx, {
+  //   eager: false,
+  // })
+  // reports: Report[];
 
   @AfterInsert()
   logInsert() {

@@ -19,6 +19,7 @@ const moments_module_1 = require("./moments/moments.module");
 const typeorm_config_1 = require("./configs/typeorm.config");
 const auth_module_1 = require("./auth/auth.module");
 const uploads_module_1 = require("./uploads/uploads.module");
+const reports_module_1 = require("./reports/reports.module");
 AWS.config.update({
     region: process.env.AWS_REGION,
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -38,6 +39,7 @@ AppModule = __decorate([
             pins_module_1.PinsModule,
             moments_module_1.MomentsModule,
             uploads_module_1.UploadsModule,
+            reports_module_1.ReportsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

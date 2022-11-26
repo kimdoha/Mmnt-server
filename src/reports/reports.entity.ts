@@ -27,11 +27,11 @@ export class Report extends BaseTimeEntity {
   // @JoinColumn({ name: 'moment_idx' })
   // momentIdx: number;
 
-  @ManyToOne(() => User, (user) => user.reports, { eager: false })
-  @JoinColumn({ name: 'user_idx' })
-  userIdx: number;
+  // @ManyToOne(() => User, (user) => user.reports, { eager: false })
+  // @JoinColumn({ name: 'user_idx' })
+  // userIdx: number;
 
-  @ManyToOne(() => User, (user) => user.reports, { eager: false })
-  @JoinColumn({ name: 'received_user_idx' })
-  receivedUserIdx: number;
+  // @ManyToOne(() => User, (user) => user.reports, { eager: false })
+  // @JoinColumn({ name: 'received_user_idx' })
+  // receivedUserIdx: number;
 }

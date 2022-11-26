@@ -90,7 +90,7 @@ let UsersService = class UsersService {
                 .getRawMany()
             : [];
         console.log(latestMomentIdxLists);
-        await latestMomentIdxLists.map((moment) => moments.push(parseInt(moment.moment_idx)));
+        latestMomentIdxLists.map((moment) => moments.push(parseInt(moment.moment_idx)));
         console.log(moments);
         const momentLists = moments.length
             ? await this.momentRepository

@@ -1,5 +1,5 @@
-import { Report } from './report.entity';
-export declare class Moment {
+import { BaseTimeEntity } from '../common/BaseTimeEntity';
+export declare class Moment extends BaseTimeEntity {
     momentIdx: number;
     title: string;
     description: string;
@@ -7,13 +7,6 @@ export declare class Moment {
     youtubeUrl: string;
     music: string;
     artist: string;
-    createdAt: Date;
-    updatedAt: Date | null;
-    deletedAt: Date | null;
     pinIdx: number;
     userIdx: number;
-    reports: Report[];
-    logInsert(): void;
-    logUpdate(): void;
-    logRemove(): void;
 }

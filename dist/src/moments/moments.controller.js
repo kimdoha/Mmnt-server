@@ -22,7 +22,6 @@ const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
 const create_moment_dto_1 = require("./dtos/create-moment.dto");
 const get_history_request_dto_1 = require("./dtos/get-history-request.dto");
 const get_moments_request_dto_1 = require("./dtos/get-moments-request.dto");
-const report_request_dto_1 = require("./dtos/report-request.dto");
 const moments_service_1 = require("./moments.service");
 let MomentsController = class MomentsController {
     constructor(momentsService) {
@@ -47,10 +46,6 @@ let MomentsController = class MomentsController {
     async deleteUserInfo(user, res) {
         await this.momentsService.deleteUserInfo(user.userIdx);
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '회원 탈퇴 성공'));
-    }
-    async reportMoment(user, body, res) {
-        await this.momentsService.reportMoment(user.userIdx, body.momentIdx, body.reason);
-        return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '모먼트 신고 성공'));
     }
 };
 __decorate([
@@ -149,26 +144,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], MomentsController.prototype, "deleteUserInfo", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: '모먼트 신고하기 API' }),
-    (0, swagger_1.ApiOkResponse)({ status: 200, description: '모먼트 신고 성공' }),
-    (0, swagger_1.ApiNotFoundResponse)({
-        status: 404,
-        description: '해당 모먼트는 삭제 되었습니다.',
-    }),
-    (0, swagger_1.ApiConflictResponse)({
-        status: 409,
-        description: '이미 신고한 모먼트입니다.',
-    }),
-    (0, common_1.Post)('/report'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __param(0, (0, get_user_decorator_1.GetUser)()),
-    __param(1, (0, common_1.Body)(common_1.ValidationPipe)),
-    __param(2, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, report_request_dto_1.ReportRequestDto, Object]),
-    __metadata("design:returntype", Promise)
-], MomentsController.prototype, "reportMoment", null);
 MomentsController = __decorate([
     (0, swagger_1.ApiBearerAuth)('Authorization'),
     (0, swagger_1.ApiTags)('moment'),

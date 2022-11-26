@@ -1,7 +1,8 @@
 export const REASON = {
   SPAM: 'SPAM',
   ABUSE: 'ABUSE',
-  INAPPROPRIATE: 'INAPPROPRIATE',
+  OBSCENE: 'OBSCENE',
+  WRONG: 'WRONG',
   OTHER: 'OTHER',
 } as const;
 
