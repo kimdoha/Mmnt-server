@@ -1,20 +1,9 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  AfterInsert,
-  AfterUpdate,
-  AfterRemove,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  OneToMany,
-} from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Moment } from 'src/moments/moment.entity';
+import { BaseTimeEntity } from '../common/BaseTimeEntity';
 
 @Entity('mmnt.users')
-export class User {
+export class User extends BaseTimeEntity {
   @PrimaryGeneratedColumn({
     type: 'bigint',
     unsigned: true,
@@ -58,15 +47,6 @@ export class User {
   @Column({ type: 'char', length: 1, default: 'Y', comment: '알림 여부' })
   alarm: string;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  deletedAt: Date | null;
-
   @OneToMany(() => Moment, (moment: Moment) => moment.userIdx, {
     eager: false,
   })
@@ -76,19 +56,4 @@ export class User {
   //   eager: false,
   // })
   // reports: Report[];
-
-  @AfterInsert()
-  logInsert() {
-    console.log('Inserted User with id', this.userIdx);
-  }
-
-  @AfterUpdate()
-  logUpdate() {
-    console.log('Updated User with id', this.userIdx);
-  }
-
-  @AfterRemove()
-  logRemove() {
-    console.log('Removed User with id', this.userIdx);
-  }
 }
