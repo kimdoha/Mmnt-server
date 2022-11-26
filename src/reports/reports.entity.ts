@@ -9,9 +9,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Moment } from '../moments/moment.entity';
+import { BaseTimeEntity } from "../common/BaseTimeEntity";
 
 @Entity('mmnt.reports')
-export class Report {
+export class Report extends BaseTimeEntity {
   @PrimaryGeneratedColumn({
     type: 'bigint',
     unsigned: true,
@@ -22,12 +23,9 @@ export class Report {
   @Column({ type: 'varchar', length: 200, comment: '신고 이유' })
   reason: string;
 
-  @Column({ type: 'timestamp', default: 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @ManyToOne(() => Moment, (moment) => moment.reports, { eager: false })
-  @JoinColumn({ name: 'moment_idx' })
-  momentIdx: number;
+  // @ManyToOne(() => Moment, (moment) => moment.reports, { eager: false })
+  // @JoinColumn({ name: 'moment_idx' })
+  // momentIdx: number;
 
   @ManyToOne(() => User, (user) => user.reports, { eager: false })
   @JoinColumn({ name: 'user_idx' })
@@ -36,14 +34,4 @@ export class Report {
   @ManyToOne(() => User, (user) => user.reports, { eager: false })
   @JoinColumn({ name: 'received_user_idx' })
   receivedUserIdx: number;
-
-  @AfterInsert()
-  logInsert() {
-    console.log('Inserted Report with id', this.reportIdx);
-  }
-
-  @AfterRemove()
-  logRemove() {
-    console.log('Removed Report with id', this.reportIdx);
-  }
 }

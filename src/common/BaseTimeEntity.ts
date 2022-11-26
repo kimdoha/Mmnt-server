@@ -14,15 +14,17 @@ export abstract class BaseTimeEntity {
   @UpdateDateColumn({
     type: 'timestamp',
     name: 'updated_at',
+    nullable: true,
     default: 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  updatedAt: Date | null;
 
   @ApiProperty()
   @DeleteDateColumn({
     type: 'timestamp',
     name: 'deleted_at',
+    nullable: true,
     default: 'CURRENT_TIMESTAMP',
   })
-  deletedAt: Date;
+  deletedAt: Date | null;
 }

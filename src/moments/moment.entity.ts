@@ -14,10 +14,10 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { Report } from './report.entity';
+import { BaseTimeEntity } from '../common/BaseTimeEntity';
 
 @Entity('mmnt.moments')
-export class Moment {
+export class Moment extends BaseTimeEntity {
   @PrimaryGeneratedColumn({
     type: 'bigint',
     unsigned: true,
@@ -43,19 +43,6 @@ export class Moment {
   @Column({ type: 'varchar', length: 100, comment: '아티스트' })
   artist: string;
 
-  @CreateDateColumn({ type: 'timestamp', default: 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    type: 'timestamp',
-    nullable: true,
-    default: 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date | null;
-
-  @DeleteDateColumn({ type: 'timestamp', nullable: true })
-  deletedAt: Date | null;
-
   @ManyToOne(() => Pin, (pin) => pin.moments, { eager: false })
   @JoinColumn({ name: 'pin_idx' })
   pinIdx: number;
@@ -64,23 +51,8 @@ export class Moment {
   @JoinColumn({ name: 'user_idx' })
   userIdx: number;
 
-  @OneToMany(() => Report, (report: Report) => report.momentIdx, {
-    eager: false,
-  })
-  reports: Report[];
-
-  @AfterInsert()
-  logInsert() {
-    console.log('Inserted User with id', this.momentIdx);
-  }
-
-  @AfterUpdate()
-  logUpdate() {
-    console.log('Updated User with id', this.momentIdx);
-  }
-
-  @AfterRemove()
-  logRemove() {
-    console.log('Removed User with id', this.momentIdx);
-  }
+  // @OneToMany(() => Report, (report: Report) => report.momentIdx, {
+  //   eager: false,
+  // })
+  // reports: Report[];
 }

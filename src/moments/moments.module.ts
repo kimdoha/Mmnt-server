@@ -6,11 +6,10 @@ import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 import { Moment } from './moment.entity';
 import { MomentsController } from './moments.controller';
 import { MomentsService } from './moments.service';
-import { Report } from './report.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Moment, Report]),
+    TypeOrmModule.forFeature([Moment]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
     UsersModule,
     PinsModule,

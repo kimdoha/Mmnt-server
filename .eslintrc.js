@@ -44,6 +44,6 @@ module.exports = {
     'array-callback-return': 'off',
     'no-shadow': 'off',
     'no-restricted-syntax': 'off',
-
+    'import/extensions': 'off',
   },
 };

@@ -12,9 +12,10 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { BaseTimeEntity } from '../common/BaseTimeEntity';
 
 @Entity('mmnt.pins')
-export class Pin {
+export class Pin extends BaseTimeEntity {
   @PrimaryGeneratedColumn({
     type: 'bigint',
     unsigned: true,
@@ -28,36 +29,8 @@ export class Pin {
   @Column({ type: 'decimal', precision: 10, scale: 7, comment: '핀 위도' })
   pinY: number;
 
-  @CreateDateColumn({ type: 'timestamp', default: 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    type: 'timestamp',
-    nullable: true,
-    default: 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date | null;
-
-  @DeleteDateColumn({ type: 'timestamp', nullable: true })
-  deletedAt: Date | null;
-
   @OneToMany((type) => Moment, (moment: Moment) => moment.pinIdx, {
     eager: false,
   })
   moments: Moment[];
-
-  @AfterInsert()
-  logInsert() {
-    console.log('Inserted User with id', this.pinIdx);
-  }
-
-  @AfterUpdate()
-  logUpdate() {
-    console.log('Updated User with id', this.pinIdx);
-  }
-
-  @AfterRemove()
-  logRemove() {
-    console.log('Removed User with id', this.pinIdx);
-  }
 }
