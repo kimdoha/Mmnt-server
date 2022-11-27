@@ -1,5 +1,6 @@
 import { Moment } from 'src/moments/moment.entity';
 import { BaseTimeEntity } from '../common/BaseTimeEntity';
+import { Report } from '../reports/reports.entity';
 export declare class User extends BaseTimeEntity {
     userIdx: number;
     email: string;
@@ -11,4 +12,5 @@ export declare class User extends BaseTimeEntity {
     snsRoute: string;
     alarm: string;
     moments: Moment[];
+    reports: Report[];
 }

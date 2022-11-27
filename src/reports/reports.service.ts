@@ -1,5 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from '../users/users.service';
 import { MomentsService } from '../moments/moments.service';
 import { Report } from './reports.entity';
@@ -10,6 +11,7 @@ export class ReportsService {
   constructor(
     private readonly usersService: UsersService,
     private readonly momentsService: MomentsService,
+    @InjectRepository(Report)
     private readonly reportsRepository: Repository<Report>,
   ) {}
 

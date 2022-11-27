@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Moment } from 'src/moments/moment.entity';
 import { BaseTimeEntity } from '../common/BaseTimeEntity';
-import { Report } from "../reports/reports.entity";
+import { Report } from '../reports/reports.entity';
 
 @Entity('mmnt.users')
 export class User extends BaseTimeEntity {
@@ -79,7 +79,7 @@ export class User extends BaseTimeEntity {
   })
   moments: Moment[];
 
-  @OneToMany(() => Report, (report: Report) => report.userIdx, {
+  @OneToMany(() => Report, (report: Report) => report.reportUserIdx, {
     eager: false,
   })
   reports: Report[];
