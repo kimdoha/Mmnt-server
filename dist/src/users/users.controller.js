@@ -39,7 +39,7 @@ let UsersController = class UsersController {
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.CREATED, '로그인 성공', responseData));
     }
     async updateUserInfo(user, body, res) {
-        const responseData = await this.userService.updateUserInfo(user.userIdx, body);
+        await this.userService.updateUserInfo(user.userIdx, body);
         return res.json(new success_reponse_helper_1.SuccessReponse(http_status_codes_1.StatusCodes.OK, '유저 정보 변경 성공'));
     }
     async findProfileInfo(user, res) {

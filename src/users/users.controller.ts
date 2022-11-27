@@ -108,10 +108,7 @@ export class UsersController {
     @Body(ValidationPipe) body: UpdateUserInfo,
     @Res() res,
   ): Promise<any> {
-    const responseData = await this.userService.updateUserInfo(
-      user.userIdx,
-      body,
-    );
+    await this.userService.updateUserInfo(user.userIdx, body);
     return res.json(new SuccessReponse(StatusCodes.OK, '유저 정보 변경 성공'));
   }
 
