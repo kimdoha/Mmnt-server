@@ -34,6 +34,8 @@ let UsersService = class UsersService {
     }
     async createUser(email, password) {
         const user = await this.userRepository.findOneBy({ email });
+        console.log(email);
+        console.log(user);
         if (user) {
             throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
