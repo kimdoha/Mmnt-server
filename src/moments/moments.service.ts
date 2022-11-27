@@ -137,31 +137,6 @@ export class MomentsService {
     throw new BadRequestException('삭제 경로가 올바르지 않습니다.');
   }
 
-  // async reportMoment(userIdx: number, momentIdx: number, reason: string) {
-  //   const user = await this.usersService.findActiveUserByUserIdx(userIdx);
-  //   const moment = await this.findActiveMomentByMomentIdx(momentIdx);
-  //   const checkIfReportExists = await this.reportRepository.findOneBy({
-  //     momentIdx,
-  //     userIdx,
-  //   });
-  //   if (checkIfReportExists) {
-  //     throw new ConflictException('이미 신고한 모먼트입니다.');
-  //   }
-  //   if (moment.user_idx === userIdx) {
-  //     throw new ConflictException('자신의 모먼트는 신고할 수 없습니다.');
-  //   }
-  //
-  //   const receivedUserIdx = moment.user_idx;
-  //
-  //   const report = await this.reportRepository.create({
-  //     userIdx,
-  //     momentIdx,
-  //     reason,
-  //     receivedUserIdx,
-  //   });
-  //   return await this.reportRepository.save(report);
-  // }
-
   async findActiveMomentByMomentIdx(momentIdx: number) {
     const moment = await this.repo
       .createQueryBuilder('moment')
