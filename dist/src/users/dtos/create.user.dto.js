@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
 class CreateUserDto {
 }
 __decorate([
@@ -18,6 +19,7 @@ __decorate([
         maxLength: 50,
         description: '유저 이메일',
     }),
+    (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "email", void 0);
 __decorate([
@@ -25,6 +27,7 @@ __decorate([
         pattern: '[A-Za-z\\d!@#$%^&*()]{10,30}',
         description: '유저 비밀번호',
     }),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 exports.CreateUserDto = CreateUserDto;

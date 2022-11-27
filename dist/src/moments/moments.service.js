@@ -22,11 +22,9 @@ const user_entity_1 = require("../users/user.entity");
 const page_1 = require("../helpers/page/page");
 const pin_entity_1 = require("../pins/pin.entity");
 const moment_entity_1 = require("./moment.entity");
-const report_entity_1 = require("./report.entity");
 let MomentsService = class MomentsService {
-    constructor(repo, reportRepository, pinsService, usersService, connection) {
+    constructor(repo, pinsService, usersService, connection) {
         this.repo = repo;
-        this.reportRepository = reportRepository;
         this.pinsService = pinsService;
         this.usersService = usersService;
         this.connection = connection;
@@ -120,28 +118,6 @@ let MomentsService = class MomentsService {
         }
         throw new common_1.BadRequestException('삭제 경로가 올바르지 않습니다.');
     }
-    async reportMoment(userIdx, momentIdx, reason) {
-        const user = await this.usersService.findActiveUserByUserIdx(userIdx);
-        const moment = await this.findActiveMomentByMomentIdx(momentIdx);
-        const checkIfReportExists = await this.reportRepository.findOneBy({
-            momentIdx,
-            userIdx,
-        });
-        if (checkIfReportExists) {
-            throw new common_1.ConflictException('이미 신고한 모먼트입니다.');
-        }
-        if (moment.user_idx === userIdx) {
-            throw new common_1.ConflictException('자신의 모먼트는 신고할 수 없습니다.');
-        }
-        const receivedUserIdx = moment.user_idx;
-        const report = await this.reportRepository.create({
-            userIdx,
-            momentIdx,
-            reason,
-            receivedUserIdx,
-        });
-        return await this.reportRepository.save(report);
-    }
     async findActiveMomentByMomentIdx(momentIdx) {
         const moment = await this.repo
             .createQueryBuilder('moment')
@@ -176,9 +152,7 @@ let MomentsService = class MomentsService {
 MomentsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(moment_entity_1.Moment)),
-    __param(1, (0, typeorm_2.InjectRepository)(report_entity_1.Report)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
-        typeorm_1.Repository,
         pins_service_1.PinsService,
         users_service_1.UsersService,
         typeorm_1.Connection])

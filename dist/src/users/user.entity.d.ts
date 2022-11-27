@@ -1,6 +1,6 @@
 import { Moment } from 'src/moments/moment.entity';
-import { Report } from 'src/moments/report.entity';
-export declare class User {
+import { BaseTimeEntity } from '../common/BaseTimeEntity';
+export declare class User extends BaseTimeEntity {
     userIdx: number;
     email: string;
     password: string | any;
@@ -10,12 +10,5 @@ export declare class User {
     locationY: number;
     snsRoute: string;
     alarm: string;
-    createdAt: Date;
-    updatedAt: Date;
-    deletedAt: Date | null;
     moments: Moment[];
-    reports: Report[];
-    logInsert(): void;
-    logUpdate(): void;
-    logRemove(): void;
 }

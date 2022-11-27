@@ -1,7 +1,6 @@
 import { CreateMomentDto } from './dtos/create-moment.dto';
 import { GetHistoryRequest } from './dtos/get-history-request.dto';
 import { getMomentsRequestDto } from './dtos/get-moments-request.dto';
-import { ReportRequestDto } from './dtos/report-request.dto';
 import { MomentsService } from './moments.service';
 export declare class MomentsController {
     private momentsService;
@@ -11,5 +10,4 @@ export declare class MomentsController {
     getMoments(user: any, res: any, pinIdx: number, query: getMomentsRequestDto): Promise<any>;
     deleteMoment(user: any, momentIdx: number, res: any): Promise<any>;
     deleteUserInfo(user: any, res: any): Promise<any>;
-    reportMoment(user: any, body: ReportRequestDto, res: any): Promise<any>;
 }

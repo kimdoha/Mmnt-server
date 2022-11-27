@@ -12,16 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pin = void 0;
 const moment_entity_1 = require("../moments/moment.entity");
 const typeorm_1 = require("typeorm");
-let Pin = class Pin {
-    logInsert() {
-        console.log('Inserted User with id', this.pinIdx);
-    }
-    logUpdate() {
-        console.log('Updated User with id', this.pinIdx);
-    }
-    logRemove() {
-        console.log('Removed User with id', this.pinIdx);
-    }
+const BaseTimeEntity_1 = require("../common/BaseTimeEntity");
+let Pin = class Pin extends BaseTimeEntity_1.BaseTimeEntity {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({
@@ -40,45 +32,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Pin.prototype, "pinY", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({ type: 'timestamp', default: 'CURRENT_TIMESTAMP' }),
-    __metadata("design:type", Date)
-], Pin.prototype, "createdAt", void 0);
-__decorate([
-    (0, typeorm_1.UpdateDateColumn)({
-        type: 'timestamp',
-        nullable: true,
-        default: 'CURRENT_TIMESTAMP',
-    }),
-    __metadata("design:type", Date)
-], Pin.prototype, "updatedAt", void 0);
-__decorate([
-    (0, typeorm_1.DeleteDateColumn)({ type: 'timestamp', nullable: true }),
-    __metadata("design:type", Date)
-], Pin.prototype, "deletedAt", void 0);
-__decorate([
     (0, typeorm_1.OneToMany)((type) => moment_entity_1.Moment, (moment) => moment.pinIdx, {
         eager: false,
     }),
     __metadata("design:type", Array)
 ], Pin.prototype, "moments", void 0);
-__decorate([
-    (0, typeorm_1.AfterInsert)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], Pin.prototype, "logInsert", null);
-__decorate([
-    (0, typeorm_1.AfterUpdate)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], Pin.prototype, "logUpdate", null);
-__decorate([
-    (0, typeorm_1.AfterRemove)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], Pin.prototype, "logRemove", null);
 Pin = __decorate([
     (0, typeorm_1.Entity)('mmnt.pins')
 ], Pin);
