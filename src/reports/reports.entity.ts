@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Moment } from '../moments/moment.entity';
 import { BaseTimeEntity } from "../common/BaseTimeEntity";
+import { REASON } from "../common/constants/reports.constant";
 
 @Entity('mmnt.reports')
 export class Report extends BaseTimeEntity {
@@ -20,18 +21,21 @@ export class Report extends BaseTimeEntity {
   })
   reportIdx: number;
 
-  @Column({ type: 'varchar', length: 200, comment: '신고 이유' })
-  reason: string;
+  @Column({
+    type: 'enum',
+    comment: '신고 이유'
+  })
+  reason: REASON;
 
-  // @ManyToOne(() => Moment, (moment) => moment.reports, { eager: false })
-  // @JoinColumn({ name: 'moment_idx' })
-  // momentIdx: number;
+  @ManyToOne(() => Moment, (moment) => moment.reports, { eager: false })
+  @JoinColumn({ name: 'moment_idx' })
+  momentIdx: number;
 
-  // @ManyToOne(() => User, (user) => user.reports, { eager: false })
-  // @JoinColumn({ name: 'user_idx' })
-  // userIdx: number;
+  @ManyToOne(() => User, (user) => user.reports, { eager: false })
+  @JoinColumn({ name: 'report_user_idx' })
+  reportUserIdx: number;
 
-  // @ManyToOne(() => User, (user) => user.reports, { eager: false })
-  // @JoinColumn({ name: 'received_user_idx' })
-  // receivedUserIdx: number;
+  @ManyToOne(() => User, (user) => user.reports, { eager: false })
+  @JoinColumn({ name: 'received_user_idx' })
+  receivedUserIdx: number;
 }

@@ -1,4 +1,4 @@
-export const REASON = {
+const REASON = {
   SPAM: 'SPAM',
   ABUSE: 'ABUSE',
   OBSCENE: 'OBSCENE',
@@ -6,4 +6,4 @@ export const REASON = {
   OTHER: 'OTHER',
 } as const;
 
-type REASON = typeof REASON[keyof typeof REASON];
+export type REASON = typeof REASON[keyof typeof REASON];

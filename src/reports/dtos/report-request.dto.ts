@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { REASON } from '../../common/constants/reports.constant';
 
 export class ReportRequestDto {
   @ApiProperty()
@@ -9,5 +10,5 @@ export class ReportRequestDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  reason: string;
+  reason: REASON;
 }

@@ -14,6 +14,7 @@ const pin_entity_1 = require("../pins/pin.entity");
 const user_entity_1 = require("../users/user.entity");
 const typeorm_1 = require("typeorm");
 const BaseTimeEntity_1 = require("../common/BaseTimeEntity");
+const reports_entity_1 = require("../reports/reports.entity");
 let Moment = class Moment extends BaseTimeEntity_1.BaseTimeEntity {
 };
 __decorate([
@@ -58,6 +59,12 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'user_idx' }),
     __metadata("design:type", Number)
 ], Moment.prototype, "userIdx", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => reports_entity_1.Report, (report) => report.momentIdx, {
+        eager: false,
+    }),
+    __metadata("design:type", Array)
+], Moment.prototype, "reports", void 0);
 Moment = __decorate([
     (0, typeorm_1.Entity)('mmnt.moments')
 ], Moment);

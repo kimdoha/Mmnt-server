@@ -13,6 +13,7 @@ exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const moment_entity_1 = require("../moments/moment.entity");
 const BaseTimeEntity_1 = require("../common/BaseTimeEntity");
+const reports_entity_1 = require("../reports/reports.entity");
 let User = class User extends BaseTimeEntity_1.BaseTimeEntity {
 };
 __decorate([
@@ -99,6 +100,12 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], User.prototype, "moments", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => reports_entity_1.Report, (report) => report.reportUserIdx, {
+        eager: false,
+    }),
+    __metadata("design:type", Array)
+], User.prototype, "reports", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)('mmnt.users')
 ], User);
