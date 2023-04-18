@@ -11,18 +11,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateLocationDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
 class UpdateLocationDto {
 }
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: '유저 위치 경도',
     }),
+    (0, class_validator_1.IsLongitude)(),
     __metadata("design:type", Number)
 ], UpdateLocationDto.prototype, "locationX", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: '유저 위치 위도',
     }),
+    (0, class_validator_1.IsLatitude)(),
     __metadata("design:type", Number)
 ], UpdateLocationDto.prototype, "locationY", void 0);
 __decorate([
@@ -31,6 +34,7 @@ __decorate([
         minimum: 10,
         maximum: 5000,
     }),
+    (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], UpdateLocationDto.prototype, "radius", void 0);
 exports.UpdateLocationDto = UpdateLocationDto;
