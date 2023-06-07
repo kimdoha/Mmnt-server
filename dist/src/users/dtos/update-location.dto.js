@@ -14,17 +14,17 @@ const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class UpdateLocationDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { locationX: { required: true, type: () => Number }, locationY: { required: true, type: () => Number }, radius: { required: true, type: () => Number, minimum: 10, maximum: 5000 } };
+        return { longitude: { required: true, type: () => Number }, latitude: { required: true, type: () => Number }, radius: { required: true, type: () => Number, minimum: 10, maximum: 5000 } };
     }
 }
 __decorate([
     (0, class_validator_1.IsLongitude)(),
     __metadata("design:type", Number)
-], UpdateLocationDto.prototype, "locationX", void 0);
+], UpdateLocationDto.prototype, "longitude", void 0);
 __decorate([
     (0, class_validator_1.IsLatitude)(),
     __metadata("design:type", Number)
-], UpdateLocationDto.prototype, "locationY", void 0);
+], UpdateLocationDto.prototype, "latitude", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.Min)(10),

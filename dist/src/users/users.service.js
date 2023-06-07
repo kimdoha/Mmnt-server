@@ -64,7 +64,7 @@ let UsersService = UsersService_1 = class UsersService {
         Object.assign(user, attrs);
         return await this.userRepository.save(user);
     }
-    async updateUserLocation(userIdx, location, radius) {
+    async updateUserLocation(userIdx, latitude, longitude, radius) {
         const user = await this.findActiveUserByUserIdx(userIdx);
         const cacheResponse = await this.cacheManager.get(userIdx.toString());
         if (cacheResponse && typeof cacheResponse === 'object') {
@@ -73,7 +73,10 @@ let UsersService = UsersService_1 = class UsersService {
         else {
             this.logger.debug('cache reponse does not exist');
         }
-        await this.userRepository.update(userIdx, location);
+        await this.userRepository.update(userIdx, {
+            locationX: longitude,
+            locationY: latitude,
+        });
         const pinLists = await this.pinRepository
             .createQueryBuilder()
             .select(['pin_idx, pin_x, pin_y'])
@@ -82,7 +85,7 @@ let UsersService = UsersService_1 = class UsersService {
           ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
           , :limit, false)`)
             .setParameters({
-            point: `POINT(${location.locationX} ${location.locationY})`,
+            point: `POINT(${longitude} ${latitude})`,
             limit: `${radius}`,
         })
             .getRawMany();
@@ -117,7 +120,7 @@ let UsersService = UsersService_1 = class UsersService {
                 .orderBy('distance')
                 .limit(50)
                 .setParameters({
-                point: `POINT(${location.locationX} ${location.locationY})`,
+                point: `POINT(${longitude} ${latitude})`,
             })
                 .getRawMany()
             : [];

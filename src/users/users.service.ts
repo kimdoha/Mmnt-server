@@ -20,7 +20,6 @@ import { Cache } from 'cache-manager';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { User } from './user.entity';
 import { MmntLoger } from 'src/common/logger/logger';
-import { ILocation } from 'src/common/interfaces/location.interface';
 
 @Injectable()
 export class UsersService {
@@ -76,7 +75,8 @@ export class UsersService {
 
   async updateUserLocation(
     userIdx: number, 
-    location: ILocation,
+    latitude: number,
+    longitude: number,
     radius: number
   ) {
     const user = await this.findActiveUserByUserIdx(userIdx);
@@ -91,8 +91,8 @@ export class UsersService {
 
     await this.userRepository.update(userIdx, 
       {
-        locationX: location.longitude,
-        locationY: location.latitude,
+        locationX: longitude,
+        locationY: latitude,
       });
 
     const pinLists = await this.pinRepository
@@ -105,7 +105,7 @@ export class UsersService {
           , :limit, false)`,
     )
     .setParameters({
-      point: `POINT(${location.longitude} ${location.latitude})`,
+      point: `POINT(${longitude} ${latitude})`,
       limit: `${radius}`,
     })
     .getRawMany();
@@ -147,7 +147,7 @@ export class UsersService {
           .orderBy('distance')
           .limit(50)
           .setParameters({
-            point: `POINT(${location.longitude} ${location.latitude})`,
+            point: `POINT(${longitude} ${latitude})`,
           })
           .getRawMany()
       : [];

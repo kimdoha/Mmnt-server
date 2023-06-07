@@ -21,7 +21,7 @@ export declare class UsersService {
     }>;
     signIn(email: string, password: string): Promise<SignInResponseDto>;
     updateUserInfo(userIdx: number, attrs: Partial<UpdateUserInfo>): Promise<User>;
-    updateUserLocation(userIdx: number, location: any, radius: number): Promise<({
+    updateUserLocation(userIdx: number, latitude: number, longitude: number, radius: number): Promise<({
         pinLists: any[];
         mainPin?: undefined;
         nearByPinLists?: undefined;

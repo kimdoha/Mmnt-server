@@ -1,5 +1,5 @@
 export declare class UpdateLocationDto {
-    locationX: number;
-    locationY: number;
+    longitude: number;
+    latitude: number;
     radius: number;
 }
