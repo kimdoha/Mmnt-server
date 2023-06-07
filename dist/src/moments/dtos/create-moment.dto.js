@@ -10,9 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMomentDto = void 0;
+const openapi = require("@nestjs/swagger");
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateMomentDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { pinX: { required: true, type: () => Number }, pinY: { required: true, type: () => Number }, title: { required: true, type: () => String }, description: { required: true, type: () => String }, imageUrl: { required: true, type: () => String }, youtubeUrl: { required: true, type: () => String }, music: { required: true, type: () => String }, artist: { required: true, type: () => String } };
+    }
 }
 __decorate([
     (0, swagger_1.ApiProperty)(),

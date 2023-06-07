@@ -10,8 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileUploadDto = void 0;
+const openapi = require("@nestjs/swagger");
 const swagger_1 = require("@nestjs/swagger");
 class FileUploadDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { file: { required: true, type: () => Object } };
+    }
 }
 __decorate([
     (0, swagger_1.ApiProperty)({ type: 'file' }),

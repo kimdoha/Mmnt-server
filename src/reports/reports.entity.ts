@@ -23,7 +23,9 @@ export class Report extends BaseTimeEntity {
 
   @Column({
     type: 'enum',
-    comment: '신고 이유'
+    enum: REASON,
+    comment: '신고 이유',
+    default: REASON.SPAM,
   })
   reason: REASON;
 

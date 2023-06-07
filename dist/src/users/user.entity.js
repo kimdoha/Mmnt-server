@@ -10,11 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
+const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const moment_entity_1 = require("../moments/moment.entity");
 const BaseTimeEntity_1 = require("../common/BaseTimeEntity");
 const reports_entity_1 = require("../reports/reports.entity");
 let User = class User extends BaseTimeEntity_1.BaseTimeEntity {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { userIdx: { required: true, type: () => Number }, email: { required: true, type: () => String }, password: { required: true, type: () => Object }, nickname: { required: true, type: () => String }, profileUrl: { required: true, type: () => String }, locationX: { required: true, type: () => Number }, locationY: { required: true, type: () => Number }, snsRoute: { required: true, type: () => String }, alarm: { required: true, type: () => String }, moments: { required: true, type: () => [require("../moments/moment.entity").Moment] }, reports: { required: true, type: () => [require("../reports/reports.entity").Report] } };
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({

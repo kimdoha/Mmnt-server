@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadsController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
@@ -40,6 +41,7 @@ __decorate([
     (0, swagger_1.ApiConflictResponse)({ status: 409, description: '이미지 생성 실패' }),
     (0, common_1.Post)(''),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

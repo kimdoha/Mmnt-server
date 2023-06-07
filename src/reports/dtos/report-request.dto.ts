@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { REASON } from '../../common/constants/reports.constant';
 
 export class ReportRequestDto {
@@ -8,7 +8,7 @@ export class ReportRequestDto {
   momentIdx: number;
 
   @ApiProperty()
-  @IsString()
+  @IsEnum(REASON)
   @IsNotEmpty()
   reason: REASON;
 }

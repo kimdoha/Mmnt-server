@@ -10,10 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pin = void 0;
+const openapi = require("@nestjs/swagger");
 const moment_entity_1 = require("../moments/moment.entity");
 const typeorm_1 = require("typeorm");
 const BaseTimeEntity_1 = require("../common/BaseTimeEntity");
 let Pin = class Pin extends BaseTimeEntity_1.BaseTimeEntity {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { pinIdx: { required: true, type: () => Number }, pinX: { required: true, type: () => Number }, pinY: { required: true, type: () => Number }, moments: { required: true, type: () => [require("../moments/moment.entity").Moment] } };
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({

@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const http_status_codes_1 = require("http-status-codes");
 const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
@@ -64,6 +65,7 @@ __decorate([
         description: 'Bad Request',
     }),
     (0, common_1.Post)('/sign-up'),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -87,6 +89,7 @@ __decorate([
         description: '해당 유저가 존재하지 않습니다.',
     }),
     (0, common_1.Post)('/sign-in'),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -110,6 +113,7 @@ __decorate([
     }),
     (0, common_1.Patch)(''),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(2, (0, common_1.Res)()),
@@ -134,6 +138,7 @@ __decorate([
     }),
     (0, common_1.Get)('/profile-info'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -157,6 +162,7 @@ __decorate([
     }),
     (0, common_1.Patch)('/location'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(2, (0, common_1.Res)()),

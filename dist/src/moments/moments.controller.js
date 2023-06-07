@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MomentsController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const http_status_codes_1 = require("http-status-codes");
@@ -61,6 +62,7 @@ __decorate([
     }),
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(2, (0, common_1.Res)()),
@@ -85,6 +87,7 @@ __decorate([
     }),
     (0, common_1.Get)('/my-history'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Query)(common_1.ValidationPipe)),
     __param(2, (0, common_1.Res)()),
@@ -105,6 +108,7 @@ __decorate([
     }),
     (0, common_1.Get)('/pin/:pinIdx'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Res)()),
     __param(2, (0, common_1.Param)('pinIdx')),
@@ -122,6 +126,7 @@ __decorate([
     }),
     (0, common_1.Delete)('/:momentIdx'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Param)('momentIdx')),
     __param(2, (0, common_1.Res)()),
@@ -138,6 +143,7 @@ __decorate([
     }),
     (0, common_1.Delete)('/user/withdrawal'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

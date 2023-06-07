@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const http_status_codes_1 = require("http-status-codes");
 const success_reponse_helper_1 = require("../helpers/success-reponse.helper");
@@ -48,6 +49,7 @@ __decorate([
     }),
     (0, common_1.Post)(''),
     (0, serialize_interceptor_1.Serialize)(create_authorized_code_response_dto_1.CreateAuthorizedCodeResponseDto),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -62,6 +64,7 @@ __decorate([
         description: '인증 번호가 올바르지 않습니다.',
     }),
     (0, common_1.Post)('/verification'),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

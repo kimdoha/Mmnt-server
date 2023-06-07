@@ -10,8 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignInResponseDto = void 0;
+const openapi = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 class SignInResponseDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { userIdx: { required: true, type: () => Number }, accessToken: { required: true, type: () => String } };
+    }
 }
 __decorate([
     (0, class_transformer_1.Expose)(),
