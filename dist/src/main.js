@@ -5,8 +5,11 @@ const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const app_module_1 = require("./app.module");
 const app_swagger_1 = require("./app.swagger");
+const logger_1 = require("./common/logger/logger");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    const app = await core_1.NestFactory.create(app_module_1.AppModule, {
+        logger: new logger_1.MmntLoger(),
+    });
     const document = swagger_1.SwaggerModule.createDocument(app, app_swagger_1.swaggerConfig);
     swagger_1.SwaggerModule.setup('/docs', app, document, app_swagger_1.swaggerCustomOptions);
     app.useGlobalPipes(new common_1.ValidationPipe({

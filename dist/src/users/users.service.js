@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var UsersService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
@@ -23,7 +24,8 @@ const moment_entity_1 = require("../moments/moment.entity");
 const create_hashed_password_1 = require("../configs/functions/create.hashed-password");
 const change_case_1 = require("change-case");
 const user_entity_1 = require("./user.entity");
-let UsersService = class UsersService {
+const logger_1 = require("../common/logger/logger");
+let UsersService = UsersService_1 = class UsersService {
     constructor(cacheManager, userRepository, pinRepository, momentRepository, jwtService, connection) {
         this.cacheManager = cacheManager;
         this.userRepository = userRepository;
@@ -31,23 +33,21 @@ let UsersService = class UsersService {
         this.momentRepository = momentRepository;
         this.jwtService = jwtService;
         this.connection = connection;
+        this.logger = new logger_1.MmntLoger(UsersService_1.name);
     }
     async createUser(email, password) {
         const user = await this.userRepository.findOneBy({ email });
-        console.log(email);
-        console.log(user);
         if (user) {
             throw new common_1.BadRequestException('중복된 이메일입니다.');
         }
         const hashedPassword = await (0, create_hashed_password_1.createHashedPassword)(password);
+        const index = await this.userRepository.count() + 1;
         const newUser = await this.userRepository.create({
             email,
             password: hashedPassword,
+            nickname: `${index}번째 익명이`,
         });
         const { userIdx } = await this.userRepository.save(newUser);
-        await this.userRepository.update(userIdx, {
-            nickname: `${userIdx}번째 익명이`,
-        });
         return { userIdx, email };
     }
     async signIn(email, password) {
@@ -66,14 +66,21 @@ let UsersService = class UsersService {
     }
     async updateUserLocation(userIdx, location, radius) {
         const user = await this.findActiveUserByUserIdx(userIdx);
+        const cacheResponse = await this.cacheManager.get(userIdx.toString());
+        if (cacheResponse && typeof cacheResponse === 'object') {
+            this.logger.debug(`cache reponse exists`);
+        }
+        else {
+            this.logger.debug('cache reponse does not exist');
+        }
         await this.userRepository.update(userIdx, location);
         const pinLists = await this.pinRepository
             .createQueryBuilder()
             .select(['pin_idx, pin_x, pin_y'])
             .where(`ST_DWithin(
-            ST_GeomFromText(:point, 4326),
-            ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
-            , :limit, false)`)
+          ST_GeomFromText(:point, 4326),
+          ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
+          , :limit, false)`)
             .setParameters({
             point: `POINT(${location.locationX} ${location.locationY})`,
             limit: `${radius}`,
@@ -203,7 +210,7 @@ let UsersService = class UsersService {
         }
     }
 };
-UsersService = __decorate([
+UsersService = UsersService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(common_1.CACHE_MANAGER)),
     __param(1, (0, typeorm_2.InjectRepository)(user_entity_1.User)),

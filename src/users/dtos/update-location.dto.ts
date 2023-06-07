@@ -1,12 +1,17 @@
-import { IsLatitude, IsLongitude, IsNumber, Max, Min } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsLatitude, IsLongitude, IsNumber, IsObject, Max, Min } from 'class-validator';
+import { ILocation } from 'src/common/interfaces/location.interface';
+
+type Location = {
+  longitude: number;
+  latitude: number;
+}
 
 export class UpdateLocationDto {
 
-  @IsLongitude()
-  locationX: number; // 경도
-
-  @IsLatitude()
-  locationY: number; // 위도
+  @IsObject()
+  @Type(() => Location)
+  location: ILocation;
 
 
   @IsNumber()

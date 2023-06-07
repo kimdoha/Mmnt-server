@@ -13,6 +13,7 @@ export declare class UsersService {
     private momentRepository;
     private jwtService;
     private connection;
+    private readonly logger;
     constructor(cacheManager: Cache, userRepository: Repository<User>, pinRepository: Repository<Pin>, momentRepository: Repository<Moment>, jwtService: JwtService, connection: Connection);
     createUser(email: string, password: string): Promise<{
         userIdx: number;

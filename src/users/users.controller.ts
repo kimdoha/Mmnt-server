@@ -158,7 +158,7 @@ export class UsersController {
   ) {
     const responseData = await this.userService.updateUserLocation(
       user.userIdx,
-      { locationX: body.locationX, locationY: body.locationY },
+      body.location,
       body.radius,
     );
     return res.json(

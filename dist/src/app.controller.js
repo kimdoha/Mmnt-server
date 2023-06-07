@@ -8,17 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var AppController_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
-let AppController = class AppController {
+const logger_1 = require("./common/logger/logger");
+let AppController = AppController_1 = class AppController {
     constructor(appService) {
         this.appService = appService;
+        this.logger = new logger_1.MmntLoger(AppController_1.name);
     }
 };
-AppController = __decorate([
+AppController = AppController_1 = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], AppController);

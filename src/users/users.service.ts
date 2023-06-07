@@ -19,9 +19,13 @@ import { camelCase } from 'change-case';
 import { Cache } from 'cache-manager';
 import { UpdateUserInfo } from './dtos/update-userInfo.dto';
 import { User } from './user.entity';
+import { MmntLoger } from 'src/common/logger/logger';
+import { ILocation } from 'src/common/interfaces/location.interface';
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new MmntLoger(UsersService.name);
+
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @InjectRepository(User) private userRepository: Repository<User>,
@@ -34,24 +38,21 @@ export class UsersService {
 
   async createUser(email: string, password: string) {
     const user: User = await this.userRepository.findOneBy({ email });
-    console.log(email);
-    console.log(user);
 
     if (user) {
       throw new BadRequestException('중복된 이메일입니다.');
     }
 
-    const hashedPassword = await createHashedPassword(password);
+    const hashedPassword: string = await createHashedPassword(password);
+    const index: number = await this.userRepository.count() + 1;
 
     const newUser = await this.userRepository.create({
       email,
       password: hashedPassword,
+      nickname: `${index}번째 익명이`,
     });
 
     const { userIdx } = await this.userRepository.save(newUser);
-    await this.userRepository.update(userIdx, {
-      nickname: `${userIdx}번째 익명이`,
-    });
 
     return { userIdx, email };
   }
@@ -73,26 +74,43 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
-  async updateUserLocation(userIdx: number, location: any, radius: number) {
+  async updateUserLocation(
+    userIdx: number, 
+    location: ILocation,
+    radius: number
+  ) {
     const user = await this.findActiveUserByUserIdx(userIdx);
-    await this.userRepository.update(userIdx, location);
+    
+    const cacheResponse = await this.cacheManager.get(userIdx.toString());
+
+    if(cacheResponse!! && typeof cacheResponse === 'object') {
+      this.logger.debug(`cache reponse exists`);
+    } else {
+      this.logger.debug('cache reponse does not exist');
+    }
+
+    await this.userRepository.update(userIdx, 
+      {
+        locationX: location.longitude,
+        locationY: location.latitude,
+      });
 
     const pinLists = await this.pinRepository
-      .createQueryBuilder()
-      .select(['pin_idx, pin_x, pin_y'])
-      .where(
-        `ST_DWithin(
-            ST_GeomFromText(:point, 4326),
-            ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
-            , :limit, false)`,
-      )
-      .setParameters({
-        point: `POINT(${location.locationX} ${location.locationY})`,
-        limit: `${radius}`,
-      })
-      .getRawMany();
+    .createQueryBuilder()
+    .select(['pin_idx, pin_x, pin_y'])
+    .where(
+      `ST_DWithin(
+          ST_GeomFromText(:point, 4326),
+          ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
+          , :limit, false)`,
+    )
+    .setParameters({
+      point: `POINT(${location.longitude} ${location.latitude})`,
+      limit: `${radius}`,
+    })
+    .getRawMany();
 
-    console.log(pinLists);
+  console.log(pinLists);
 
     const pins = [];
     const moments = [];
@@ -129,7 +147,7 @@ export class UsersService {
           .orderBy('distance')
           .limit(50)
           .setParameters({
-            point: `POINT(${location.locationX} ${location.locationY})`,
+            point: `POINT(${location.longitude} ${location.latitude})`,
           })
           .getRawMany()
       : [];
