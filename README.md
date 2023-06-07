@@ -56,7 +56,3 @@
 
 
 </br>
-
-### License
----
-Copyright © 2022 Kimdoha.<br>This project is MIT licensed.
