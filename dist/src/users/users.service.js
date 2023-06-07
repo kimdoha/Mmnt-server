@@ -67,84 +67,84 @@ let UsersService = UsersService_1 = class UsersService {
     async updateUserLocation(userIdx, latitude, longitude, radius) {
         const user = await this.findActiveUserByUserIdx(userIdx);
         const cacheResponse = await this.cacheManager.get(userIdx.toString());
-        if (cacheResponse && typeof cacheResponse === 'object') {
-            this.logger.debug(`cache reponse exists`);
+        if (cacheResponse) {
+            this.logger.debug('cache response exist');
+            return cacheResponse;
         }
         else {
-            this.logger.debug('cache reponse does not exist');
-        }
-        await this.userRepository.update(userIdx, {
-            locationX: longitude,
-            locationY: latitude,
-        });
-        const pinLists = await this.pinRepository
-            .createQueryBuilder()
-            .select(['pin_idx, pin_x, pin_y'])
-            .where(`ST_DWithin(
-          ST_GeomFromText(:point, 4326),
-          ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
-          , :limit, false)`)
-            .setParameters({
-            point: `POINT(${longitude} ${latitude})`,
-            limit: `${radius}`,
-        })
-            .getRawMany();
-        console.log(pinLists);
-        const pins = [];
-        const moments = [];
-        pinLists.map((pin) => pins.push(pin.pin_idx));
-        const latestMomentIdxLists = pins.length
-            ? await this.momentRepository
-                .createQueryBuilder('moment')
-                .select(['MAX(moment_idx) AS moment_idx '])
-                .where('moment.pin_idx in (:...pins)', { pins })
-                .groupBy('moment.pin_idx')
-                .getRawMany()
-            : [];
-        console.log(latestMomentIdxLists);
-        latestMomentIdxLists.map((moment) => moments.push(parseInt(moment.moment_idx)));
-        console.log(moments);
-        const momentLists = moments.length
-            ? await this.momentRepository
-                .createQueryBuilder('moment')
-                .select([
-                `moment_idx, moment.pin_idx, 
-                title, youtube_url, music, artist, 
-                pin_x, pin_y,
-               (ST_DistanceSphere(
-                ST_GeomFromText(:point, 4326),
-                ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`,
-            ])
-                .leftJoin(pin_entity_1.Pin, 'pin', 'pin.pin_idx = moment.pin_idx')
-                .whereInIds(moments)
-                .orderBy('distance')
-                .limit(50)
+            this.logger.debug('cache response does not exist');
+            await this.userRepository.update(userIdx, {
+                locationX: longitude,
+                locationY: latitude,
+            });
+            const pinLists = await this.pinRepository
+                .createQueryBuilder()
+                .select(['pin_idx, pin_x, pin_y'])
+                .where(`ST_DWithin(
+            ST_GeomFromText(:point, 4326),
+            ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 )
+            , :limit, false)`)
                 .setParameters({
                 point: `POINT(${longitude} ${latitude})`,
+                limit: `${radius}`,
             })
-                .getRawMany()
-            : [];
-        const momentCount = pins.length
-            ? await this.momentRepository
-                .createQueryBuilder('moment')
-                .select([`count('moment_idx') as momentcount, pin_idx`])
-                .where('moment.pin_idx in (:...pins)', { pins })
-                .groupBy('moment.pin_idx')
-                .getRawMany()
-            : [];
-        momentLists.map((moment) => {
-            const count = momentCount.find((count) => count.pin_idx === moment.pin_idx).momentcount;
-            moment.momentCount = count || 0;
-        });
-        return [
-            { pinLists },
-            { mainPin: momentLists[0] ? momentLists[0] : {} },
-            {
-                nearByPinLists: momentLists[1]
-                    ? momentLists.slice(1, momentLists.length)
-                    : [],
-            },
-        ];
+                .getRawMany();
+            const pins = [];
+            const moments = [];
+            pinLists.map((pin) => pins.push(pin.pin_idx));
+            const latestMomentIdxLists = pins.length
+                ? await this.momentRepository
+                    .createQueryBuilder('moment')
+                    .select(['MAX(moment_idx) AS moment_idx '])
+                    .where('moment.pin_idx in (:...pins)', { pins })
+                    .groupBy('moment.pin_idx')
+                    .getRawMany()
+                : [];
+            latestMomentIdxLists.map((moment) => moments.push(parseInt(moment.moment_idx)));
+            const momentLists = moments.length
+                ? await this.momentRepository
+                    .createQueryBuilder('moment')
+                    .select([
+                    `moment_idx, moment.pin_idx, 
+                  title, youtube_url, music, artist, 
+                  pin_x, pin_y,
+                 (ST_DistanceSphere(
+                  ST_GeomFromText(:point, 4326),
+                  ST_GeomFromText('POINT(' || pin_x || ' ' || pin_y  || ')', 4326 ) )) as distance`,
+                ])
+                    .leftJoin(pin_entity_1.Pin, 'pin', 'pin.pin_idx = moment.pin_idx')
+                    .whereInIds(moments)
+                    .orderBy('distance')
+                    .limit(50)
+                    .setParameters({
+                    point: `POINT(${longitude} ${latitude})`,
+                })
+                    .getRawMany()
+                : [];
+            const momentCount = pins.length
+                ? await this.momentRepository
+                    .createQueryBuilder('moment')
+                    .select([`count('moment_idx') as momentcount, pin_idx`])
+                    .where('moment.pin_idx in (:...pins)', { pins })
+                    .groupBy('moment.pin_idx')
+                    .getRawMany()
+                : [];
+            momentLists.map((moment) => {
+                const count = momentCount.find((count) => count.pin_idx === moment.pin_idx).momentcount;
+                moment.momentCount = count || 0;
+            });
+            const response = [
+                { pinLists },
+                { mainPin: momentLists[0] ? momentLists[0] : {} },
+                {
+                    nearByPinLists: momentLists[1]
+                        ? momentLists.slice(1, momentLists.length)
+                        : [],
+                },
+            ];
+            await this.cacheManager.set(userIdx.toString(), response, { ttl: 300 });
+            return response;
+        }
     }
     async getDetailUserInfo(userIdx) {
         const user = await this.userRepository

@@ -21,19 +21,7 @@ export declare class UsersService {
     }>;
     signIn(email: string, password: string): Promise<SignInResponseDto>;
     updateUserInfo(userIdx: number, attrs: Partial<UpdateUserInfo>): Promise<User>;
-    updateUserLocation(userIdx: number, latitude: number, longitude: number, radius: number): Promise<({
-        pinLists: any[];
-        mainPin?: undefined;
-        nearByPinLists?: undefined;
-    } | {
-        mainPin: any;
-        pinLists?: undefined;
-        nearByPinLists?: undefined;
-    } | {
-        nearByPinLists: any[];
-        pinLists?: undefined;
-        mainPin?: undefined;
-    })[]>;
+    updateUserLocation(userIdx: number, latitude: number, longitude: number, radius: number): Promise<unknown>;
     getDetailUserInfo(userIdx: number): Promise<{}>;
     findActiveUserByUserIdx(userIdx: number): Promise<User>;
     findActiveUserByEmail(email: string): Promise<User>;
