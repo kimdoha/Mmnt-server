@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMomentDto = void 0;
 const openapi = require("@nestjs/swagger");
-const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateMomentDto {
     static _OPENAPI_METADATA_FACTORY() {
@@ -19,44 +18,36 @@ class CreateMomentDto {
     }
 }
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsLongitude)(),
     __metadata("design:type", Number)
 ], CreateMomentDto.prototype, "pinX", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsLatitude)(),
     __metadata("design:type", Number)
 ], CreateMomentDto.prototype, "pinY", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "title", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "description", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "imageUrl", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "youtubeUrl", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "music", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMomentDto.prototype, "artist", void 0);

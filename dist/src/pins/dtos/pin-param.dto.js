@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PinParamDto = void 0;
 const openapi = require("@nestjs/swagger");
-const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class PinParamDto {
     static _OPENAPI_METADATA_FACTORY() {
@@ -19,7 +18,6 @@ class PinParamDto {
     }
 }
 __decorate([
-    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.Min)(1),
     __metadata("design:type", Number)
