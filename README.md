@@ -27,10 +27,10 @@
 - 모먼트는 사진과 글, 그리고 음악으로 기록할 수 있어요.  
 - 과거에 작성한 모먼트를 손쉽게 확인할 수 있어요.
 
+---
 <br></br>
 
 ### Teck Stack
----
 ![NestJS](https://img.shields.io/badge/-NestJS-E0234E?logo=NestJs&logoColor=whitek&style=flat)
 ![Express](https://img.shields.io/badge/-Express-000000?logo=NestJs&logoColor=white&style=flat)
 ![TypeScript](https://img.shields.io/badge/-Typescript-3178C6?logo=typescript&logoColor=white&style=flat)<br>
@@ -47,6 +47,7 @@
     width="80%"
     height="80%"
   />
+<br></br>
 
 ### Feature
 - 서버리스 함수를 통한 랜덤 인증 번호 이메일 발송
