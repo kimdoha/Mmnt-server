@@ -42,5 +42,9 @@
 <br></br>
 
 ### Syetem Architecture
-![image](https://github.com/kimdoha/mmnt-server/assets/62235737/ba4e0fc4-ed72-4251-b77f-ef5c90727e02)
+ <img
+    src="https://github.com/kimdoha/mmnt-server/assets/62235737/ba4e0fc4-ed72-4251-b77f-ef5c90727e02"
+    width="80%"
+    height="80%"
+  />
 
