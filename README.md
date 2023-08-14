@@ -4,27 +4,28 @@
 
 <br/><br/>
 
-공간에 대한 기억을 그 순간 사진과 음악으로 지도에 기록하는 **사용자 위치 기반 SNS 플랫폼** 입니다.<br> 
-오늘 있었던 장소에 핀을 꽂은 뒤, 현재 듣고 있는 음악과 사진을 다른 사람들과 공유할 수 있어요.<br> 
+ <div align=center>
+공간에 대한 기억을 그 순간 사진과 음악으로 지도에 기록하는<br>
+<strong>사용자 위치 기반 SNS 플랫폼 </strong>입니다.<br>
+오늘 있었던 장소에 핀을 꽂은 뒤,<br>
+현재 듣고 있는 음악과 사진을 다른 사람들과 공유할 수 있어요.<br>
+</div>
+
 </br>
 
 <center>
   <img
-    src="https://github.com/kimdoha/mmnt-server/assets/62235737/4f383435-0aff-4cda-8df0-4c34a8a4f837"
-    width="80%"
+    src="https://github.com/kimdoha/mmnt-server/assets/62235737/b708d7db-55b6-44e6-90a1-d72680e7e59d"
+    width="100%"
     height="100%"
   />
 </center>
 
+<br></br>
 
-지금 있는 장소에서 모먼트를 추가하고 다른 사람에게 공유할 수 있어요.
-![mmnt_image]("./../images/mmnt_image.png)
-
-모먼트는 사진과 글, 그리고 음악으로 기록할 수 있어요.
-![mmnt_music]("./../images/mmnt_moment_image.png)
-
-과거에 작성한 모먼트를 손쉽게 확인할 수 있어요.
-![mmnt_history]("./../images/mmnt_history_image.png)
+- 지금 있는 장소에서 모먼트를 추가하고 다른 사람에게 공유할 수 있어요.  
+- 모먼트는 사진과 글, 그리고 음악으로 기록할 수 있어요.  
+- 과거에 작성한 모먼트를 손쉽게 확인할 수 있어요.  
 
 ### Teck Stack
 ---
